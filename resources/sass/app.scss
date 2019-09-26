@@ -1,0 +1,161 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Components
+
+@import './components/project/project';
+@import './components/layouts/layout';
+@import './components/dashboard/dashboard';
+@import './components/modals/pledges';
+// @import './components/modals/new-appointments';
+// @import './components/modals/new-patient';
+// @import './components/modals/new-record';
+
+//general styles non-component specific
+.error{
+    color: red;
+}
+
+.bottom-top-borders{
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+    border-top-style: solid !important;
+    border-color: #2a2c331f !important;
+    border-top-width: 1px !important;
+}
+
+.no-padding{
+    padding: 0px !important;
+}
+
+.no-right-padding{
+    padding-right: 0px !important;
+}
+
+.view-all{
+    margin: 30px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+    text-decoration-line: underline;
+    display: block;
+}
+
+.quick-summary-container{
+    .quick-summary-item{
+        border-bottom-style: solid;
+        padding: 10px 15px;
+        border-bottom-width: 1px;
+        border-color: #2a2c331f;
+        .qsi-right{
+            text-align: right;
+        }
+    }
+}
+
+.summary-container{
+    .summary-headers{
+        margin-bottom: 15px;
+        padding: 30px 30px 10px 30px;
+        border-color: #273D8A;
+        border-bottom-width: 5px;
+        border-bottom-style: solid;
+    }
+    .sh-top{
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 21px;
+        display: flex;
+        align-items: center;
+        color: #8A8D97;
+    }
+    .sh-bottom{
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+        display: flex;
+        align-items: center;
+        color: #293661;
+    }
+    .summary-items{
+        .completed{
+            background: #5DA327;
+        }
+        .pending{
+            background: #D7A700;
+        }
+        .incomplete{
+            background: #D92C2C;
+        }
+        .summary-item-label{
+            text-align: center;
+            height: 1.5em;
+            color: white;
+            font-weight: bold;
+            padding-top: 3px;
+        }
+        .summary-item{
+            padding: 10px 30px 0px 30px;
+            // border-bottom-style: solid;
+            // border-bottom-width: 1px;
+            // border-top-style: solid;
+            // border-color: #2a2c331f;
+            // border-top-width: 1px;
+            .item-header{
+                font-style: normal;
+                font-weight: bold;
+                font-size: 18px;
+                line-height: 21px;
+                display: flex;
+                align-items: center;
+            }
+            .item-desc{
+                font-style: normal;
+                font-size: 18px;
+                line-height: 21px;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+}
+
+.custom-searchbar{
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0px;
+    input{
+        margin: 2px;
+        margin-left: 10px;
+        border: 0;
+        background: #f8fafc;
+        width: 80%;
+    }
+    input:focus{
+        outline: none;
+    }
+}
+
+.filter-by{
+    font-size: 1.2em;
+    span{
+        margin-right: 15px;
+    }
+    a{
+        margin: 10px 5px;
+    }
+}

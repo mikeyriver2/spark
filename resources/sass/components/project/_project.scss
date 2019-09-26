@@ -1,0 +1,83 @@
+.projects-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.project-container{
+    width: 400px;
+    button{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    margin: 24px 40px;
+    background: #FAFAFA;
+    .project-banner{
+        border-top-right-radius: 6%;
+        border-top-left-radius: 6%;
+        background-size: cover;
+        height: 200px;
+    }
+    .project-title{
+        padding: 0px 3vw;
+        margin-top: 10px;
+    }
+    .project-description{
+        padding: 0px 3vw;
+        font-size: .8em;
+    }
+    .project-bar{
+        padding: 0px 3vw;
+        .project-bar-remaining{
+            position: relative;
+            display: block;
+            background-color: #d6d6d6;
+            height: 0.6rem;
+            max-width: 100% !important;
+            border-radius: 4px;
+            top: -0.6rem;
+            z-index: 0;
+        }
+        .project-bar-progress{
+            background: #9900999c;
+            width: 90%;
+            height: 0.6rem;
+            border-radius: 4px;    
+            position: relative;
+            display: block;
+            height: 0.6rem;
+            max-width: 100% !important;
+            border-radius: 4px;
+            z-index: 1;
+        }
+    }
+    .project-amount-container{
+        padding: 0px 3vw;
+        .money-raised{
+            h4{
+                display: inline-block;
+                font-weight: bold;
+            }
+            p{
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
+    }
+    .recent-pledges{
+        display: flex;
+        flex-wrap: wrap;
+        .recent-pledge-item{
+            margin: 5px 10px;
+            display: flex;
+            .pledger-image{
+                width: 20px;
+                height: 20px;
+                background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_of_Petron.svg);
+                background-size: cover;
+                border-radius: 50%;
+                margin-right: .5em;
+            }
+        }
+    }
+
+}
