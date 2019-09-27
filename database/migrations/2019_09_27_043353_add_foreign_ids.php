@@ -13,8 +13,8 @@ class AddForeignIds extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function(Blueprint $table){
-            $table->unsignedInteger('user_id')->foreign('user_id')->references('id')->on('users');
+        Schema::table('users', function(Blueprint $table){
+            $table->unsignedInteger('company_id')->foreign('company_id')->references('id')->on('companies');
         });
         Schema::table('pledges', function(Blueprint $table){
             $table->unsignedInteger("user_id")->foreign('user_id')->references('id')->on('users');

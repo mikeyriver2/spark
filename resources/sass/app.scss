@@ -9,6 +9,11 @@
 
 // Components
 
+@font-face {
+    font-family: Calibri;
+    src: url('/fonts/Calibri_Regular.ttf');
+  }
+
 @import './components/project/project';
 @import './components/layouts/layout';
 @import './components/dashboard/dashboard';

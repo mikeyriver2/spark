@@ -1,29 +1,38 @@
 #new-pledge-modal{
+    margin-top: 20vh;
     @media(max-width: 768px){
         left: 0vw;
+        .label-pledge{
+            font-size: 1.2em;
+        }
     }
     @media(min-width: 768px){
-        left: -5vw;
+        display: flex;
+        max-width: 100%;
+        justify-content: center;
+        .label-pledge{
+            font-size: 1.5em;
+        }
     }
     .modal-content{
         @media(max-width: 768px){
             padding: 20px;        
         }
         @media(min-width: 768px){
-            width: 50vw;
+            width: 600px;
             padding: 20px;        
         }
     }
 
     .pledge-amounts{
         display: grid;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: 1fr 1fr;
         grid-column-gap: 20px;
         grid-row-gap: 20px;
     }
     .pledge-button{
-        margin-top: 20px;
-        width: 100%;
+        //margin-top: 20px;
+        width: 50%;
     }
     .input-group{
         margin-bottom: 0px !important;

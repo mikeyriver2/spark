@@ -10644,6 +10644,11 @@ a.text-dark:focus {
   }
 }
 
+@font-face {
+  font-family: Calibri;
+  src: url("/fonts/Calibri_Regular.ttf");
+}
+
 .projects-container {
   display: flex;
   flex-wrap: wrap;
@@ -10652,6 +10657,7 @@ a.text-dark:focus {
 
 .project-container {
   width: 400px;
+  box-shadow: 1px 10px 16px -5px rgba(0, 0, 0, 0.48);
   margin: 24px 40px;
   background: #FAFAFA;
 }
@@ -10749,7 +10755,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header {
-  font-family: "Calibri";
+  font-family: "Nunito";
 }
 
 .main-layout .layout-header .menu-toggle {
@@ -10769,6 +10775,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header .layout-main-logo {
+  box-shadow: 1px -1px 11px -1px rgba(0, 0, 0, 0.48);
   display: flex;
   font-size: 16px;
   color: #fff;
@@ -10791,7 +10798,6 @@ a.text-dark:focus {
 
 .main-layout .layout-header .layout-main-logo .caption-container p {
   transition: all 0.4s ease;
-  letter-spacing: 2px;
   font-family: "Calibri";
   margin-bottom: 0px;
   height: 100%;
@@ -10830,6 +10836,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header .layout-main-logo nav a {
+  font-family: "Nunito";
   transition: all 0.4s ease;
   font-size: 1.15em;
   color: white;
@@ -10859,7 +10866,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-sidebar .sidebar-hidden {
-  left: -350px;
+  left: -500px;
   transition: left 1s ease;
 }
 
@@ -10915,15 +10922,29 @@ a.text-dark:focus {
   list-style: none;
 }
 
+#new-pledge-modal {
+  margin-top: 20vh;
+}
+
 @media (max-width: 768px) {
   #new-pledge-modal {
     left: 0vw;
+  }
+
+  #new-pledge-modal .label-pledge {
+    font-size: 1.2em;
   }
 }
 
 @media (min-width: 768px) {
   #new-pledge-modal {
-    left: -5vw;
+    display: flex;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  #new-pledge-modal .label-pledge {
+    font-size: 1.5em;
   }
 }
 
@@ -10935,21 +10956,20 @@ a.text-dark:focus {
 
 @media (min-width: 768px) {
   #new-pledge-modal .modal-content {
-    width: 50vw;
+    width: 600px;
     padding: 20px;
   }
 }
 
 #new-pledge-modal .pledge-amounts {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
 
 #new-pledge-modal .pledge-button {
-  margin-top: 20px;
-  width: 100%;
+  width: 50%;
 }
 
 #new-pledge-modal .input-group {
