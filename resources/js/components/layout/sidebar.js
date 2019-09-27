@@ -63,28 +63,22 @@ export default class Sidebar extends Component{
                         Welcome, <b>Dr. Rivera (Admin)</b>
                     </li>
                     <li className="sidebar-outter">
-                        <Link to="/records" >View Records</Link>
-                        <ul className="sidebar-view-records-parent">
+                        <Link to="/" >Home</Link>
+                        {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
-                        </ul>
+                        </ul> */}
                     </li>
                     <li className="sidebar-outter">
-                        View Appointments
-                        <ul onClick={e => this.triggerModal('new-appointment')} className="sidebar-view-records-parent">
-                            <li className="sidebar-inner">New Appointment</li>
-                        </ul>
+                        <Link to="/records" >Register</Link>
+                        {/* <ul className="sidebar-view-records-parent">
+                            <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
+                        </ul> */}
                     </li>
                     <li className="sidebar-outter">
-                    <Link to="/patients" >View Patients</Link>
-                        <ul onClick={e => this.triggerModal('new-patient')} className="sidebar-view-records-parent">
-                            <li className="sidebar-inner">New Patient</li>
-                        </ul>
-                    </li>
-                    <li className="sidebar-outter">
-                        <Link to="/payments" >View Payments</Link>
-                        <ul onClick={e => this.triggerModal('new-payment')} className="sidebar-view-records-parent">
-                            <li className="sidebar-inner">New Payment</li>
-                        </ul>
+                        <Link to="/records" >Login</Link>
+                        {/* <ul className="sidebar-view-records-parent">
+                            <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
+                        </ul> */}
                     </li>
                 </ul>
             </div>

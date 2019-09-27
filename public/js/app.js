@@ -102504,7 +102504,6 @@ function (_Component) {
         ref: this.header,
         className: "main-layout"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: this.switchSideBar,
         className: "layout-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["Row"], {
         className: "layout-main-logo"
@@ -102515,6 +102514,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "caption"
       }, "INVEST IN HER: PARTNERSHIPS FOR GIRLS INITIATIVE")), isMobile ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.switchSideBar,
         id: "nav-button",
         "class": "menu-toggle"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -102525,7 +102525,7 @@ function (_Component) {
         "class": "bar bottom-bar"
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "reg-login"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", null, "REGISTER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", null, "LOGIN"))))), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", null, "REGISTER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", null, "LOGIN"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         layoutRef: this.header,
         showSideBar: this.state.showSideBar,
         hideSideBar: this.hideSideBar
@@ -102680,46 +102680,16 @@ function (_Component) {
       }, "Welcome, ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Dr. Rivera (Admin)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        to: "/"
+      }, "Home")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "sidebar-outter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         to: "/records"
-      }, "View Records"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "sidebar-view-records-parent"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        onClick: function onClick(e) {
-          return _this2.triggerModal('new-record');
-        },
-        className: "sidebar-inner"
-      }, "New Record"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "sidebar-outter"
-      }, "View Appointments", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        onClick: function onClick(e) {
-          return _this2.triggerModal('new-appointment');
-        },
-        className: "sidebar-view-records-parent"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "sidebar-inner"
-      }, "New Appointment"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Register")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: "/patients"
-      }, "View Patients"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        onClick: function onClick(e) {
-          return _this2.triggerModal('new-patient');
-        },
-        className: "sidebar-view-records-parent"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "sidebar-inner"
-      }, "New Patient"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "sidebar-outter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: "/payments"
-      }, "View Payments"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        onClick: function onClick(e) {
-          return _this2.triggerModal('new-payment');
-        },
-        className: "sidebar-view-records-parent"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "sidebar-inner"
-      }, "New Payment")))));
+        to: "/records"
+      }, "Login"))));
     }
   }]);
 
@@ -102785,7 +102755,9 @@ function (_Component) {
     _classCallCheck(this, NewPledge);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(NewPledge).call(this, props));
-    _this.state = {};
+    _this.state = {
+      pledge: 0
+    };
     return _this;
   }
 
@@ -102805,21 +102777,66 @@ function (_Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Cleaners Film: Help fund our nostalgic highschool Tuguegara")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Select Amount to Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Cleaners Film: Help fund our nostalgic highschool Tuguegara")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pledge-labels"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, {
+        style: {
+          marginBottom: "20px",
+          fontSize: "1.5em",
+          color: "#35373a"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Select amount to pledge:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, {
+        style: {
+          "float": "right",
+          marginBottom: "20px",
+          fontSize: "1.5em",
+          color: "#35373a"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "P", this.state.pledge, ".00"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "pledge-amounts"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: function onClick() {
+          _this2.setState({
+            pledge: 10000
+          });
+        },
         variant: "success"
       }, "P10,000.000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: function onClick() {
+          _this2.setState({
+            pledge: 20000
+          });
+        },
         variant: "success"
       }, "P20,000.000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: function onClick() {
+          _this2.setState({
+            pledge: 30000
+          });
+        },
         variant: "success"
       }, "P30,000.000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: function onClick() {
+          _this2.setState({
+            pledge: 40000
+          });
+        },
         variant: "success"
       }, "P40,000.000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: function onClick() {
+          _this2.setState({
+            pledge: 50000
+          });
+        },
         variant: "success"
       }, "P50,000.000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"], {
         className: "mb-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Prepend, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Text, null, "P")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["FormControl"], {
+        onChange: function onChange(e) {
+          _this2.setState({
+            pledge: e.target.value
+          });
+        },
         placeholder: "Enter custom amount",
         "aria-label": "Amount"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Append, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {

@@ -70,14 +70,14 @@ export default class Layout extends Component{
         let isMobile = this.state.width <= 768;
         return (
             <div ref={this.header} className="main-layout">
-                <div onClick={this.switchSideBar} className="layout-header">
+                <div className="layout-header">
                     <Row className="layout-main-logo">
                         <img src="/images/cropped-SPARK_LOGO-1.png"/>
                         <div className="caption-container">
                             <p className="caption">INVEST IN HER: PARTNERSHIPS FOR GIRLS INITIATIVE</p>
                         </div>
                         {isMobile ?
-                            <div id="nav-button" class="menu-toggle">
+                            <div onClick={this.switchSideBar} id="nav-button" class="menu-toggle">
                                 <span class="bar top-bar"></span>
                                 <span class="bar middle-bar"></span>
                                 <span class="bar bottom-bar"></span>
@@ -95,13 +95,12 @@ export default class Layout extends Component{
                         <h5 className="layout-main-nav">HOME</h5>
                     </Row> */}
                 </div>
-                {isAdmin &&
-                    <Sidebar
-                        layoutRef = {this.header}
-                        showSideBar = {this.state.showSideBar}
-                        hideSideBar = {this.hideSideBar}
-                    />
-                }
+                <Sidebar
+                    layoutRef = {this.header}
+                    showSideBar = {this.state.showSideBar}
+                    hideSideBar = {this.hideSideBar}
+                />
+                
                 
                 <Route exact path={`/`} component={Dashboard}/>
                 <Route exact path={`/home`} component={Dashboard}/>

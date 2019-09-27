@@ -10790,6 +10790,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header .layout-main-logo .caption-container p {
+  transition: all 0.4s ease;
   letter-spacing: 2px;
   font-family: "Calibri";
   margin-bottom: 0px;
@@ -10941,7 +10942,7 @@ a.text-dark:focus {
 
 #new-pledge-modal .pledge-amounts {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 50% 50%;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
