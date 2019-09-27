@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::get('{any}', function () {
     return view('app');
 });
+
+Route::post('pledge','PledgesController@store');

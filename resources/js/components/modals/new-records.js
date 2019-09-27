@@ -19,10 +19,20 @@ export default class NewPledge extends Component{
         this.state = {
             pledge: 0
         }
+        this.handleSumbit = this.handleSumbit.bind(this);
     }
 
     componentDidMount(){
 
+    }
+
+    handleSumbit(){
+        let value = {
+            amount: this.state.pledge
+        }
+        axios.post('pledge',value).then(res=>{
+            this.props.hideModal();
+        })
     }
 
 
@@ -58,7 +68,7 @@ export default class NewPledge extends Component{
                                     </InputGroup.Append>
                                 </InputGroup>
                             </div>
-                            <Button className="pledge-button" variant="primary">PLEDGE</Button>
+                            <Button className="pledge-button" onClick={this.handleSumbit} variant="primary">PLEDGE</Button>
                         </Form>
                     </Modal.Body>
                 </Modal>

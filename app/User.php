@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    
+    public function pldeges(){
+        return $this->hasMany('App\Pledge');
+    }
+
+    
+    public function company(){
+        return $this->belongsTo('App\Company');
+    }
 }
