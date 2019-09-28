@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Sidebar from './sidebar';
 import {BrowserRouter as Router, Link, Route, withRouter} from 'react-router-dom';
 import Dashboard from '../dashboard/dashboard';
+import Auth from '../modals/auth';
 import {
     Row,
 } from 'react-bootstrap';
@@ -14,9 +15,14 @@ export default class Layout extends Component{
             appHeight: "",
             ass: "ass",
             showSideBar: false,
-            width: window.innerWidth
+            width: window.innerWidth,
+            showAuth: {
+                show: false,
+                type: ""
+            }
         }
         this.header = React.createRef();
+        this.toggleAuthModal = this.toggleAuthModal.bind(this);
         this.switchSideBar = this.switchSideBar.bind(this);
         
     }
@@ -65,6 +71,17 @@ export default class Layout extends Component{
         document.getElementById('pediatrix').removeAttribute("style"); 
     }
 
+    toggleAuthModal(e, type){
+        let bool = this.state.showAuth.show;
+        this.setState(prevState=>({
+            showAuth: {
+                ...prevState.showAuth,
+                show: !bool,
+                type: type
+            }
+        }))
+    }
+
     render(){
         let isAdmin = false;
         let isMobile = this.state.width <= 768;
@@ -85,8 +102,8 @@ export default class Layout extends Component{
                             :
                             <div className="reg-login">
                                 <nav>
-                                    <a>REGISTER</a>
-                                    <a>LOGIN</a>
+                                    <a onClick={(e)=>{this.toggleAuthModal(e,"register")}}>REGISTER</a>
+                                    <a onClick={(e)=>{this.toggleAuthModal(e,"login")}}>LOGIN</a>
                                 </nav>
                             </div>
                         }
@@ -99,6 +116,11 @@ export default class Layout extends Component{
                     layoutRef = {this.header}
                     showSideBar = {this.state.showSideBar}
                     hideSideBar = {this.hideSideBar}
+                />
+                <Auth 
+                    show = {this.state.showAuth.show}
+                    type = {this.state.showAuth.type}
+                    toggleAuthModal = {this.toggleAuthModal}
                 />
                 
                 

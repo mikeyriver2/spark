@@ -17,6 +17,7 @@ class AddForeignIds extends Migration
             $table->unsignedInteger('company_id')->foreign('company_id')->references('id')->on('companies');
         });
         Schema::table('pledges', function(Blueprint $table){
+            $table->unsignedInteger('project_id')->foreign('project_id')->references('id')->on('projectsp');
             $table->unsignedInteger("user_id")->foreign('user_id')->references('id')->on('users');
         });
     }

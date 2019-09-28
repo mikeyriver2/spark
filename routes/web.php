@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('app');
 });
@@ -20,3 +22,5 @@ Route::get('{any}', function () {
 });
 
 Route::post('pledge','PledgesController@store');
+
+Route::get('/home', 'HomeController@index')->name('home');
