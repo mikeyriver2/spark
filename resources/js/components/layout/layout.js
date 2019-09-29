@@ -24,6 +24,7 @@ export default class Layout extends Component{
         this.header = React.createRef();
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
         this.switchSideBar = this.switchSideBar.bind(this);
+        this.changeAuthModalType = this.changeAuthModalType.bind(this);
         
     }
     
@@ -44,6 +45,7 @@ export default class Layout extends Component{
     switchSideBar(){
         let element = document.getElementById('sidebar-container')
         let classes = element.className;
+        console.log(classes);
         if(classes.includes("sidebar-hidden")){
             this.setState({
                 showSideBar: true
@@ -82,6 +84,17 @@ export default class Layout extends Component{
         }))
     }
 
+    changeAuthModalType(type){
+        this.setState(prevState=>({
+           showAuth:{
+               ...prevState.showAuth,
+               type: type
+           } 
+        }))
+    }
+
+
+
     render(){
         let isAdmin = false;
         let isMobile = this.state.width <= 768;
@@ -116,8 +129,14 @@ export default class Layout extends Component{
                     layoutRef = {this.header}
                     showSideBar = {this.state.showSideBar}
                     hideSideBar = {this.hideSideBar}
+                    ///////////////////////////////////
+                    changeAuthModalType = {this.changeAuthModalType}
+                    show = {this.state.showAuth.show}
+                    type = {this.state.showAuth.type}
+                    toggleAuthModal = {this.toggleAuthModal}
                 />
                 <Auth 
+                    changeAuthModalType = {this.changeAuthModalType}
                     show = {this.state.showAuth.show}
                     type = {this.state.showAuth.type}
                     toggleAuthModal = {this.toggleAuthModal}

@@ -92,40 +92,65 @@ export default class Auth extends Component{
 
 
     render(){
+        let authType = this.props.type;
         return (
             <div>
                 <Modal id="auth-modal" show={this.props.show} onHide={this.props.toggleAuthModal}>
                     <Modal.Header closeButton>
-                        <h4>Register to pledge</h4>
+                        <h4>{authType == "register" ? "Register to pledge" : "Login to pledge"}</h4>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group controlId="formGridCompany">
-                                <Form.Control onChange={(e)=>{this.handleChange(e,"company")}} as="select">
-                                    <option>Company</option>
-                                    <option>Persol</option>
-                                    <option>Hackazouk</option>
-                                    <option>Mikey</option>
-                                </Form.Control>
-                            </Form.Group>
-                            <Form.Group controlId="formGridPEmail">
-                                <Form.Control onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
-                                {this.state.errors.pEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
-                            </Form.Group>
-                            <Form.Group controlId="formGridSEmail">
-                                <Form.Control onChange={(e)=>{this.handleChange(e,"sEmail")}} type="email" placeholder="Secondary email (optional)" />
-                                {this.state.errors.sEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
-                            </Form.Group>
-                            <Form.Group controlId="formGridPassword">
-                                <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
-                            </Form.Group>
-                            <Form.Group controlId="formGridContact">
-                                <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
-                                {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
-                            </Form.Group>
-                            <Button className="submit" variant="primary">Submit</Button>
+                            {authType == "register" ? 
+                                <div>
+                                    <Form.Group controlId="formGridCompany">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"company")}} as="select">
+                                            <option>Company</option>
+                                            <option>Persol</option>
+                                            <option>Hackazouk</option>
+                                            <option>Mikey</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridPEmail">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
+                                        {this.state.errors.pEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridSEmail">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"sEmail")}} type="email" placeholder="Secondary email (optional)" />
+                                        {this.state.errors.sEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridPassword">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridContact">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
+                                        {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
+                                    </Form.Group>
+                                    <Button className="submit" variant="primary">Submit</Button>
+                                </div>
+                                :
+                                <div>
+                                    <Form.Group controlId="formGridPEmail">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
+                                        {this.state.errors.pEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridPassword">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
+                                    </Form.Group>
+                                    <Button className="submit" variant="primary">Login</Button>
+                                </div>
+                            }
                         </Form>
                     </Modal.Body>
+                    <Modal.Footer>
+                        <div style={{width:"100%"}}>
+                            {authType == "login" ?
+                                <p>Don't have any account yet? Click <a onClick={()=>{this.props.changeAuthModalType('register')}} href="#">here</a> to register.</p>
+                            :
+                                <p>Already have an account? Click <a onClick={()=>{this.props.changeAuthModalType('login')}} href="#">here</a> to login.</p>
+                            }
+                        </div>
+                    </Modal.Footer>
                 </Modal>
             </div>
         )

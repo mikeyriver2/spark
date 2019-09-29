@@ -6,6 +6,7 @@ import {
 import NewRecord from '../modals/new-records';
 import { timingSafeEqual } from 'crypto';
 import {Link} from 'react-router-dom';
+import Auth from '../modals/auth';
 
 export default class Sidebar extends Component{
     constructor(){
@@ -60,27 +61,33 @@ export default class Sidebar extends Component{
             <div ref={(node)=>{this.node = node}} className="layout-sidebar">
                 <ul id="sidebar-container" className="sidebar-container sidebar-hidden">
                     <li className="sidebar-user-name">
-                        Welcome, <b>Dr. Rivera (Admin)</b>
+                        Welcome, <b>Mikey Rivera</b>
                     </li>
-                    <li className="sidebar-outter">
+                    {/* <li className="sidebar-outter">
                         <Link to="/" >Home</Link>
+                        <ul className="sidebar-view-records-parent">
+                            <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
+                        </ul>
+                    </li> */}
+                    <li className="sidebar-outter">
+                        <Link onClick={(e)=>{this.props.toggleAuthModal(e,"register")}} to="/" >Register</Link>
                         {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}
                     </li>
                     <li className="sidebar-outter">
-                        <Link to="/records" >Register</Link>
-                        {/* <ul className="sidebar-view-records-parent">
-                            <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
-                        </ul> */}
-                    </li>
-                    <li className="sidebar-outter">
-                        <Link to="/records" >Login</Link>
+                        <Link onClick={(e)=>{this.props.toggleAuthModal(e,"login")}} to="/" >Login</Link>
                         {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}
                     </li>
                 </ul>
+                <Auth 
+                    changeAuthModalType = {this.props.changeAuthModalType}
+                    show = {this.props.show}
+                    type = {this.props.type}
+                    toggleAuthModal = {this.props.toggleAuthModal}
+                />
             </div>
         )
     }
