@@ -12,6 +12,8 @@
 */
 
 Auth::routes();
+Route::post('login-user','AuthController@login');
+Route::post('register-user','AuthController@register');
 
 Route::get('/', function () {
     return view('app');

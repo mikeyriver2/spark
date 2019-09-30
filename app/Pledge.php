@@ -8,7 +8,8 @@ class Pledge extends Model
 {
     protected $fillable = [
         'user_id',
-        'amount'
+        'amount',
+        'project_id'
     ];
 
     public function user(){

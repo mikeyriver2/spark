@@ -33,6 +33,8 @@ export default class Auth extends Component{
         }
         this.handleSumbit = this.handleSumbit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
     }
 
     componentDidMount(){
@@ -90,6 +92,27 @@ export default class Auth extends Component{
 
     }
 
+    register(){
+        let values = {
+            email: this.state.pEmail,
+            password: this.state.password,
+            name: "asshole"
+        }
+        axios.post('/register-user',values).then(res=>{
+            this.login();
+        })
+    }
+
+    login(){
+        let values = {
+            email: this.state.pEmail,
+            password: this.state.password,
+            name: "asshole"
+        }
+        axios.post('/login-user',values).then(res=>{
+        });
+    }
+
 
     render(){
         let authType = this.props.type;
@@ -126,7 +149,7 @@ export default class Auth extends Component{
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
                                         {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
                                     </Form.Group>
-                                    <Button className="submit" variant="primary">Submit</Button>
+                                    <Button onClick={this.register} className="submit" variant="primary">Submit</Button>
                                 </div>
                                 :
                                 <div>
@@ -137,7 +160,7 @@ export default class Auth extends Component{
                                     <Form.Group controlId="formGridPassword">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
                                     </Form.Group>
-                                    <Button className="submit" variant="primary">Login</Button>
+                                    <Button onClick={this.login} className="submit" variant="primary">Login</Button>
                                 </div>
                             }
                         </Form>
