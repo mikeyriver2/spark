@@ -22515,7 +22515,7 @@ utils.intFromLE = intFromLE;
 /*! exports provided: _args, _development, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, bugs, dependencies, description, devDependencies, files, homepage, keywords, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"_args\":[[\"elliptic@6.5.0\",\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\spark\"]],\"_development\":true,\"_from\":\"elliptic@6.5.0\",\"_id\":\"elliptic@6.5.0\",\"_inBundle\":false,\"_integrity\":\"sha512-eFOJTMyCYb7xtE/caJ6JJu+bhi67WCYNbkGSknu20pmM8Ke/bqOfdnZWxyoGN26JgfxTbXrsCkEw4KheCT/KGg==\",\"_location\":\"/elliptic\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"elliptic@6.5.0\",\"name\":\"elliptic\",\"escapedName\":\"elliptic\",\"rawSpec\":\"6.5.0\",\"saveSpec\":null,\"fetchSpec\":\"6.5.0\"},\"_requiredBy\":[\"/browserify-sign\",\"/create-ecdh\"],\"_resolved\":\"https://registry.npmjs.org/elliptic/-/elliptic-6.5.0.tgz\",\"_spec\":\"6.5.0\",\"_where\":\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\spark\",\"author\":{\"name\":\"Fedor Indutny\",\"email\":\"fedor@indutny.com\"},\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"dependencies\":{\"bn.js\":\"^4.4.0\",\"brorand\":\"^1.0.1\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.0\",\"inherits\":\"^2.0.1\",\"minimalistic-assert\":\"^1.0.0\",\"minimalistic-crypto-utils\":\"^1.0.0\"},\"description\":\"EC cryptography\",\"devDependencies\":{\"brfs\":\"^1.4.3\",\"coveralls\":\"^2.11.3\",\"grunt\":\"^0.4.5\",\"grunt-browserify\":\"^5.0.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-connect\":\"^1.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^1.0.1\",\"grunt-mocha-istanbul\":\"^3.0.1\",\"grunt-saucelabs\":\"^8.6.2\",\"istanbul\":\"^0.4.2\",\"jscs\":\"^2.9.0\",\"jshint\":\"^2.6.0\",\"mocha\":\"^2.1.0\"},\"files\":[\"lib\"],\"homepage\":\"https://github.com/indutny/elliptic\",\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"license\":\"MIT\",\"main\":\"lib/elliptic.js\",\"name\":\"elliptic\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/indutny/elliptic.git\"},\"scripts\":{\"jscs\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"jshint\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"lint\":\"npm run jscs && npm run jshint\",\"test\":\"npm run lint && npm run unit\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"version\":\"grunt dist && git add dist/\"},\"version\":\"6.5.0\"}");
+module.exports = JSON.parse("{\"_args\":[[\"elliptic@6.5.0\",\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\pediatrix\"]],\"_development\":true,\"_from\":\"elliptic@6.5.0\",\"_id\":\"elliptic@6.5.0\",\"_inBundle\":false,\"_integrity\":\"sha512-eFOJTMyCYb7xtE/caJ6JJu+bhi67WCYNbkGSknu20pmM8Ke/bqOfdnZWxyoGN26JgfxTbXrsCkEw4KheCT/KGg==\",\"_location\":\"/elliptic\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"elliptic@6.5.0\",\"name\":\"elliptic\",\"escapedName\":\"elliptic\",\"rawSpec\":\"6.5.0\",\"saveSpec\":null,\"fetchSpec\":\"6.5.0\"},\"_requiredBy\":[\"/browserify-sign\",\"/create-ecdh\"],\"_resolved\":\"https://registry.npmjs.org/elliptic/-/elliptic-6.5.0.tgz\",\"_spec\":\"6.5.0\",\"_where\":\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\pediatrix\",\"author\":{\"name\":\"Fedor Indutny\",\"email\":\"fedor@indutny.com\"},\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"dependencies\":{\"bn.js\":\"^4.4.0\",\"brorand\":\"^1.0.1\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.0\",\"inherits\":\"^2.0.1\",\"minimalistic-assert\":\"^1.0.0\",\"minimalistic-crypto-utils\":\"^1.0.0\"},\"description\":\"EC cryptography\",\"devDependencies\":{\"brfs\":\"^1.4.3\",\"coveralls\":\"^2.11.3\",\"grunt\":\"^0.4.5\",\"grunt-browserify\":\"^5.0.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-connect\":\"^1.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^1.0.1\",\"grunt-mocha-istanbul\":\"^3.0.1\",\"grunt-saucelabs\":\"^8.6.2\",\"istanbul\":\"^0.4.2\",\"jscs\":\"^2.9.0\",\"jshint\":\"^2.6.0\",\"mocha\":\"^2.1.0\"},\"files\":[\"lib\"],\"homepage\":\"https://github.com/indutny/elliptic\",\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"license\":\"MIT\",\"main\":\"lib/elliptic.js\",\"name\":\"elliptic\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/indutny/elliptic.git\"},\"scripts\":{\"jscs\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"jshint\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"lint\":\"npm run jscs && npm run jshint\",\"test\":\"npm run lint && npm run unit\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"version\":\"grunt dist && git add dist/\"},\"version\":\"6.5.0\"}");
 
 /***/ }),
 
@@ -102451,13 +102451,15 @@ function (_Component) {
         show: false,
         type: ""
       },
-      isLoggedIn: false
+      showMenu: false,
+      user: {}
     };
     _this.header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.toggleAuthModal = _this.toggleAuthModal.bind(_assertThisInitialized(_this));
     _this.switchSideBar = _this.switchSideBar.bind(_assertThisInitialized(_this));
     _this.changeAuthModalType = _this.changeAuthModalType.bind(_assertThisInitialized(_this));
     _this.checkIfLoggedIn = _this.checkIfLoggedIn.bind(_assertThisInitialized(_this));
+    _this.toggleMenu = _this.toggleMenu.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -102481,7 +102483,21 @@ function (_Component) {
   }, {
     key: "checkIfLoggedIn",
     value: function checkIfLoggedIn() {
-      axios.get('/check-user').then(function (res) {}).then(function (err) {});
+      var _this3 = this;
+
+      axios.get('/check-user').then(function (res) {
+        _this3.setState({
+          user: res.data
+        });
+      }).then(function (err) {});
+    }
+  }, {
+    key: "toggleMenu",
+    value: function toggleMenu() {
+      var bool = this.state.showMenu;
+      this.setState({
+        showMenu: !bool
+      });
     }
   }, {
     key: "switchSideBar",
@@ -102545,7 +102561,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var isAdmin = false;
       var isMobile = this.state.width <= 768;
@@ -102574,15 +102590,28 @@ function (_Component) {
         "class": "bar bottom-bar"
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "reg-login"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, this.state.user && this.state.user.name ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: this.toggleMenu,
+        href: "#"
+      }, "Welcome, ", this.state.user.name), this.state.showMenu && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          color: "black"
+        }
+      }, "View Pledged Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          color: "black"
+        },
+        href: "/logout"
+      }, "Logout")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick(e) {
-          _this3.toggleAuthModal(e, "register");
+          _this4.toggleAuthModal(e, "register");
         }
       }, "REGISTER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick(e) {
-          _this3.toggleAuthModal(e, "login");
+          _this4.toggleAuthModal(e, "login");
         }
       }, "LOGIN"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        user: this.state.user,
         layoutRef: this.header,
         showSideBar: this.state.showSideBar,
         hideSideBar: this.hideSideBar ///////////////////////////////////
@@ -102737,6 +102766,7 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
+      var isUserLoggedIn = this.props.user && this.props.user.name;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: function ref(node) {
           _this2.node = node;
@@ -102747,21 +102777,25 @@ function (_Component) {
         className: "sidebar-container sidebar-hidden"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-user-name"
-      }, "Welcome, ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Mikey Rivera")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Welcome, ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, this.props.user.name)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Please Register/Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+      }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
           _this2.props.toggleAuthModal(e, "register");
         },
         to: "/"
-      }, "Register")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        to: "/pledges"
+      }, "View Pledges")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+      }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
           _this2.props.toggleAuthModal(e, "login");
         },
         to: "/"
-      }, "Login"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }, "Login") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "/logout"
+      }, "Logout"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_6__["default"], {
         changeAuthModalType: this.props.changeAuthModalType,
         show: this.props.show,
         type: this.props.type,

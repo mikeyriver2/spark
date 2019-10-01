@@ -57,11 +57,16 @@ export default class Sidebar extends Component{
     }
 
     render(){
+        let isUserLoggedIn = (this.props.user && this.props.user.name)
         return (
             <div ref={(node)=>{this.node = node}} className="layout-sidebar">
                 <ul id="sidebar-container" className="sidebar-container sidebar-hidden">
                     <li className="sidebar-user-name">
-                        Welcome, <b>Mikey Rivera</b>
+                        {isUserLoggedIn ?
+                            <div>Welcome, <b>{this.props.user.name}</b></div>
+                            :
+                            <div>Please Register/Login</div>
+                        }
                     </li>
                     {/* <li className="sidebar-outter">
                         <Link to="/" >Home</Link>
@@ -70,13 +75,23 @@ export default class Sidebar extends Component{
                         </ul>
                     </li> */}
                     <li className="sidebar-outter">
-                        <Link onClick={(e)=>{this.props.toggleAuthModal(e,"register")}} to="/" >Register</Link>
+                        {
+                            !isUserLoggedIn ?
+                                <Link onClick={(e)=>{this.props.toggleAuthModal(e,"register")}} to="/" >Register</Link>    
+                            :
+                                <Link to="/pledges" >View Pledges</Link>
+                        }
                         {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}
                     </li>
                     <li className="sidebar-outter">
-                        <Link onClick={(e)=>{this.props.toggleAuthModal(e,"login")}} to="/" >Login</Link>
+                        {
+                            !isUserLoggedIn ?
+                              <Link onClick={(e)=>{this.props.toggleAuthModal(e,"login")}} to="/" >Login</Link>
+                            :
+                                <a href="/logout" >Logout</a>
+                        }
                         {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}

@@ -31,4 +31,10 @@ class AuthController extends Controller
     public function checkUserLoggedIn(Request $request){
         return $request->user();
     }
+
+    public function clearSession(Request $request){
+        Auth::logout();
+        \Session::flush();
+        return redirect()->away('/');
+    }
 }

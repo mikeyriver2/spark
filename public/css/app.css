@@ -10828,6 +10828,31 @@ a.text-dark:focus {
   flex-grow: 1;
 }
 
+.main-layout .layout-header .layout-main-logo .reg-login nav li {
+  position: absolute;
+  top: 10vh;
+  border: 1px black solid;
+  color: black;
+  background: white;
+  list-style: none;
+  padding-top: 20px;
+  right: 10px;
+}
+
+.main-layout .layout-header .layout-main-logo .reg-login nav li ul {
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.main-layout .layout-header .layout-main-logo .reg-login nav li ul a {
+  margin: 0px !important;
+}
+
+.main-layout .layout-header .layout-main-logo .reg-login nav li ul:hover {
+  background: #eaeaea;
+}
+
 .main-layout .layout-header .layout-main-logo nav {
   height: 100%;
   display: flex;

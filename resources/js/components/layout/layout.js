@@ -20,13 +20,15 @@ export default class Layout extends Component{
                 show: false,
                 type: ""
             },
-            isLoggedIn: false,
+            showMenu: false,
+            user: {}
         }
         this.header = React.createRef();
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
         this.switchSideBar = this.switchSideBar.bind(this);
         this.changeAuthModalType = this.changeAuthModalType.bind(this);
         this.checkIfLoggedIn = this.checkIfLoggedIn.bind(this);
+        this.toggleMenu = this.toggleMenu.bind(this);
     }
     
     componentDidMount(){
@@ -46,10 +48,19 @@ export default class Layout extends Component{
 
     checkIfLoggedIn(){
         axios.get('/check-user').then(res=>{
-
+            this.setState({
+                user: res.data
+            });
         }).then(err=>{
 
         });
+    }
+
+    toggleMenu(){
+        let bool = this.state.showMenu;
+        this.setState({
+            showMenu: !bool
+        })
     }
 
     switchSideBar(){
@@ -124,10 +135,22 @@ export default class Layout extends Component{
                             </div>
                             :
                             <div className="reg-login">
-                                <nav>
-                                    <a onClick={(e)=>{this.toggleAuthModal(e,"register")}}>REGISTER</a>
-                                    <a onClick={(e)=>{this.toggleAuthModal(e,"login")}}>LOGIN</a>
-                                </nav>
+                                {(this.state.user && this.state.user.name) ?
+                                    <nav>
+                                        <a onClick={this.toggleMenu} href="#">Welcome, {this.state.user.name}</a>
+                                        {this.state.showMenu &&
+                                            <li>
+                                                <ul><a style={{color:"black"}}>View Pledged Projects</a></ul>
+                                                <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
+                                            </li>
+                                        }
+                                    </nav>
+                                :
+                                    <nav>
+                                        <a onClick={(e)=>{this.toggleAuthModal(e,"register")}}>REGISTER</a>
+                                        <a onClick={(e)=>{this.toggleAuthModal(e,"login")}}>LOGIN</a>
+                                    </nav>
+                                }
                             </div>
                         }
                     </Row>
@@ -136,6 +159,7 @@ export default class Layout extends Component{
                     </Row> */}
                 </div>
                 <Sidebar
+                    user = {this.state.user}
                     layoutRef = {this.header}
                     showSideBar = {this.state.showSideBar}
                     hideSideBar = {this.hideSideBar}
