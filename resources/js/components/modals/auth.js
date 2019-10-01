@@ -126,6 +126,7 @@ export default class Auth extends Component{
 
 
     render(){
+        let authType = this.props.type;
         let allowSubmit = false;
         let {
             company,
@@ -134,21 +135,32 @@ export default class Auth extends Component{
             password,
             contact,
             name
-         } = this.state;
-        if(company != "" && pEmail != "" && password != "" && contact != "" && name != ""){
-            let {
-                pEmail,
-                sEmail,
-                password,
-                contact,
-                company,
-             } = this.state.errors;
-             if(pEmail == "" && sEmail == "" && password == "" && contact == "" && company == ""){
-                allowSubmit = true;
-             }
-
+        } = this.state;
+        
+        if(authType == "reigster"){
+            if(company != "" && pEmail != "" && password != "" && contact != "" && name != ""){
+                let {
+                    pEmail,
+                    sEmail,
+                    password,
+                    contact,
+                    company,
+                } = this.state.errors;
+                if(pEmail == "" && sEmail == "" && password == "" && contact == "" && company == ""){
+                    allowSubmit = true;
+                }
+            }
+        }else{
+            if(pEmail != "" && password != ""){
+                let {
+                    pEmail,
+                    password,
+                } = this.state.errors;
+                if(pEmail == "" && password == ""){
+                    allowSubmit = true;
+                }
+            }
         }
-        let authType = this.props.type;
         
         return (
             <div>

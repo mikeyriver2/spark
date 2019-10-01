@@ -10831,7 +10831,7 @@ a.text-dark:focus {
 .main-layout .layout-header .layout-main-logo .reg-login nav li {
   position: absolute;
   top: 10vh;
-  border: 1px black solid;
+  border: 1px #00000047 solid;
   color: black;
   background: white;
   list-style: none;
@@ -10846,6 +10846,7 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header .layout-main-logo .reg-login nav li ul a {
+  color: #716f6f !important;
   margin: 0px !important;
 }
 

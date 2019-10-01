@@ -18,14 +18,26 @@ export default class NewPledge extends Component{
         super(props);
         this.state = {
             pledge: 0,
-            showConfirmation: false
+            showConfirmation: false,
+            user: {} 
         }
         this.handleSumbit = this.handleSumbit.bind(this);
         this.hideConfirmation = this.hideConfirmation.bind(this);
     }
 
     componentDidMount(){
-
+        let isUserLoggedIn = false; //super not ideal to do this : USE REDUX IN THE FUTURE!
+        if(this.props.user && this.props.user.id){ //check first with props if user logged in then use state as contingency
+          //cool logged in 
+        }else{
+            axios.get('/check-user').then(res=>{
+                this.setState({
+                    user: res.data
+                });
+            }).then(err=>{
+    
+            });
+        }
     }
 
     handleSumbit(){
@@ -51,7 +63,7 @@ export default class NewPledge extends Component{
 
     render(){
         let isUserLoggedIn = false;
-        if(this.props.user && this.props.user.id){
+        if((this.props.user && this.props.user.id) || (this.state.user && this.state.user.id)){
           isUserLoggedIn = true;
         }
         return (
@@ -89,6 +101,12 @@ export default class NewPledge extends Component{
                             </div> */}
                             <div style={{textAlign:"center"}}>
                                 <Button disabled={(!isUserLoggedIn || (this.state.pledge == 0))} className="pledge-button" onClick={()=>{this.setState({showConfirmation: true})}} variant="primary">PLEDGE</Button>
+                                {!isUserLoggedIn && 
+                                    <div>
+                                        <br/>
+                                        <span style={{color:"red"}}>Must be logged In to Pledge</span>
+                                    </div>
+                                }
                             </div>
                         </Form>
                     </Modal.Body>

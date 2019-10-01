@@ -103035,6 +103035,7 @@ function (_Component) {
     value: function render() {
       var _this5 = this;
 
+      var authType = this.props.type;
       var allowSubmit = false;
       var _this$state = this.state,
           company = _this$state.company,
@@ -103044,20 +103045,31 @@ function (_Component) {
           contact = _this$state.contact,
           name = _this$state.name;
 
-      if (company != "" && pEmail != "" && password != "" && contact != "" && name != "") {
-        var _this$state$errors = this.state.errors,
-            _pEmail = _this$state$errors.pEmail,
-            _sEmail = _this$state$errors.sEmail,
-            _password = _this$state$errors.password,
-            _contact = _this$state$errors.contact,
-            _company = _this$state$errors.company;
+      if (authType == "reigster") {
+        if (company != "" && pEmail != "" && password != "" && contact != "" && name != "") {
+          var _this$state$errors = this.state.errors,
+              _pEmail = _this$state$errors.pEmail,
+              _sEmail = _this$state$errors.sEmail,
+              _password = _this$state$errors.password,
+              _contact = _this$state$errors.contact,
+              _company = _this$state$errors.company;
 
-        if (_pEmail == "" && _sEmail == "" && _password == "" && _contact == "" && _company == "") {
-          allowSubmit = true;
+          if (_pEmail == "" && _sEmail == "" && _password == "" && _contact == "" && _company == "") {
+            allowSubmit = true;
+          }
+        }
+      } else {
+        if (pEmail != "" && password != "") {
+          var _this$state$errors2 = this.state.errors,
+              _pEmail2 = _this$state$errors2.pEmail,
+              _password2 = _this$state$errors2.password;
+
+          if (_pEmail2 == "" && _password2 == "") {
+            allowSubmit = true;
+          }
         }
       }
 
-      var authType = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         id: "auth-modal",
         show: this.props.show,
@@ -103235,7 +103247,8 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(NewPledge).call(this, props));
     _this.state = {
       pledge: 0,
-      showConfirmation: false
+      showConfirmation: false,
+      user: {}
     };
     _this.handleSumbit = _this.handleSumbit.bind(_assertThisInitialized(_this));
     _this.hideConfirmation = _this.hideConfirmation.bind(_assertThisInitialized(_this));
@@ -103244,21 +103257,35 @@ function (_Component) {
 
   _createClass(NewPledge, [{
     key: "componentDidMount",
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var isUserLoggedIn = false; //super not ideal to do this : USE REDUX IN THE FUTURE!
+
+      if (this.props.user && this.props.user.id) {//check first with props if user logged in then use state as contingency
+        //cool logged in 
+      } else {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('/check-user').then(function (res) {
+          _this2.setState({
+            user: res.data
+          });
+        }).then(function (err) {});
+      }
+    }
   }, {
     key: "handleSumbit",
     value: function handleSumbit() {
-      var _this2 = this;
+      var _this3 = this;
 
       var value = {
         amount: this.state.pledge,
         project: this.props.project
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('pledge', value).then(function (res) {
-        _this2.setState({
+        _this3.setState({
           showConfirmation: false
         }, function () {
-          _this2.props.hideModal();
+          _this3.props.hideModal();
         });
       });
     }
@@ -103272,11 +103299,11 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var isUserLoggedIn = false;
 
-      if (this.props.user && this.props.user.id) {
+      if (this.props.user && this.props.user.id || this.state.user && this.state.user.id) {
         isUserLoggedIn = true;
       }
 
@@ -103284,7 +103311,7 @@ function (_Component) {
         id: "new-pledge-modal",
         show: this.props.show,
         onHide: function onHide() {
-          return _this3.props.hideModal();
+          return _this4.props.hideModal();
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
@@ -103295,7 +103322,7 @@ function (_Component) {
           fontWeight: "bold"
         },
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             pledge: 10000
           });
         },
@@ -103305,7 +103332,7 @@ function (_Component) {
           fontWeight: "bold"
         },
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             pledge: 20000
           });
         },
@@ -103315,7 +103342,7 @@ function (_Component) {
           fontWeight: "bold"
         },
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             pledge: 30000
           });
         },
@@ -103325,7 +103352,7 @@ function (_Component) {
           fontWeight: "bold"
         },
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             pledge: 40000
           });
         },
@@ -103335,7 +103362,7 @@ function (_Component) {
           fontWeight: "bold"
         },
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             pledge: 50000
           });
         },
@@ -103344,7 +103371,7 @@ function (_Component) {
         className: "mb-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Prepend, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Text, null, "P")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["FormControl"], {
         onChange: function onChange(e) {
-          _this3.setState({
+          _this4.setState({
             pledge: e.target.value
           });
         },
@@ -103374,12 +103401,16 @@ function (_Component) {
         disabled: !isUserLoggedIn || this.state.pledge == 0,
         className: "pledge-button",
         onClick: function onClick() {
-          _this3.setState({
+          _this4.setState({
             showConfirmation: true
           });
         },
         variant: "primary"
-      }, "PLEDGE"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
+      }, "PLEDGE"), !isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          color: "red"
+        }
+      }, "Must be logged In to Pledge")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         style: {
           marginTop: "35vh"
         },
