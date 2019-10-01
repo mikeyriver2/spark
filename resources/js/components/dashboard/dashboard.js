@@ -13,21 +13,29 @@ export default class Dashboard extends Component{
         super();
         this.state = {
             projects: [],
+            user: {}
         }
         this.renderProjects = this.renderProjects.bind(this);
     }
 
     componentDidMount(){
+        axios.get('/check-user').then(res=>{
+            this.setState({
+                user: res.data
+            });
+        }).then(err=>{
+
+        });
         axios.get('projects').then(res=>{
             this.setState({
                 projects: res.data
             });
-        })
+        });
     }
 
     renderProjects(){
         return this.state.projects.map(project=>{
-            return <Project project={project} />
+            return <Project user={this.state.user} project={project} />
         })
     }
 

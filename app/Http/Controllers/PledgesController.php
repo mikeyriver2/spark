@@ -11,7 +11,7 @@ class PledgesController extends Controller
         $pledge = Pledge::create([
             'amount'    => $request->amount,
             'user_id'   => $request->user()->id,
-            'project_id' => 1
+            'project_id' => $request->project["id"]
         ]);   
         
         return $pledge;

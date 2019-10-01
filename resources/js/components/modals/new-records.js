@@ -30,7 +30,8 @@ export default class NewPledge extends Component{
 
     handleSumbit(){
         let value = {
-            amount: this.state.pledge
+            amount: this.state.pledge,
+            project: this.props.project
         }
         axios.post('pledge',value).then(res=>{
             this.setState({
@@ -49,11 +50,15 @@ export default class NewPledge extends Component{
 
 
     render(){
+        let isUserLoggedIn = false;
+        if(this.props.user && this.props.user.id){
+          isUserLoggedIn = true;
+        }
         return (
             <div>
                 <Modal id="new-pledge-modal" show={this.props.show} onHide={()=>this.props.hideModal()}>
                     <Modal.Header closeButton>
-                        <h5>Cleaners Film: Help fund our nostalgic highschool Tuguegara</h5>
+                        <h5>{this.props.project.title}</h5>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -83,7 +88,7 @@ export default class NewPledge extends Component{
                                 <Form.Label style={{float:"right", marginBottom: "20px", fontSize: "1.5em", color: "#35373a"}}><b>P{this.state.pledge}.00</b></Form.Label>
                             </div> */}
                             <div style={{textAlign:"center"}}>
-                                <Button className="pledge-button" onClick={()=>{this.setState({showConfirmation: true})}} variant="primary">PLEDGE</Button>
+                                <Button disabled={(!isUserLoggedIn || (this.state.pledge == 0))} className="pledge-button" onClick={()=>{this.setState({showConfirmation: true})}} variant="primary">PLEDGE</Button>
                             </div>
                         </Form>
                     </Modal.Body>

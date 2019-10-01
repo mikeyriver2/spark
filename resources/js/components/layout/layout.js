@@ -46,7 +46,7 @@ export default class Layout extends Component{
         })
     }
 
-    checkIfLoggedIn(){
+    checkIfLoggedIn(){ //make this redux in the future
         axios.get('/check-user').then(res=>{
             this.setState({
                 user: res.data

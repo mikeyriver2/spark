@@ -33,6 +33,15 @@ export default class Project extends Component{
   }
 
   render(){
+    let amountPledged = 0.00;
+    if(this.props.project && this.props.project.pledge){
+      if(this.props.project.pledge.length > 0){
+        this.props.project.pledge.map(pledge=>{
+          amountPledged += parseFloat(pledge.amount);
+        })
+      }
+    }
+    let percentage = amountPledged/this.props.project.goal_amount;
     return (
       <div className="project-container">
         <div style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
@@ -43,12 +52,12 @@ export default class Project extends Component{
             {this.props.project.description}
           </p>
           <div className="project-bar">
-            <div className="project-bar-progress"></div>
+            <div style={{width:`${percentage}%`}} className="project-bar-progress"></div>
             <div className="project-bar-remaining"></div>
           </div>
           <div className="project-amount-container">
             <div className="money-raised">
-              <h4>P10,000</h4>
+              <h4>P{amountPledged}</h4>
               <p>of P{this.props.project.goal_amount} raised</p>
             </div>
             <Button onClick={this.showNewPledge} variant="primary">Make Pledge</Button>
@@ -60,11 +69,14 @@ export default class Project extends Component{
               </div>
             </div> */}
         </div>
-        <NewPledge
-          project = {this.props.project} 
-          show = {this.state.showNewPledge}
-          hideModal = {this.hideNewPledge}
-        />
+        {this.state.showNewPledge &&
+          <NewPledge
+            user = {this.props.user}
+            project = {this.props.project} 
+            show = {this.state.showNewPledge}
+            hideModal = {this.hideNewPledge}
+          />
+        }
       </div>
                 
     )

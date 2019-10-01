@@ -102280,7 +102280,8 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).call(this));
     _this.state = {
-      projects: []
+      projects: [],
+      user: {}
     };
     _this.renderProjects = _this.renderProjects.bind(_assertThisInitialized(_this));
     return _this;
@@ -102291,6 +102292,11 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('/check-user').then(function (res) {
+        _this2.setState({
+          user: res.data
+        });
+      }).then(function (err) {});
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('projects').then(function (res) {
         _this2.setState({
           projects: res.data
@@ -102300,8 +102306,11 @@ function (_Component) {
   }, {
     key: "renderProjects",
     value: function renderProjects() {
+      var _this3 = this;
+
       return this.state.projects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          user: _this3.state.user,
           project: project
         });
       });
@@ -102507,6 +102516,7 @@ function (_Component) {
     value: function checkIfLoggedIn() {
       var _this3 = this;
 
+      //make this redux in the future
       axios.get('/check-user').then(function (res) {
         _this3.setState({
           user: res.data
@@ -103241,7 +103251,8 @@ function (_Component) {
       var _this2 = this;
 
       var value = {
-        amount: this.state.pledge
+        amount: this.state.pledge,
+        project: this.props.project
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('pledge', value).then(function (res) {
         _this2.setState({
@@ -103263,6 +103274,12 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
+      var isUserLoggedIn = false;
+
+      if (this.props.user && this.props.user.id) {
+        isUserLoggedIn = true;
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         id: "new-pledge-modal",
         show: this.props.show,
@@ -103271,7 +103288,7 @@ function (_Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Cleaners Film: Help fund our nostalgic highschool Tuguegara")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, this.props.project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "pledge-amounts"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         style: {
@@ -103354,6 +103371,7 @@ function (_Component) {
           textAlign: "center"
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        disabled: !isUserLoggedIn || this.state.pledge == 0,
         className: "pledge-button",
         onClick: function onClick() {
           _this3.setState({
@@ -103469,6 +103487,17 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var amountPledged = 0.00;
+
+      if (this.props.project && this.props.project.pledge) {
+        if (this.props.project.pledge.length > 0) {
+          this.props.project.pledge.map(function (pledge) {
+            amountPledged += parseFloat(pledge.amount);
+          });
+        }
+      }
+
+      var percentage = amountPledged / this.props.project.goal_amount;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -103483,6 +103512,9 @@ function (_Component) {
       }, this.props.project.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-bar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          width: "".concat(percentage, "%")
+        },
         className: "project-bar-progress"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-bar-remaining"
@@ -103490,10 +103522,11 @@ function (_Component) {
         className: "project-amount-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "money-raised"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "P10,000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of P", this.props.project.goal_amount, " raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "P", amountPledged), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of P", this.props.project.goal_amount, " raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         onClick: this.showNewPledge,
         variant: "primary"
-      }, "Make Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, "Make Pledge")), this.state.showNewPledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        user: this.props.user,
         project: this.props.project,
         show: this.state.showNewPledge,
         hideModal: this.hideNewPledge
