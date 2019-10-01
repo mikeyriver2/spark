@@ -102241,6 +102241,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/es/index.js");
 /* harmony import */ var _modules_Project__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/Project */ "./resources/js/components/modules/Project.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -102251,13 +102253,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -102277,21 +102280,40 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).call(this));
     _this.state = {
-      appointments: [],
-      quickSummaries: {},
-      payments: []
+      projects: []
     };
+    _this.renderProjects = _this.renderProjects.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Dashboard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('projects').then(function (res) {
+        _this2.setState({
+          projects: res.data
+        });
+      });
+    }
+  }, {
+    key: "renderProjects",
+    value: function renderProjects() {
+      return this.state.projects.map(function (project) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          project: project
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboard-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "projects-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+      }, this.state.projects && this.state.projects.length > 0 && this.renderProjects()));
     }
   }]);
 
@@ -102875,14 +102897,12 @@ function (_Component) {
   _inherits(Auth, _Component);
 
   function Auth(props) {
-    var _this$state;
-
     var _this;
 
     _classCallCheck(this, Auth);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Auth).call(this, props));
-    _this.state = (_this$state = {
+    _this.state = {
       companies: [],
       errors: {
         pEmail: "",
@@ -102895,8 +102915,9 @@ function (_Component) {
       pEmail: "",
       sEmail: "",
       password: "",
-      contact: ""
-    }, _defineProperty(_this$state, "company", ""), _defineProperty(_this$state, "name", ""), _this$state);
+      contact: "",
+      name: ""
+    };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.register = _this.register.bind(_assertThisInitialized(_this));
     _this.login = _this.login.bind(_assertThisInitialized(_this));
@@ -102949,7 +102970,7 @@ function (_Component) {
 
       this.setState(function (prevState) {
         return _defineProperty({
-          errors: _objectSpread({}, prevState.error, _defineProperty({}, type, error.error))
+          errors: _objectSpread({}, prevState.errors, _defineProperty({}, type, error.error))
         }, type, value);
       });
     }
@@ -103003,6 +103024,28 @@ function (_Component) {
     key: "render",
     value: function render() {
       var _this5 = this;
+
+      var allowSubmit = false;
+      var _this$state = this.state,
+          company = _this$state.company,
+          pEmail = _this$state.pEmail,
+          sEmail = _this$state.sEmail,
+          password = _this$state.password,
+          contact = _this$state.contact,
+          name = _this$state.name;
+
+      if (company != "" && pEmail != "" && password != "" && contact != "" && name != "") {
+        var _this$state$errors = this.state.errors,
+            _pEmail = _this$state$errors.pEmail,
+            _sEmail = _this$state$errors.sEmail,
+            _password = _this$state$errors.password,
+            _contact = _this$state$errors.contact,
+            _company = _this$state$errors.company;
+
+        if (_pEmail == "" && _sEmail == "" && _password == "" && _contact == "" && _company == "") {
+          allowSubmit = true;
+        }
+      }
 
       var authType = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
@@ -103071,6 +103114,7 @@ function (_Component) {
           color: "red"
         }
       }, "Contact Number should only be numeric")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        disabled: !allowSubmit,
         onClick: this.register,
         className: "submit",
         variant: "primary"
@@ -103095,6 +103139,7 @@ function (_Component) {
         type: "password",
         placeholder: "Enter Password"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        disabled: !allowSubmit,
         onClick: this.login,
         className: "submit",
         variant: "primary"
@@ -103428,14 +103473,14 @@ function (_Component) {
         className: "project-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
-          backgroundImage: "url(".concat("https://cdn.pixabay.com/photo/2013/11/15/13/57/california-210913_960_720.jpg", ")")
+          backgroundImage: "url(\"".concat(this.props.project.banner, "\")")
         },
         className: "project-banner"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
         className: "project-title"
-      }, "Cleaners Film: Help fund our nostalgic highschool Tuguegara"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, this.props.project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "project-description"
-      }, "Help fund this absurd highschool anthology film shot entirely in Tuguegarao City!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.project.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-bar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-bar-progress"
@@ -103445,10 +103490,11 @@ function (_Component) {
         className: "project-amount-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "money-raised"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "P10,000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of P20,000 raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "P10,000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of P", this.props.project.goal_amount, " raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         onClick: this.showNewPledge,
         variant: "primary"
       }, "Make Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        project: this.props.project,
         show: this.state.showNewPledge,
         hideModal: this.hideNewPledge
       }));

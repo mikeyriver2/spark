@@ -15,7 +15,7 @@ Auth::routes();
 Route::post('login-user','AuthController@login');
 Route::post('register-user','AuthController@register');
 Route::get('companies','CompaniesController@index');
-
+Route::get('projects','ProjectsController@index');
 Route::middleware('auth:web')->group(function(){
     Route::get('check-user','AuthController@checkUserLoggedIn');
     Route::get('logout','AuthController@clearSession');

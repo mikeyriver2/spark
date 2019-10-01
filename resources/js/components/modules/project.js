@@ -35,12 +35,12 @@ export default class Project extends Component{
   render(){
     return (
       <div className="project-container">
-        <div style={{backgroundImage:`url(${"https://cdn.pixabay.com/photo/2013/11/15/13/57/california-210913_960_720.jpg"})`}}className="project-banner"></div>
+        <div style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
           <h5 className="project-title">
-            Cleaners Film: Help fund our nostalgic highschool Tuguegara
+            {this.props.project.title}
           </h5>
           <p className="project-description">
-            Help fund this absurd highschool anthology film shot entirely in Tuguegarao City!
+            {this.props.project.description}
           </p>
           <div className="project-bar">
             <div className="project-bar-progress"></div>
@@ -49,7 +49,7 @@ export default class Project extends Component{
           <div className="project-amount-container">
             <div className="money-raised">
               <h4>P10,000</h4>
-              <p>of P20,000 raised</p>
+              <p>of P{this.props.project.goal_amount} raised</p>
             </div>
             <Button onClick={this.showNewPledge} variant="primary">Make Pledge</Button>
             {/*<h4>Recent Pledges:</h4>
@@ -60,7 +60,8 @@ export default class Project extends Component{
               </div>
             </div> */}
         </div>
-        <NewPledge 
+        <NewPledge
+          project = {this.props.project} 
           show = {this.state.showNewPledge}
           hideModal = {this.hideNewPledge}
         />

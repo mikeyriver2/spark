@@ -7,35 +7,37 @@ import {
     Button
 } from 'react-bootstrap';
 import Project from '../modules/Project'
+import axios from "axios";
 export default class Dashboard extends Component{
     constructor(){
         super();
         this.state = {
-            appointments: [],
-            quickSummaries: {},
-            payments: []
+            projects: [],
         }
+        this.renderProjects = this.renderProjects.bind(this);
+    }
+
+    componentDidMount(){
+        axios.get('projects').then(res=>{
+            this.setState({
+                projects: res.data
+            });
+        })
+    }
+
+    renderProjects(){
+        return this.state.projects.map(project=>{
+            return <Project project={project} />
+        })
     }
 
     render(){
         return (
             <div className="dashboard-container">
                 <div className="projects-container">
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
-                    <Project />
+                    {(this.state.projects && this.state.projects.length > 0) &&
+                        this.renderProjects()
+                    }
                 </div>
             </div>
         )

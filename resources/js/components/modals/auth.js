@@ -30,7 +30,6 @@ export default class Auth extends Component{
             sEmail: "",
             password: "",
             contact: "",
-            company: "",
             name: ""
         }
         this.handleChange = this.handleChange.bind(this);
@@ -81,7 +80,7 @@ export default class Auth extends Component{
         
         this.setState(prevState=>({
             errors:{
-                ...prevState.error,
+                ...prevState.errors,
                 [type]: error.error
             },
             [type]: value
@@ -127,7 +126,30 @@ export default class Auth extends Component{
 
 
     render(){
+        let allowSubmit = false;
+        let {
+            company,
+            pEmail,
+            sEmail, //can be optional
+            password,
+            contact,
+            name
+         } = this.state;
+        if(company != "" && pEmail != "" && password != "" && contact != "" && name != ""){
+            let {
+                pEmail,
+                sEmail,
+                password,
+                contact,
+                company,
+             } = this.state.errors;
+             if(pEmail == "" && sEmail == "" && password == "" && contact == "" && company == ""){
+                allowSubmit = true;
+             }
+
+        }
         let authType = this.props.type;
+        
         return (
             <div>
                 <Modal id="auth-modal" show={this.props.show} onHide={this.props.toggleAuthModal}>
@@ -162,7 +184,7 @@ export default class Auth extends Component{
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
                                         {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
                                     </Form.Group>
-                                    <Button onClick={this.register} className="submit" variant="primary">Submit</Button>
+                                    <Button disabled={!allowSubmit} onClick={this.register} className="submit" variant="primary">Submit</Button>
                                 </div>
                                 :
                                 <div>
@@ -173,7 +195,7 @@ export default class Auth extends Component{
                                     <Form.Group controlId="formGridPassword">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
                                     </Form.Group>
-                                    <Button onClick={this.login} className="submit" variant="primary">Login</Button>
+                                    <Button disabled={!allowSubmit} onClick={this.login} className="submit" variant="primary">Login</Button>
                                 </div>
                             }
                         </Form>
