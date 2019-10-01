@@ -17,6 +17,7 @@ export default class Auth extends Component{
     constructor(props){
         super(props);
         this.state = {
+            companies: [],
             errors: {
                 pEmail: "",
                 sEmail: "",
@@ -30,26 +31,22 @@ export default class Auth extends Component{
             password: "",
             contact: "",
             company: "",
+            name: ""
         }
-        this.handleSumbit = this.handleSumbit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+        this.renderCompanies = this.renderCompanies.bind(this);
     }
 
     componentDidMount(){
-
-    }
-
-    handleSumbit(){
-
-        axios.post('pledge').then(res=>{
+        axios.get('companies').then(res=>{
+            this.setState({
+                companies: res.data
+            });
+        }).catch(err=>{
 
         });
-    }
-
-    hideConfirmation(){
-
     }
 
     validateEmail(email) {
@@ -96,7 +93,10 @@ export default class Auth extends Component{
         let values = {
             email: this.state.pEmail,
             password: this.state.password,
-            name: "asshole"
+            name: this.state.name,
+            secondaryEmail: this.state.sEmail,
+            contact: this.state.contact,
+            company: this.state.company
         }
         axios.post('/register-user',values).then(res=>{
             this.login();
@@ -107,11 +107,22 @@ export default class Auth extends Component{
         let values = {
             email: this.state.pEmail,
             password: this.state.password,
-            name: "asshole"
+            name: this.state.name
         }
         axios.post('/login-user',values).then(res=>{
             this.props.checkIfLoggedIn();
+            this.props.toggleAuthModal();
         });
+    }
+
+    renderCompanies(){
+        let companyElements = [];
+        if(this.state.companies && this.state.companies.length > 0){
+            this.state.companies.map(company=>{
+                companyElements = [...companyElements, <option>{company.name}</option> ]; 
+            })
+        }
+        return companyElements;
     }
 
 
@@ -129,10 +140,8 @@ export default class Auth extends Component{
                                 <div>
                                     <Form.Group controlId="formGridCompany">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"company")}} as="select">
-                                            <option>Company</option>
-                                            <option>Persol</option>
-                                            <option>Hackazouk</option>
-                                            <option>Mikey</option>
+                                            <option hidden>Company</option>
+                                            {this.renderCompanies()}
                                         </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="formGridPEmail">
@@ -145,6 +154,9 @@ export default class Auth extends Component{
                                     </Form.Group>
                                     <Form.Group controlId="formGridPassword">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
+                                    </Form.Group>
+                                    <Form.Group controlId="formGridContact">
+                                        <Form.Control onChange={(e)=>{this.handleChange(e,"name")}} placeholder="Full Name" />
                                     </Form.Group>
                                     <Form.Group controlId="formGridContact">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />

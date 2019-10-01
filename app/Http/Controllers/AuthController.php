@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
+use App\Company;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -11,11 +12,14 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $data = $request->all();
+        $company = Company::where('name',$data["company"])->first();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'company_id' => 1
+            'company_id' => $company->id,
+            'name'  => $data["name"],
+            'secondary_email' => $data["secondaryEmail"]
         ]);
     }
 
@@ -25,6 +29,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             return $request->user();
+        }else{
+            return response('Wrong Credentials', 401);
         }    
     }
 

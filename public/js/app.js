@@ -102832,6 +102832,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_validations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/validations */ "./resources/js/helpers/validations.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -102867,12 +102875,15 @@ function (_Component) {
   _inherits(Auth, _Component);
 
   function Auth(props) {
+    var _this$state;
+
     var _this;
 
     _classCallCheck(this, Auth);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Auth).call(this, props));
-    _this.state = _defineProperty({
+    _this.state = (_this$state = {
+      companies: [],
       errors: {
         pEmail: "",
         sEmail: "",
@@ -102885,25 +102896,25 @@ function (_Component) {
       sEmail: "",
       password: "",
       contact: ""
-    }, "company", "");
-    _this.handleSumbit = _this.handleSumbit.bind(_assertThisInitialized(_this));
+    }, _defineProperty(_this$state, "company", ""), _defineProperty(_this$state, "name", ""), _this$state);
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.register = _this.register.bind(_assertThisInitialized(_this));
     _this.login = _this.login.bind(_assertThisInitialized(_this));
+    _this.renderCompanies = _this.renderCompanies.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Auth, [{
     key: "componentDidMount",
-    value: function componentDidMount() {}
-  }, {
-    key: "handleSumbit",
-    value: function handleSumbit() {
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('pledge').then(function (res) {});
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('companies').then(function (res) {
+        _this2.setState({
+          companies: res.data
+        });
+      })["catch"](function (err) {});
     }
-  }, {
-    key: "hideConfirmation",
-    value: function hideConfirmation() {}
   }, {
     key: "validateEmail",
     value: function validateEmail(email) {
@@ -102945,35 +102956,53 @@ function (_Component) {
   }, {
     key: "register",
     value: function register() {
-      var _this2 = this;
-
-      var values = {
-        email: this.state.pEmail,
-        password: this.state.password,
-        name: "asshole"
-      };
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/register-user', values).then(function (res) {
-        _this2.login();
-      });
-    }
-  }, {
-    key: "login",
-    value: function login() {
       var _this3 = this;
 
       var values = {
         email: this.state.pEmail,
         password: this.state.password,
-        name: "asshole"
+        name: this.state.name,
+        secondaryEmail: this.state.sEmail,
+        contact: this.state.contact,
+        company: this.state.company
+      };
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/register-user', values).then(function (res) {
+        _this3.login();
+      });
+    }
+  }, {
+    key: "login",
+    value: function login() {
+      var _this4 = this;
+
+      var values = {
+        email: this.state.pEmail,
+        password: this.state.password,
+        name: this.state.name
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/login-user', values).then(function (res) {
-        _this3.props.checkIfLoggedIn();
+        _this4.props.checkIfLoggedIn();
+
+        _this4.props.toggleAuthModal();
       });
+    }
+  }, {
+    key: "renderCompanies",
+    value: function renderCompanies() {
+      var companyElements = [];
+
+      if (this.state.companies && this.state.companies.length > 0) {
+        this.state.companies.map(function (company) {
+          companyElements = [].concat(_toConsumableArray(companyElements), [react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, company.name)]);
+        });
+      }
+
+      return companyElements;
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var authType = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
@@ -102986,14 +103015,16 @@ function (_Component) {
         controlId: "formGridCompany"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "company");
+          _this5.handleChange(e, "company");
         },
         as: "select"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Persol"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Hackazouk"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Mikey"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        hidden: true
+      }, "Company"), this.renderCompanies())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "pEmail");
+          _this5.handleChange(e, "pEmail");
         },
         type: "email",
         placeholder: "Primary email"
@@ -103005,7 +103036,7 @@ function (_Component) {
         controlId: "formGridSEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "sEmail");
+          _this5.handleChange(e, "sEmail");
         },
         type: "email",
         placeholder: "Secondary email (optional)"
@@ -103017,7 +103048,7 @@ function (_Component) {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "password");
+          _this5.handleChange(e, "password");
         },
         type: "password",
         placeholder: "Enter Password"
@@ -103025,7 +103056,14 @@ function (_Component) {
         controlId: "formGridContact"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "contact");
+          _this5.handleChange(e, "name");
+        },
+        placeholder: "Full Name"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+        controlId: "formGridContact"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        onChange: function onChange(e) {
+          _this5.handleChange(e, "contact");
         },
         placeholder: "Contact Number"
       }), this.state.errors.contact != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -103040,7 +103078,7 @@ function (_Component) {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "pEmail");
+          _this5.handleChange(e, "pEmail");
         },
         type: "email",
         placeholder: "Primary email"
@@ -103052,7 +103090,7 @@ function (_Component) {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this4.handleChange(e, "password");
+          _this5.handleChange(e, "password");
         },
         type: "password",
         placeholder: "Enter Password"
@@ -103066,12 +103104,12 @@ function (_Component) {
         }
       }, authType == "login" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Don't have any account yet? Click ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
-          _this4.props.changeAuthModalType('register');
+          _this5.props.changeAuthModalType('register');
         },
         href: "#"
       }, "here"), " to register.") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Already have an account? Click ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
-          _this4.props.changeAuthModalType('login');
+          _this5.props.changeAuthModalType('login');
         },
         href: "#"
       }, "here"), " to login.")))));
