@@ -15,6 +15,15 @@ Auth::routes();
 Route::post('login-user','AuthController@login');
 Route::post('register-user','AuthController@register');
 
+Route::middleware('auth:web','logUserAction')->group(function(){
+    Route::get('check-user','AuthController@checkUserLoggedIn');
+    Route::get('logout','AuthController@clearSession');
+    
+    Route::prefix('dashboard')->group(function(){
+        
+    });
+});
+
 Route::get('/', function () {
     return view('app');
 });
@@ -24,5 +33,4 @@ Route::get('{any}', function () {
 });
 
 Route::post('pledge','PledgesController@store');
-
 Route::get('/home', 'HomeController@index')->name('home');

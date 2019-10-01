@@ -27,4 +27,8 @@ class AuthController extends Controller
             return $request->user();
         }    
     }
+
+    public function checkUserLoggedIn(Request $request){
+        return $request->user();
+    }
 }

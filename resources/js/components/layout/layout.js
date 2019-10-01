@@ -19,7 +19,8 @@ export default class Layout extends Component{
             showAuth: {
                 show: false,
                 type: ""
-            }
+            },
+            isLoggedIn: false,
         }
         this.header = React.createRef();
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
@@ -29,6 +30,12 @@ export default class Layout extends Component{
     }
     
     componentDidMount(){
+        axios.get('/check-user').then(res=>{
+
+        }).then(err=>{
+
+        });
+
         window.addEventListener("resize", ()=>{
             this.setState({
                 width: window.innerWidth
