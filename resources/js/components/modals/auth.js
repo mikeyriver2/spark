@@ -30,7 +30,8 @@ export default class Auth extends Component{
             sEmail: "",
             password: "",
             contact: "",
-            name: ""
+            name: "",
+            catchError: "",
         }
         this.handleChange = this.handleChange.bind(this);
         this.register = this.register.bind(this);
@@ -99,6 +100,10 @@ export default class Auth extends Component{
         }
         axios.post('/register-user',values).then(res=>{
             this.login();
+        }).catch(err=>{
+            this.setState({
+                catchError: err.response.data 
+            });
         })
     }
 
@@ -137,7 +142,8 @@ export default class Auth extends Component{
             name
         } = this.state;
         
-        if(authType == "reigster"){
+        if(authType == "register"){
+            console.log('ass');
             if(company != "" && pEmail != "" && password != "" && contact != "" && name != ""){
                 let {
                     pEmail,
@@ -174,7 +180,7 @@ export default class Auth extends Component{
                                 <div>
                                     <Form.Group controlId="formGridCompany">
                                         <Form.Control onChange={(e)=>{this.handleChange(e,"company")}} as="select">
-                                            <option hidden>Company</option>
+                                            <option hidden>Select a Company</option>
                                             {this.renderCompanies()}
                                         </Form.Control>
                                     </Form.Group>
@@ -197,6 +203,12 @@ export default class Auth extends Component{
                                         {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
                                     </Form.Group>
                                     <Button disabled={!allowSubmit} onClick={this.register} className="submit" variant="primary">Submit</Button>
+                                    {this.state.catchError != "" &&
+                                        <div>
+                                            <br/>
+                                            <span style={{color:"red"}}>{this.state.catchError}</span>
+                                        </div>
+                                    }
                                 </div>
                                 :
                                 <div>

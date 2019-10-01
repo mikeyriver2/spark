@@ -71,6 +71,7 @@ export default class Project extends Component{
         </div>
         {this.state.showNewPledge &&
           <NewPledge
+            fetchProjects = {this.props.fetchProjects}
             user = {this.props.user}
             project = {this.props.project} 
             show = {this.state.showNewPledge}

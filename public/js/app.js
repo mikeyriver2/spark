@@ -102284,6 +102284,7 @@ function (_Component) {
       user: {}
     };
     _this.renderProjects = _this.renderProjects.bind(_assertThisInitialized(_this));
+    _this.fetchProjects = _this.fetchProjects.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -102297,11 +102298,7 @@ function (_Component) {
           user: res.data
         });
       }).then(function (err) {});
-      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('projects').then(function (res) {
-        _this2.setState({
-          projects: res.data
-        });
-      });
+      this.fetchProjects();
     }
   }, {
     key: "renderProjects",
@@ -102310,8 +102307,20 @@ function (_Component) {
 
       return this.state.projects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_Project__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          fetchProjects: _this3.fetchProjects,
           user: _this3.state.user,
           project: project
+        });
+      });
+    }
+  }, {
+    key: "fetchProjects",
+    value: function fetchProjects() {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('projects').then(function (res) {
+        _this4.setState({
+          projects: res.data
         });
       });
     }
@@ -102926,7 +102935,8 @@ function (_Component) {
       sEmail: "",
       password: "",
       contact: "",
-      name: ""
+      name: "",
+      catchError: ""
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.register = _this.register.bind(_assertThisInitialized(_this));
@@ -102999,6 +103009,10 @@ function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/register-user', values).then(function (res) {
         _this3.login();
+      })["catch"](function (err) {
+        _this3.setState({
+          catchError: err.response.data
+        });
       });
     }
   }, {
@@ -103045,7 +103059,9 @@ function (_Component) {
           contact = _this$state.contact,
           name = _this$state.name;
 
-      if (authType == "reigster") {
+      if (authType == "register") {
+        console.log('ass');
+
         if (company != "" && pEmail != "" && password != "" && contact != "" && name != "") {
           var _this$state$errors = this.state.errors,
               _pEmail = _this$state$errors.pEmail,
@@ -103085,7 +103101,7 @@ function (_Component) {
         as: "select"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         hidden: true
-      }, "Company"), this.renderCompanies())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, "Select a Company"), this.renderCompanies())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
@@ -103140,7 +103156,11 @@ function (_Component) {
         onClick: this.register,
         className: "submit",
         variant: "primary"
-      }, "Submit")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, "Submit"), this.state.catchError != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          color: "red"
+        }
+      }, this.state.catchError))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
@@ -103285,6 +103305,8 @@ function (_Component) {
         _this3.setState({
           showConfirmation: false
         }, function () {
+          _this3.props.fetchProjects();
+
           _this3.props.hideModal();
         });
       });
@@ -103557,6 +103579,7 @@ function (_Component) {
         onClick: this.showNewPledge,
         variant: "primary"
       }, "Make Pledge")), this.state.showNewPledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        fetchProjects: this.props.fetchProjects,
         user: this.props.user,
         project: this.props.project,
         show: this.state.showNewPledge,

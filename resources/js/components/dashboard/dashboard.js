@@ -16,6 +16,7 @@ export default class Dashboard extends Component{
             user: {}
         }
         this.renderProjects = this.renderProjects.bind(this);
+        this.fetchProjects = this.fetchProjects.bind(this);
     }
 
     componentDidMount(){
@@ -26,17 +27,25 @@ export default class Dashboard extends Component{
         }).then(err=>{
 
         });
+        this.fetchProjects();
+    }
+
+    renderProjects(){
+        return this.state.projects.map(project=>{
+            return <Project 
+                        fetchProjects={this.fetchProjects}
+                        user={this.state.user} 
+                        project={project} 
+                    />
+        })
+    }
+
+    fetchProjects(){
         axios.get('projects').then(res=>{
             this.setState({
                 projects: res.data
             });
         });
-    }
-
-    renderProjects(){
-        return this.state.projects.map(project=>{
-            return <Project user={this.state.user} project={project} />
-        })
     }
 
     render(){

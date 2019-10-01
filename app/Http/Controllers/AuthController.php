@@ -12,6 +12,10 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $data = $request->all();
+        $user = User::where('email',$data["email"])->exists();
+        if($user){
+            return response("Email already exists",422);
+        }
         $company = Company::where('name',$data["company"])->first();
         return User::create([
             'name' => $data['name'],

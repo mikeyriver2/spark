@@ -49,6 +49,7 @@ export default class NewPledge extends Component{
             this.setState({
                 showConfirmation: false
             },()=>{
+                this.props.fetchProjects();
                 this.props.hideModal();    
             });
         });
