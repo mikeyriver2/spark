@@ -110,6 +110,7 @@ export default class Auth extends Component{
             name: "asshole"
         }
         axios.post('/login-user',values).then(res=>{
+            this.props.checkIfLoggedIn();
         });
     }
 

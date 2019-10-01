@@ -102457,6 +102457,7 @@ function (_Component) {
     _this.toggleAuthModal = _this.toggleAuthModal.bind(_assertThisInitialized(_this));
     _this.switchSideBar = _this.switchSideBar.bind(_assertThisInitialized(_this));
     _this.changeAuthModalType = _this.changeAuthModalType.bind(_assertThisInitialized(_this));
+    _this.checkIfLoggedIn = _this.checkIfLoggedIn.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -102465,7 +102466,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      axios.get('/check-user').then(function (res) {}).then(function (err) {});
+      this.checkIfLoggedIn();
       window.addEventListener("resize", function () {
         _this2.setState({
           width: window.innerWidth
@@ -102476,6 +102477,11 @@ function (_Component) {
       }, function () {//console.log(this.state.appHeight);
         //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
       });
+    }
+  }, {
+    key: "checkIfLoggedIn",
+    value: function checkIfLoggedIn() {
+      axios.get('/check-user').then(function (res) {}).then(function (err) {});
     }
   }, {
     key: "switchSideBar",
@@ -102586,6 +102592,7 @@ function (_Component) {
         type: this.state.showAuth.type,
         toggleAuthModal: this.toggleAuthModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        checkIfLoggedIn: this.checkIfLoggedIn,
         changeAuthModalType: this.changeAuthModalType,
         show: this.state.showAuth.show,
         type: this.state.showAuth.type,
@@ -102918,17 +102925,21 @@ function (_Component) {
   }, {
     key: "login",
     value: function login() {
+      var _this3 = this;
+
       var values = {
         email: this.state.pEmail,
         password: this.state.password,
         name: "asshole"
       };
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/login-user', values).then(function (res) {});
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/login-user', values).then(function (res) {
+        _this3.props.checkIfLoggedIn();
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var authType = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
@@ -102941,14 +102952,14 @@ function (_Component) {
         controlId: "formGridCompany"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "company");
+          _this4.handleChange(e, "company");
         },
         as: "select"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Persol"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Hackazouk"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Mikey"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "pEmail");
+          _this4.handleChange(e, "pEmail");
         },
         type: "email",
         placeholder: "Primary email"
@@ -102960,7 +102971,7 @@ function (_Component) {
         controlId: "formGridSEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "sEmail");
+          _this4.handleChange(e, "sEmail");
         },
         type: "email",
         placeholder: "Secondary email (optional)"
@@ -102972,7 +102983,7 @@ function (_Component) {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "password");
+          _this4.handleChange(e, "password");
         },
         type: "password",
         placeholder: "Enter Password"
@@ -102980,7 +102991,7 @@ function (_Component) {
         controlId: "formGridContact"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "contact");
+          _this4.handleChange(e, "contact");
         },
         placeholder: "Contact Number"
       }), this.state.errors.contact != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -102995,7 +103006,7 @@ function (_Component) {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "pEmail");
+          _this4.handleChange(e, "pEmail");
         },
         type: "email",
         placeholder: "Primary email"
@@ -103007,7 +103018,7 @@ function (_Component) {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         onChange: function onChange(e) {
-          _this3.handleChange(e, "password");
+          _this4.handleChange(e, "password");
         },
         type: "password",
         placeholder: "Enter Password"
@@ -103021,12 +103032,12 @@ function (_Component) {
         }
       }, authType == "login" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Don't have any account yet? Click ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
-          _this3.props.changeAuthModalType('register');
+          _this4.props.changeAuthModalType('register');
         },
         href: "#"
       }, "here"), " to register.") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Already have an account? Click ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
-          _this3.props.changeAuthModalType('login');
+          _this4.props.changeAuthModalType('login');
         },
         href: "#"
       }, "here"), " to login.")))));

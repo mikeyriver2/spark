@@ -26,16 +26,11 @@ export default class Layout extends Component{
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
         this.switchSideBar = this.switchSideBar.bind(this);
         this.changeAuthModalType = this.changeAuthModalType.bind(this);
-        
+        this.checkIfLoggedIn = this.checkIfLoggedIn.bind(this);
     }
     
     componentDidMount(){
-        axios.get('/check-user').then(res=>{
-
-        }).then(err=>{
-
-        });
-
+        this.checkIfLoggedIn();
         window.addEventListener("resize", ()=>{
             this.setState({
                 width: window.innerWidth
@@ -47,6 +42,14 @@ export default class Layout extends Component{
             //console.log(this.state.appHeight);
             //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
         })
+    }
+
+    checkIfLoggedIn(){
+        axios.get('/check-user').then(res=>{
+
+        }).then(err=>{
+
+        });
     }
 
     switchSideBar(){
@@ -143,6 +146,7 @@ export default class Layout extends Component{
                     toggleAuthModal = {this.toggleAuthModal}
                 />
                 <Auth 
+                    checkIfLoggedIn = {this.checkIfLoggedIn}
                     changeAuthModalType = {this.changeAuthModalType}
                     show = {this.state.showAuth.show}
                     type = {this.state.showAuth.type}
