@@ -32,6 +32,7 @@ class Dashboard extends Component{
 
         });
         this.fetchProjects();
+        setInterval(() => { this.fetchProjects() }, 5000);
     }
 
     renderProjects(){

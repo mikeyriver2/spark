@@ -104513,6 +104513,7 @@ var checkUser = function checkUser(user) {
   };
 };
 var toggleAuthModal = function toggleAuthModal() {
+  console.log('toggling');
   return {
     type: 'TOGGLE_AUTH_MODAL'
   };
@@ -104682,6 +104683,9 @@ function (_Component) {
         });
       }).then(function (err) {});
       this.fetchProjects();
+      setInterval(function () {
+        _this2.fetchProjects();
+      }, 5000);
     }
   }, {
     key: "renderProjects",
@@ -104838,7 +104842,6 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Layout).call(this));
     _this.state = {
       appHeight: "",
-      ass: "ass",
       //showSideBar: false, REDUX-ed
       width: window.innerWidth,
       showAuth: {
@@ -104862,6 +104865,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.checkIfLoggedIn();
       window.addEventListener("resize", function () {
         _this2.setState({
           width: window.innerWidth
@@ -104934,11 +104938,12 @@ function (_Component) {
   }, {
     key: "toggleAuthModal",
     value: function toggleAuthModal(e, type) {
+      this.props.toggleAuthModal();
       var bool = this.state.showAuth.show;
       this.setState(function (prevState) {
         return {
           showAuth: _objectSpread({}, prevState.showAuth, {
-            show: !bool,
+            //show: !bool,
             type: type
           })
         };
@@ -105014,7 +105019,9 @@ function (_Component) {
         hideSideBar: this.hideSideBar ///////////////////////////////////
         ,
         changeAuthModalType: this.changeAuthModalType,
-        show: this.state.showAuth.show,
+        show: this.props.showAuthModal
+        /*this.state.showAuth.show*/
+        ,
         type: this.state.showAuth.type,
         toggleAuthModal: this.toggleAuthModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -105025,9 +105032,7 @@ function (_Component) {
         //reduxed 
         ,
         type: this.state.showAuth.type,
-        toggleAuthModal: this.props.toggleAuthModal
-        /*this.toggleAuthModal*/
-
+        toggleAuthModal: this.toggleAuthModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
         exact: true,
         path: "/",
@@ -105329,6 +105334,30 @@ function (_Component) {
       })["catch"](function (err) {});
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.type != prevProps.type) {
+        console.log('calling');
+        var originalState = {
+          errors: {
+            pEmail: "",
+            sEmail: "",
+            password: "",
+            contact: "",
+            company: ""
+          },
+          company: "",
+          pEmail: "",
+          sEmail: "",
+          password: "",
+          contact: "",
+          name: "",
+          catchError: ""
+        };
+        this.setState(_objectSpread({}, originalState));
+      }
+    }
+  }, {
     key: "validateEmail",
     value: function validateEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -105401,6 +105430,10 @@ function (_Component) {
         _this4.props.checkIfLoggedIn();
 
         _this4.props.toggleAuthModal();
+      })["catch"](function (err) {
+        _this4.setState({
+          catchError: err.response.data
+        });
       });
     }
   }, {
@@ -105432,8 +105465,6 @@ function (_Component) {
           name = _this$state.name;
 
       if (authType == "register") {
-        console.log('ass');
-
         if (company != "" && pEmail != "" && password != "" && contact != "" && name != "") {
           var _this$state$errors = this.state.errors,
               _pEmail = _this$state$errors.pEmail,
@@ -105476,6 +105507,7 @@ function (_Component) {
       }, "Select a Company"), this.renderCompanies())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.pEmail,
         onChange: function onChange(e) {
           _this5.handleChange(e, "pEmail");
         },
@@ -105488,6 +105520,7 @@ function (_Component) {
       }, "Please enter a valid email")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridSEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.sEmail,
         onChange: function onChange(e) {
           _this5.handleChange(e, "sEmail");
         },
@@ -105500,6 +105533,7 @@ function (_Component) {
       }, "Please enter a valid email")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.password,
         onChange: function onChange(e) {
           _this5.handleChange(e, "password");
         },
@@ -105508,6 +105542,7 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridContact"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.name,
         onChange: function onChange(e) {
           _this5.handleChange(e, "name");
         },
@@ -105515,6 +105550,7 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridContact"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.contact,
         onChange: function onChange(e) {
           _this5.handleChange(e, "contact");
         },
@@ -105535,6 +105571,7 @@ function (_Component) {
       }, this.state.catchError))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPEmail"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.pEmail,
         onChange: function onChange(e) {
           _this5.handleChange(e, "pEmail");
         },
@@ -105547,6 +105584,7 @@ function (_Component) {
       }, "Please enter a valid email")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "formGridPassword"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.password,
         onChange: function onChange(e) {
           _this5.handleChange(e, "password");
         },
@@ -105557,7 +105595,11 @@ function (_Component) {
         onClick: this.login,
         className: "submit",
         variant: "primary"
-      }, "Login")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Footer, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Login"), this.state.catchError != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          color: "red"
+        }
+      }, this.state.catchError))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Footer, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           width: "100%"
         }
@@ -105591,7 +105633,6 @@ function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NewPledge; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -105601,6 +105642,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _helpers_validations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/validations */ "./resources/js/helpers/validations.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/index */ "./resources/js/actions/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -105618,6 +105662,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
 
 
 
@@ -105701,7 +105748,11 @@ function (_Component) {
         isUserLoggedIn = true;
       }
 
+      var isnum = /^\d+$/.test(this.state.pledge);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
+        style: {
+          opacity: this.state.showConfirmation ? ".3" : "1"
+        },
         id: "new-pledge-modal",
         show: this.props.show,
         onHide: function onHide() {
@@ -105792,7 +105843,7 @@ function (_Component) {
           textAlign: "center"
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-        disabled: !isUserLoggedIn || this.state.pledge == 0,
+        disabled: !isnum || !isUserLoggedIn || this.state.pledge == 0,
         className: "pledge-button",
         onClick: function onClick() {
           _this4.setState({
@@ -105801,8 +105852,13 @@ function (_Component) {
         },
         variant: "primary"
       }, "PLEDGE"), !isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        onClick: function onClick() {
+          _this4.props.toggleAuthModal();
+
+          _this4.props.hideModal();
+        },
         style: {
-          pointer: "cursor",
+          cursor: "pointer",
           color: "red"
         }
       }, "Must be logged In to Pledge")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
@@ -105815,6 +105871,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, "You are about to pledge P", this.state.pledge, ".", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.hideConfirmation,
         style: {
+          cursor: "pointer",
           "float": "right",
           marginRight: "10px",
           fontWeight: "bold"
@@ -105822,6 +105879,7 @@ function (_Component) {
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.handleSumbit,
         style: {
+          cursor: "pointer",
           "float": "right",
           marginRight: "10px",
           fontWeight: "bold",
@@ -105834,7 +105892,11 @@ function (_Component) {
   return NewPledge;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_7__["bindActionCreators"])(Object.assign({}, _actions_index__WEBPACK_IMPORTED_MODULE_8__), dispatch);
+};
 
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(null, mapDispatchToProps)(NewPledge));
 
 /***/ }),
 
@@ -105913,7 +105975,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var amountPledged = 0.00;
+      var amountPledged = 0;
 
       if (this.props.project && this.props.project.pledge) {
         if (this.props.project.pledge.length > 0) {
@@ -105923,7 +105985,9 @@ function (_Component) {
         }
       }
 
-      var percentage = amountPledged / this.props.project.goal_amount;
+      console.log(amountPledged);
+      var percentage = amountPledged / parseFloat(this.props.project.goal_amount) * 100;
+      console.log("percent ".concat(percentage));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

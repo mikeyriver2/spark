@@ -33,7 +33,7 @@ export default class Project extends Component{
   }
 
   render(){
-    let amountPledged = 0.00;
+    let amountPledged = 0;
     if(this.props.project && this.props.project.pledge){
       if(this.props.project.pledge.length > 0){
         this.props.project.pledge.map(pledge=>{
@@ -41,7 +41,9 @@ export default class Project extends Component{
         })
       }
     }
-    let percentage = amountPledged/this.props.project.goal_amount;
+    console.log(amountPledged);
+    let percentage = (amountPledged/parseFloat(this.props.project.goal_amount))*100;
+    console.log(`percent ${percentage}`)
     return (
       <div className="project-container">
         <div style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>

@@ -9,7 +9,9 @@ export const checkUser = (user) => {
 }
 
 export const toggleAuthModal = () => {
+    console.log('toggling');
     return {
         type: 'TOGGLE_AUTH_MODAL',
     }
 }
+

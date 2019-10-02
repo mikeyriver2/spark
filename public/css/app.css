@@ -10700,6 +10700,7 @@ a.text-dark:focus {
 }
 
 .project-container .project-bar .project-bar-progress {
+  transition: width 0.3s ease-in;
   background: #9900999c;
   width: 0%;
   height: 0.6rem;

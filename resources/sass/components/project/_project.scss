@@ -39,6 +39,7 @@
             z-index: 0;
         }
         .project-bar-progress{
+            transition: width .3s ease-in;
             background: #9900999c;
             width: 0%;
             height: 0.6rem;

@@ -12,8 +12,11 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import * as helpers from '../../helpers/validations';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as actions from '../../actions/index';
 
-export default class NewPledge extends Component{
+class NewPledge extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -67,9 +70,11 @@ export default class NewPledge extends Component{
         if((this.props.user && this.props.user.id) || (this.state.user && this.state.user.id)){
           isUserLoggedIn = true;
         }
+        var isnum = /^\d+$/.test(this.state.pledge);
+        
         return (
             <div>
-                <Modal id="new-pledge-modal" show={this.props.show} onHide={()=>this.props.hideModal()}>
+                <Modal style={{opacity: this.state.showConfirmation ? ".3" : "1"}}id="new-pledge-modal" show={this.props.show} onHide={()=>this.props.hideModal()}>
                     <Modal.Header closeButton>
                         <h5>{this.props.project.title}</h5>
                     </Modal.Header>
@@ -101,11 +106,11 @@ export default class NewPledge extends Component{
                                 <Form.Label style={{float:"right", marginBottom: "20px", fontSize: "1.5em", color: "#35373a"}}><b>P{this.state.pledge}.00</b></Form.Label>
                             </div> */}
                             <div style={{textAlign:"center"}}>
-                                <Button disabled={(!isUserLoggedIn || (this.state.pledge == 0))} className="pledge-button" onClick={()=>{this.setState({showConfirmation: true})}} variant="primary">PLEDGE</Button>
+                                <Button disabled={(!isnum || !isUserLoggedIn  || this.state.pledge == 0)} className="pledge-button" onClick={()=>{this.setState({showConfirmation: true})}} variant="primary">PLEDGE</Button>
                                 {!isUserLoggedIn && 
                                     <div>
                                         <br/>
-                                        <span style={{pointer:"cursor", color:"red"}}>Must be logged In to Pledge</span>
+                                        <span onClick={()=>{this.props.toggleAuthModal(); this.props.hideModal()}} style={{cursor:"pointer", color:"red"}}>Must be logged In to Pledge</span>
                                     </div>
                                 }
                             </div>
@@ -116,8 +121,8 @@ export default class NewPledge extends Component{
                     <Modal.Body>
                         You are about to pledge P{this.state.pledge}.
                         <div>
-                            <a onClick={this.hideConfirmation} style={{float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
-                            <a onClick={this.handleSumbit} style={{float:"right", marginRight:"10px", fontWeight: "bold", color: "green"}}>Proceed</a>
+                            <a onClick={this.hideConfirmation} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
+                            <a onClick={this.handleSumbit} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "green"}}>Proceed</a>
                         </div>
                     </Modal.Body>
                 </Modal>
@@ -126,3 +131,9 @@ export default class NewPledge extends Component{
     }
 
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(Object.assign({},actions),dispatch)
+}
+
+export default connect(null,mapDispatchToProps)(NewPledge);

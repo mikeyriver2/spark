@@ -49,6 +49,31 @@ export default class Auth extends Component{
         });
     }
 
+    componentDidUpdate(prevProps,prevState){
+        if(this.props.type != prevProps.type){
+            console.log('calling');
+            let originalState = {            
+                errors: {
+                    pEmail: "",
+                    sEmail: "",
+                    password: "",
+                    contact: "",
+                    company: "",
+                },
+                company: "",
+                pEmail: "",
+                sEmail: "",
+                password: "",
+                contact: "",
+                name: "",
+                catchError: "",
+            }
+            this.setState({ //not advisable to do
+                ...originalState
+            });
+        }
+    }
+
     validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
@@ -116,6 +141,10 @@ export default class Auth extends Component{
         axios.post('/login-user',values).then(res=>{
             this.props.checkIfLoggedIn();
             this.props.toggleAuthModal();
+        }).catch(err=>{
+            this.setState({
+                catchError: err.response.data 
+            });
         });
     }
 
@@ -143,7 +172,6 @@ export default class Auth extends Component{
         } = this.state;
         
         if(authType == "register"){
-            console.log('ass');
             if(company != "" && pEmail != "" && password != "" && contact != "" && name != ""){
                 let {
                     pEmail,
@@ -185,21 +213,21 @@ export default class Auth extends Component{
                                         </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="formGridPEmail">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
+                                        <Form.Control value={this.state.pEmail} onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
                                         {this.state.errors.pEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
                                     </Form.Group>
                                     <Form.Group controlId="formGridSEmail">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"sEmail")}} type="email" placeholder="Secondary email (optional)" />
+                                        <Form.Control value={this.state.sEmail} onChange={(e)=>{this.handleChange(e,"sEmail")}} type="email" placeholder="Secondary email (optional)" />
                                         {this.state.errors.sEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
                                     </Form.Group>
                                     <Form.Group controlId="formGridPassword">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
+                                        <Form.Control value={this.state.password} onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
                                     </Form.Group>
                                     <Form.Group controlId="formGridContact">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"name")}} placeholder="Full Name" />
+                                        <Form.Control value={this.state.name} onChange={(e)=>{this.handleChange(e,"name")}} placeholder="Full Name" />
                                     </Form.Group>
                                     <Form.Group controlId="formGridContact">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
+                                        <Form.Control value={this.state.contact} onChange={(e)=>{this.handleChange(e,"contact")}} placeholder="Contact Number" />
                                         {this.state.errors.contact != "" && <small style={{color:"red"}}>Contact Number should only be numeric</small>}
                                     </Form.Group>
                                     <Button disabled={!allowSubmit} onClick={this.register} className="submit" variant="primary">Submit</Button>
@@ -213,13 +241,19 @@ export default class Auth extends Component{
                                 :
                                 <div>
                                     <Form.Group controlId="formGridPEmail">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
+                                        <Form.Control value={this.state.pEmail} onChange={(e)=>{this.handleChange(e,"pEmail")}} type="email" placeholder="Primary email" />
                                         {this.state.errors.pEmail != "" && <small style={{color:"red"}}>Please enter a valid email</small>}
                                     </Form.Group>
                                     <Form.Group controlId="formGridPassword">
-                                        <Form.Control onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
+                                        <Form.Control value={this.state.password} onChange={(e)=>{this.handleChange(e,"password")}} type="password" placeholder="Enter Password" />
                                     </Form.Group>
                                     <Button disabled={!allowSubmit} onClick={this.login} className="submit" variant="primary">Login</Button>
+                                    {this.state.catchError != "" &&
+                                        <div>
+                                            <br/>
+                                            <span style={{color:"red"}}>{this.state.catchError}</span>
+                                        </div>
+                                    }
                                 </div>
                             }
                         </Form>

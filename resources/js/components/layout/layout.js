@@ -16,7 +16,6 @@ class Layout extends Component{
         super();
         this.state = {
             appHeight: "",
-            ass: "ass",
             //showSideBar: false, REDUX-ed
             width: window.innerWidth,
             showAuth: {
@@ -35,6 +34,7 @@ class Layout extends Component{
     }
     
     componentDidMount(){
+        this.checkIfLoggedIn();
         window.addEventListener("resize", ()=>{
             this.setState({
                 width: window.innerWidth
@@ -98,11 +98,12 @@ class Layout extends Component{
     }
 
     toggleAuthModal(e, type){
+        this.props.toggleAuthModal();
         let bool = this.state.showAuth.show;
         this.setState(prevState=>({
             showAuth: {
                 ...prevState.showAuth,
-                show: !bool,
+                //show: !bool,
                 type: type
             }
         }))
@@ -168,7 +169,7 @@ class Layout extends Component{
                     hideSideBar = {this.hideSideBar}
                     ///////////////////////////////////
                     changeAuthModalType = {this.changeAuthModalType}
-                    show = {this.state.showAuth.show}
+                    show = {this.props.showAuthModal /*this.state.showAuth.show*/}
                     type = {this.state.showAuth.type}
                     toggleAuthModal = {this.toggleAuthModal}
                 />
@@ -177,9 +178,8 @@ class Layout extends Component{
                     changeAuthModalType = {this.changeAuthModalType}
                     show = {this.props.showAuthModal /*this.state.showAuth.show*/} //reduxed 
                     type = {this.state.showAuth.type}
-                    toggleAuthModal = {this.props.toggleAuthModal/*this.toggleAuthModal*/}
+                    toggleAuthModal = {this.toggleAuthModal}
                 />
-                
                 
                 <Route exact path={`/`} component={Dashboard}/>
                 <Route exact path={`/home`} component={Dashboard}/>
