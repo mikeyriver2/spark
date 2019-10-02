@@ -6,7 +6,7 @@ import {
     Col,
     Button
 } from 'react-bootstrap';
-import Project from '../modules/Project'
+import Project from '../modules/project'
 import axios from "axios";
 export default class Dashboard extends Component{
     constructor(){
