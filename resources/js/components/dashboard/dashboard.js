@@ -6,11 +6,15 @@ import {
     Col,
     Button
 } from 'react-bootstrap';
-import Project from '../modules/project'
+import Project from '../modules/project';
 import axios from "axios";
-export default class Dashboard extends Component{
-    constructor(){
-        super();
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as actions from '../../actions/index';
+
+class Dashboard extends Component{
+    constructor(props){
+        super(props);
         this.state = {
             projects: [],
             user: {}
@@ -60,3 +64,16 @@ export default class Dashboard extends Component{
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.checkUser
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(Object.assign({},actions),dispatch)
+
+  }
+
+export default connect(mapStateToProps,mapDispatchToProps)(Dashboard);

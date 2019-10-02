@@ -7,14 +7,17 @@ import Auth from '../modals/auth';
 import {
     Row,
 } from 'react-bootstrap';
+import * as actions from '../../actions/index';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-export default class Layout extends Component{
+class Layout extends Component{
     constructor(){
         super();
         this.state = {
             appHeight: "",
             ass: "ass",
-            showSideBar: false,
+            //showSideBar: false, REDUX-ed
             width: window.innerWidth,
             showAuth: {
                 show: false,
@@ -32,7 +35,6 @@ export default class Layout extends Component{
     }
     
     componentDidMount(){
-        this.checkIfLoggedIn();
         window.addEventListener("resize", ()=>{
             this.setState({
                 width: window.innerWidth
@@ -48,6 +50,7 @@ export default class Layout extends Component{
 
     checkIfLoggedIn(){ //make this redux in the future
         axios.get('/check-user').then(res=>{
+            this.props.checkUser(res.data); //redux           
             this.setState({
                 user: res.data
             });
@@ -172,9 +175,9 @@ export default class Layout extends Component{
                 <Auth 
                     checkIfLoggedIn = {this.checkIfLoggedIn}
                     changeAuthModalType = {this.changeAuthModalType}
-                    show = {this.state.showAuth.show}
+                    show = {this.props.showAuthModal /*this.state.showAuth.show*/} //reduxed 
                     type = {this.state.showAuth.type}
-                    toggleAuthModal = {this.toggleAuthModal}
+                    toggleAuthModal = {this.props.toggleAuthModal/*this.toggleAuthModal*/}
                 />
                 
                 
@@ -184,3 +187,17 @@ export default class Layout extends Component{
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.checkUser,
+      showAuthModal: state.showAuthModal
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(Object.assign({},actions),dispatch)
+
+  }
+
+export default connect(mapStateToProps,mapDispatchToProps)(Layout);
