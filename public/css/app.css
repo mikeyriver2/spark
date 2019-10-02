@@ -10951,7 +10951,7 @@ a.text-dark:focus {
 }
 
 #new-pledge-modal {
-  margin-top: 20vh;
+  margin-top: 10vh;
 }
 
 @media (max-width: 768px) {

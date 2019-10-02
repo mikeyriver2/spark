@@ -105,7 +105,7 @@ export default class NewPledge extends Component{
                                 {!isUserLoggedIn && 
                                     <div>
                                         <br/>
-                                        <span style={{color:"red"}}>Must be logged In to Pledge</span>
+                                        <span style={{pointer:"cursor", color:"red"}}>Must be logged In to Pledge</span>
                                     </div>
                                 }
                             </div>

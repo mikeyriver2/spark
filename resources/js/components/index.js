@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Router from './routes.js';
+import {createStore, combineReducers} from 'redux';
+import reducers from '../reducers/index'; //you can just ../reducers (webpack will automatically get index)
+import { Provider } from 'react-redux';
 
-export default class Index extends Component { 
-    render() {
-        return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Example Component</div>
-
-                            <div className="card-body">I'm an example component!</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+const store = createStore(reducers);
 
 if (document.getElementById('pediatrix')) {
-    ReactDOM.render(<Router />, document.getElementById('pediatrix'));
+    ReactDOM.render(
+        <Provider store={store}>
+            <Router /> 
+        </Provider>,
+        document.getElementById('pediatrix'));
 }
