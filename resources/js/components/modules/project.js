@@ -62,7 +62,7 @@ export default class Project extends Component{
               <h4>P{amountPledged}</h4>
               <p>of P{this.props.project.goal_amount} raised</p>
             </div>
-            <Button onClick={this.showNewPledge} variant="primary">Make Pledge</Button>
+            <Button disabled={percentage > 100} onClick={this.showNewPledge} variant="primary">{percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge"}</Button>
             {/*<h4>Recent Pledges:</h4>
             <div className="recent-pledges">
               <div className="recent-pledge-item">

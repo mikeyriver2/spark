@@ -9,7 +9,9 @@ class Project extends Model
     protected $fillable = [
         'pledge_id',
         'title',
-        'description'
+        'description',
+        'goal_amount',
+        'banner'
     ];
 
     public function pledge(){

@@ -11,11 +11,12 @@ import * as actions from '../../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Pledges from '../modals/pledges';
-
+import AdminModal from '../modals/admin';
 class Layout extends Component{
     constructor(){
         super();
         this.state = {
+            showAdminModal: false,
             showPledges: false,
             appHeight: "",
             //showSideBar: false, REDUX-ed
@@ -34,6 +35,8 @@ class Layout extends Component{
         this.checkIfLoggedIn = this.checkIfLoggedIn.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.togglePledgesModal = this.togglePledgesModal.bind(this);
+        this.handleClickOut = this.handleClickOut.bind(this);
+        this.toggleAdminModal = this.toggleAdminModal.bind(this);
     }
     
     componentDidMount(){
@@ -48,8 +51,27 @@ class Layout extends Component{
         },()=>{
             //console.log(this.state.appHeight);
             //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
-        })
+        });
+        document.addEventListener('mousedown', this.handleClickOut, false);
     }
+
+    componentWillUnmount(){
+        document.addEventListener('mousedown', this.handleClickOut, false);
+    }
+
+    handleClickOut(e){
+        if (!this.li.contains(e.target)) {
+            this.toggleMenu()
+        }
+    }
+
+    toggleAdminModal(){
+        let bool = this.state.showAdminModal;
+        this.setState({
+            showAdminModal: !bool
+        });
+    }
+
 
     togglePledgesModal(){
         let bool = this.state.showPledges;
@@ -128,11 +150,14 @@ class Layout extends Component{
         }))
     }
 
-
-
     render(){
         let isAdmin = false;
         let isMobile = this.state.width <= 768;
+        if(this.props.user && this.props.user.type){
+            if(this.props.user.type == "admin"){
+                isAdmin = true
+            }
+        }
         return (
             <div ref={this.header} className="main-layout">
                 <div className="layout-header">
@@ -153,9 +178,16 @@ class Layout extends Component{
                                     <nav>
                                         <a onClick={this.toggleMenu} href="#">Welcome, {this.state.user.name}</a>
                                         {this.state.showMenu &&
-                                            <li>
+                                            <li ref={(node)=>{this.li = node}}>
                                                 <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
                                                 <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
+                                                {
+                                                    isAdmin && <ul onClick={this.toggleAdminModal}>
+                                                        <a onClick={this.togglePledgesModal} style={{color:"black"}}>
+                                                            Start New Project
+                                                        </a>
+                                                    </ul>
+                                                }
                                             </li>
                                         }
                                     </nav>
@@ -195,6 +227,10 @@ class Layout extends Component{
                 <Pledges 
                     togglePledgesModal = {this.togglePledgesModal}
                     showPledges = {this.state.showPledges}
+                />
+                <AdminModal 
+                    show = {this.state.showAdminModal}
+                    toggleAdminModal = {this.toggleAdminModal}
                 />
                 
                 <Route exact path={`/`} component={Dashboard}/>
