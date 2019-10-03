@@ -7,6 +7,7 @@ import NewRecord from '../modals/new-records';
 import { timingSafeEqual } from 'crypto';
 import {Link} from 'react-router-dom';
 import Auth from '../modals/auth';
+import Pledges from '../modals/pledges';
 
 export default class Sidebar extends Component{
     constructor(){
@@ -102,6 +103,10 @@ export default class Sidebar extends Component{
                     show = {this.props.show}
                     type = {this.props.type}
                     toggleAuthModal = {this.props.toggleAuthModal}
+                />
+                <Pledges 
+                    togglePledgesModal = {this.props.togglePledgesModal}
+                    show = {this.props.showPledges}
                 />
             </div>
         )

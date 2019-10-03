@@ -33,6 +33,7 @@ class Layout extends Component{
         this.changeAuthModalType = this.changeAuthModalType.bind(this);
         this.checkIfLoggedIn = this.checkIfLoggedIn.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
+        this.togglePledgesModal = this.togglePledgesModal.bind(this);
     }
     
     componentDidMount(){
@@ -48,6 +49,13 @@ class Layout extends Component{
             //console.log(this.state.appHeight);
             //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
         })
+    }
+
+    togglePledgesModal(){
+        let bool = this.state.showPledges;
+        this.setState({
+            showPledges: !bool
+        });
     }
 
     checkIfLoggedIn(){ //make this redux in the future
@@ -146,7 +154,7 @@ class Layout extends Component{
                                         <a onClick={this.toggleMenu} href="#">Welcome, {this.state.user.name}</a>
                                         {this.state.showMenu &&
                                             <li>
-                                                <ul><a style={{color:"black"}}>View Pledged Projects</a></ul>
+                                                <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
                                                 <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
                                             </li>
                                         }
@@ -174,6 +182,8 @@ class Layout extends Component{
                     show = {this.props.showAuthModal /*this.state.showAuth.show*/}
                     type = {this.state.showAuth.type}
                     toggleAuthModal = {this.toggleAuthModal}
+                    togglePledgesModal = {this.togglePledgesModal}
+                    showPledges = {this.state.showPledges}
                 />
                 <Auth 
                     checkIfLoggedIn = {this.checkIfLoggedIn}
@@ -183,7 +193,8 @@ class Layout extends Component{
                     toggleAuthModal = {this.toggleAuthModal}
                 />
                 <Pledges 
-                
+                    togglePledgesModal = {this.togglePledgesModal}
+                    showPledges = {this.state.showPledges}
                 />
                 
                 <Route exact path={`/`} component={Dashboard}/>

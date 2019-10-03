@@ -105125,6 +105125,7 @@ function (_Component) {
     _this.changeAuthModalType = _this.changeAuthModalType.bind(_assertThisInitialized(_this));
     _this.checkIfLoggedIn = _this.checkIfLoggedIn.bind(_assertThisInitialized(_this));
     _this.toggleMenu = _this.toggleMenu.bind(_assertThisInitialized(_this));
+    _this.togglePledgesModal = _this.togglePledgesModal.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105143,6 +105144,14 @@ function (_Component) {
         appHeight: document.getElementById('pediatrix').clientHeight
       }, function () {//console.log(this.state.appHeight);
         //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
+      });
+    }
+  }, {
+    key: "togglePledgesModal",
+    value: function togglePledgesModal() {
+      var bool = this.state.showPledges;
+      this.setState({
+        showPledges: !bool
       });
     }
   }, {
@@ -105264,6 +105273,7 @@ function (_Component) {
         onClick: this.toggleMenu,
         href: "#"
       }, "Welcome, ", this.state.user.name), this.state.showMenu && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: this.togglePledgesModal,
         style: {
           color: "black"
         }
@@ -105291,7 +105301,9 @@ function (_Component) {
         /*this.state.showAuth.show*/
         ,
         type: this.state.showAuth.type,
-        toggleAuthModal: this.toggleAuthModal
+        toggleAuthModal: this.toggleAuthModal,
+        togglePledgesModal: this.togglePledgesModal,
+        showPledges: this.state.showPledges
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_5__["default"], {
         checkIfLoggedIn: this.checkIfLoggedIn,
         changeAuthModalType: this.changeAuthModalType,
@@ -105301,7 +105313,10 @@ function (_Component) {
         ,
         type: this.state.showAuth.type,
         toggleAuthModal: this.toggleAuthModal
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_pledges__WEBPACK_IMPORTED_MODULE_10__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_pledges__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        togglePledgesModal: this.togglePledgesModal,
+        showPledges: this.state.showPledges
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
         exact: true,
         path: "/",
         component: _dashboard_dashboard__WEBPACK_IMPORTED_MODULE_4__["default"]
@@ -105351,6 +105366,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _modals_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modals/auth */ "./resources/js/components/modals/auth.js");
+/* harmony import */ var _modals_pledges__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/pledges */ "./resources/js/components/modals/pledges.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -105374,6 +105390,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -105486,6 +105503,9 @@ function (_Component) {
         show: this.props.show,
         type: this.props.type,
         toggleAuthModal: this.props.toggleAuthModal
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_pledges__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        togglePledgesModal: this.props.togglePledgesModal,
+        show: this.props.showPledges
       }));
     }
   }]);
@@ -106237,20 +106257,30 @@ function (_Component) {
 
   _createClass(Pledges, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
+    value: function componentDidMount() {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('pledges').then(function (res) {
-        _this2.setState({
-          pledges: res.data
-        });
-      });
+      if (this.props.show != prevProps.show) {
+        if (this.props.show) {
+          axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('pledges').then(function (res) {
+            _this2.setState({
+              pledges: res.data
+            });
+          });
+        }
+      }
     }
   }, {
     key: "renderPledges",
     value: function renderPledges() {
       var elements = [];
-      this.state.pledges.map(function (pledge) {});
+      this.state.pledges.map(function (pledge) {
+        elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.amount)));
+      });
+      return elements;
     }
   }, {
     key: "render",
@@ -106258,17 +106288,14 @@ function (_Component) {
       var _this3 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
-        style: {
-          opacity: this.state.showConfirmation ? ".3" : "1"
-        },
-        id: "new-pledge-modal",
+        id: "pledges-modal",
         show: this.props.show,
         onHide: function onHide() {
-          return _this3.props.hideModal();
+          return _this3.props.togglePledgesModal();
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, this.props.project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Table, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Your Pledges")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
         striped: true,
         bordered: true,
         hover: true
