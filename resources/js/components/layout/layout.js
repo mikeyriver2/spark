@@ -10,11 +10,13 @@ import {
 import * as actions from '../../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import Pledges from '../modals/pledges';
 
 class Layout extends Component{
     constructor(){
         super();
         this.state = {
+            showPledges: false,
             appHeight: "",
             //showSideBar: false, REDUX-ed
             width: window.innerWidth,
@@ -179,6 +181,9 @@ class Layout extends Component{
                     show = {this.props.showAuthModal /*this.state.showAuth.show*/} //reduxed 
                     type = {this.state.showAuth.type}
                     toggleAuthModal = {this.toggleAuthModal}
+                />
+                <Pledges 
+                
                 />
                 
                 <Route exact path={`/`} component={Dashboard}/>
