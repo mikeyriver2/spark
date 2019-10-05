@@ -127,9 +127,15 @@ export default class AdminModal extends Component{
 
     renderPledges(){
         let elements = [];
-        if(this.props.project.pledges && this.props.project.pledges.length > 0){
-            this.props.project.pledges.map(pledge=>{
-                   elements.push
+        if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
+            this.props.project.pledge.map(pledge=>{
+                   elements.push(
+                       <tr>
+                           <td>{pledge.pledger_name}</td>
+                           <td>{pledge.company_name}</td>
+                           <td>{pledge.amount}</td>
+                       </tr>
+                   )
             });
         }
         return (
@@ -185,11 +191,17 @@ export default class AdminModal extends Component{
     }
 
     render(){
+        let title = "";
+        if(this.props.parentComponent == "Auth"){
+            title = "Create New Project"
+        }else if(this.props.parentComponent == "Project"){
+            title = `Pledges to ${this.props.project.title}`;
+        }
         return (
             <div>
                 <Modal id="pledges-modal" show={this.props.show} onHide={()=>this.props.toggleAdminModal()}>
                     <Modal.Header closeButton>
-                        <h5>Create New Project</h5>
+                        <h5>{title}</h5>
                     </Modal.Header>
                     <Modal.Body>
                         {this.props.parentComponent == "Auth" ? this.state.showSuccess ?

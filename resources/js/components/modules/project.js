@@ -56,8 +56,8 @@ export default class Project extends Component{
     let percentage = (amountPledged/parseFloat(this.props.project.goal_amount))*100;
     console.log(`percent ${percentage}`)
     return (
-      <div onClick={this.toggleAdminModal} className="project-container">
-        <div style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
+      <div className="project-container">
+        <div onClick={this.toggleAdminModal} style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
           <h5 className="project-title">
             {this.props.project.title}
           </h5>
