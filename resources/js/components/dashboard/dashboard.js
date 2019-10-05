@@ -39,7 +39,7 @@ class Dashboard extends Component{
         return this.state.projects.map(project=>{
             return <Project 
                         fetchProjects={this.fetchProjects}
-                        user={this.state.user} 
+                        user={this.props.user} 
                         project={project} 
                     />
         })

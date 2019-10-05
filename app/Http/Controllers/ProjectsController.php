@@ -38,4 +38,20 @@ class ProjectsController extends Controller
 
         return $project;
     }
+
+    public function previewNewBanner(Request $request){
+        $bannerIsSet = false;
+        if(isset($_FILES['banner']['name'])){
+            $bannerIsSet = true;
+            $fileName = $_FILES['banner']['name'];
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $banner_stored = Storage::disk('public')->put("uploads/banners/".$fileName."",file_get_contents($request->banner));
+        }else{
+            $fileName = "";
+        }
+
+        return response()->json([
+            "img_loc" => "uploads/banners/".$fileName.""
+        ]);
+    }
 }

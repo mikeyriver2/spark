@@ -100,7 +100,7 @@ class Layout extends Component{
     switchSideBar(){
         let element = document.getElementById('sidebar-container')
         let classes = element.className;
-        console.log(classes);
+        //console.log(classes);
         if(classes.includes("sidebar-hidden")){
             this.setState({
                 showSideBar: true

@@ -20,6 +20,7 @@ Route::middleware('auth:web')->group(function(){
     Route::get('check-user','AuthController@checkUserLoggedIn');
     Route::get('logout','AuthController@clearSession');
     Route::get('pledges','PledgesController@index');
+    Route::post('banner_preview', "ProjectsController@previewNewBanner");
     Route::prefix('iLikeToMoveItMoveIt')->group(function(){
         Route::post('project','ProjectsController@store');
     });
