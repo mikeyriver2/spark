@@ -44,6 +44,13 @@ export default class Project extends Component{
   }
 
   render(){
+    let isAdmin = false;
+    let isMobile = this.state.width <= 768;
+    if(this.props.user && this.props.user.type){
+        if(this.props.user.type == "admin"){
+            isAdmin = true
+        }
+    }
     let amountPledged = 0;
     if(this.props.project && this.props.project.pledge){
       if(this.props.project.pledge.length > 0){
@@ -57,7 +64,7 @@ export default class Project extends Component{
     console.log(`percent ${percentage}`)
     return (
       <div className="project-container">
-        <div onClick={this.toggleAdminModal} style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
+        <div onClick={isAdmin && this.toggleAdminModal} style={{cursor: isAdmin ? "pointer" : "", backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
           <h5 className="project-title">
             {this.props.project.title}
           </h5>

@@ -105049,19 +105049,19 @@ function (_Component) {
         style: {
           color: "black"
         }
-      }, "View Pledged Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        style: {
-          color: "black"
-        },
-        href: "/logout"
-      }, "Logout")), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, "View Pledged Projects")), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         onClick: this.toggleAdminModal
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.togglePledgesModal,
         style: {
           color: "black"
         }
-      }, "Start New Project")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, "Start New Project")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          color: "black"
+        },
+        href: "/logout"
+      }, "Logout")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick(e) {
           _this4.toggleAuthModal(e, "register");
         }
@@ -106470,6 +106470,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var isAdmin = false;
+      var isMobile = this.state.width <= 768;
+
+      if (this.props.user && this.props.user.type) {
+        if (this.props.user.type == "admin") {
+          isAdmin = true;
+        }
+      }
+
       var amountPledged = 0;
 
       if (this.props.project && this.props.project.pledge) {
@@ -106486,8 +106495,9 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "project-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: this.toggleAdminModal,
+        onClick: isAdmin && this.toggleAdminModal,
         style: {
+          cursor: isAdmin ? "pointer" : "",
           backgroundImage: "url(\"".concat(this.props.project.banner, "\")")
         },
         className: "project-banner"

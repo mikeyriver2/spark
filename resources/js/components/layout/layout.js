@@ -179,7 +179,6 @@ class Layout extends Component{
                                         {this.state.showMenu &&
                                             <li ref={(node)=>{this.li = node}}>
                                                 <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
-                                                <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
                                                 {
                                                     isAdmin && <ul onClick={this.toggleAdminModal}>
                                                         <a onClick={this.togglePledgesModal} style={{color:"black"}}>
@@ -187,6 +186,7 @@ class Layout extends Component{
                                                         </a>
                                                     </ul>
                                                 }
+                                                <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
                                             </li>
                                         }
                                     </nav>
