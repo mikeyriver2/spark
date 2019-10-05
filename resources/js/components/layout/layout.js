@@ -72,7 +72,6 @@ class Layout extends Component{
         });
     }
 
-
     togglePledgesModal(){
         let bool = this.state.showPledges;
         this.setState({

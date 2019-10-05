@@ -35,12 +35,14 @@ export default class AdminModal extends Component{
                 description: "",
                 banner: "",
                 goal: 0
-            }
+            },
+            pledges: []
         }
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.handleChangeNewProject = this.handleChangeNewProject.bind(this);
         this.renderCreateProject = this.renderCreateProject.bind(this);
         this.handleSubmitNewProject = this.handleSubmitNewProject.bind(this);
+        this.renderPledges = this.renderPledges.bind(this);
     }
 
     componentDidMount(){
@@ -123,6 +125,29 @@ export default class AdminModal extends Component{
         });
     }
 
+    renderPledges(){
+        let elements = [];
+        if(this.props.project.pledges && this.props.project.pledges.length > 0){
+            this.props.project.pledges.map(pledge=>{
+                   elements.push
+            });
+        }
+        return (
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Name of Pledgers</th>
+                        <th>Company</th>
+                        <th>Amount Pledged</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {elements}
+                </tbody>
+            </Table> 
+        );
+    }
+
     renderCreateProject(){
         let disableButton = false;
         if(this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
@@ -167,12 +192,14 @@ export default class AdminModal extends Component{
                         <h5>Create New Project</h5>
                     </Modal.Header>
                     <Modal.Body>
-                        {this.state.showSuccess ?
+                        {this.props.parentComponent == "Auth" ? this.state.showSuccess ?
                             <div>
                                 Success! Your Project has been created and posted.
                             </div>
                             :
                             this.renderCreateProject()
+                            :
+                            this.renderPledges()
                         }
                     </Modal.Body>
                 </Modal>

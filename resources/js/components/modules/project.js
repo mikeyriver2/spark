@@ -10,14 +10,25 @@ import {
   Button
 } from 'react-bootstrap';
 import NewPledge from '../modals/new-records';
+import AdminModal from '../modals/admin';
+
 export default class Project extends Component{
   constructor(){
     super()
     this.state = {
       showNewPledge: false,
+      showAdminModal: false,
     }
     this.showNewPledge = this.showNewPledge.bind(this);
     this.hideNewPledge = this.hideNewPledge.bind(this);
+    this.toggleAdminModal = this.toggleAdminModal.bind(this);
+  }
+
+  toggleAdminModal(){
+    let bool = this.state.showAdminModal;
+    this.setState({
+        showAdminModal: !bool
+    });
   }
 
   showNewPledge(){
@@ -45,7 +56,7 @@ export default class Project extends Component{
     let percentage = (amountPledged/parseFloat(this.props.project.goal_amount))*100;
     console.log(`percent ${percentage}`)
     return (
-      <div className="project-container">
+      <div onClick={this.toggleAdminModal} className="project-container">
         <div style={{backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
           <h5 className="project-title">
             {this.props.project.title}
@@ -80,6 +91,12 @@ export default class Project extends Component{
             hideModal = {this.hideNewPledge}
           />
         }
+        <AdminModal 
+            show = {this.state.showAdminModal}
+            toggleAdminModal = {this.toggleAdminModal}
+            parentComponent = {"Project"}
+            project = {this.props.project}
+        />
       </div>
                 
     )
