@@ -16,12 +16,20 @@ import * as helpers from '../../helpers/validations';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from '../../actions/index';
+import {loader} from '../utilities/loading';
 
 export default class AdminModal extends Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             showSuccess: false,
+            newProjecterrors: {
+                title: "",
+                description: "",
+                banner: "",
+                goal: 0
+            },
             newProject: {
                 title: "",
                 description: "",
@@ -43,12 +51,33 @@ export default class AdminModal extends Component{
     
     }
 
+    validateCell(cell){ //only checks if string ONLY contains numbers
+        var isnum = /^\d+$/.test(cell);
+        return isnum;
+    }
+
     handleChangeNewProject(e,type){
+        let value = e.target.value;
+        let error = {
+            type: type,
+            error : ""
+        };
+
+        if(type == "goal"){
+            if(!this.validateCell(value)){
+                error.error = "Enter a valid Contact Number"
+            }
+        }
+
         e.persist(); //e.target.value will mess up when called in prevstate fnc
         this.setState(prevState=>({
             newProject:{
                 ...prevState.newProject,
                 [type]: e.target.value
+            },
+            newProjecterrors:{
+                ...prevState.errors,
+                [type]: error.error
             },
           }));
     }
@@ -64,6 +93,9 @@ export default class AdminModal extends Component{
     }
 
     handleSubmitNewProject(){
+        this.setState({
+            loading: true
+        });
         const data = new FormData() 
         data.append('banner', this.state.newProject.banner);
         data.append('title', this.state.newProject.title);
@@ -76,6 +108,7 @@ export default class AdminModal extends Component{
             },()=>{
                 setTimeout(() => {
                     this.setState(prevState => ({
+                        loading: false,
                         showSuccess: false,
                         newProject: {
                             ...prevState.newProject,
@@ -91,26 +124,37 @@ export default class AdminModal extends Component{
     }
 
     renderCreateProject(){
+        let disableButton = false;
+        if(this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
+            disableButton = true;
+        }
         return (
             <div className="admin-create-project">
                 <Form.Group controlId="newProjectTitle">
-                    <Form.Control value={this.state.newProject.title} onChange={(e)=>{this.handleChangeNewProject(e,"title")}} placeholder="Project Title" />
+                    <Form.Control value={this.state.newProject.title} onChange={(e)=>{this.handleChangeNewProject(e,"title")}} placeholder="Project Title (required)" />
                 </Form.Group>
                 
                 <Form.Group controlId="newProjectDesc">
-                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Title" />
+                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Title (required)" />
                 </Form.Group>
 
                 <Form.Group controlId="newProjectGoal">
-                    <Form.Control value={this.state.newProject.goal} onChange={(e)=>{this.handleChangeNewProject(e,"goal")}} placeholder="Goal Amount" />
+                    <Form.Control value={this.state.newProject.goal} onChange={(e)=>{this.handleChangeNewProject(e,"goal")}} placeholder="Goal Amount (required)" />
+                    {this.state.newProjecterrors.goal != "" && <small style={{color:"red"}}>Please enter a valid number</small>}
                 </Form.Group>
 
                 <Form.Group controlId="newProjectBanner">
-                    <Form.Label style={{marginRight:"10px"}}>Banner</Form.Label>
+                    <Form.Label style={{marginRight:"10px"}}><b>Banner (optional)</b></Form.Label>
                     <input type="file" name="file" onChange={this.onChangeHandler}/>
                 </Form.Group>
 
-                <Button onClick={this.handleSubmitNewProject} style={{width:"100%"}}>Submit</Button>
+                <Button disabled={disableButton} onClick={this.handleSubmitNewProject} style={{width:"100%"}}>
+                    {this.state.loading ?
+                        loader()
+                        :
+                        "Submit"
+                    }
+                </Button>
             </div>
         )
     }

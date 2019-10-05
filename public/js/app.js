@@ -105321,6 +105321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _actions_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/index */ "./resources/js/actions/index.js");
+/* harmony import */ var _utilities_loading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utilities/loading */ "./resources/js/components/utilities/loading.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -105355,6 +105356,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var AdminModal =
 /*#__PURE__*/
 function (_Component) {
@@ -105367,7 +105369,14 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminModal).call(this, props));
     _this.state = {
+      loading: false,
       showSuccess: false,
+      newProjecterrors: {
+        title: "",
+        description: "",
+        banner: "",
+        goal: 0
+      },
       newProject: {
         title: "",
         description: "",
@@ -105389,13 +105398,33 @@ function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {}
   }, {
+    key: "validateCell",
+    value: function validateCell(cell) {
+      //only checks if string ONLY contains numbers
+      var isnum = /^\d+$/.test(cell);
+      return isnum;
+    }
+  }, {
     key: "handleChangeNewProject",
     value: function handleChangeNewProject(e, type) {
+      var value = e.target.value;
+      var error = {
+        type: type,
+        error: ""
+      };
+
+      if (type == "goal") {
+        if (!this.validateCell(value)) {
+          error.error = "Enter a valid Contact Number";
+        }
+      }
+
       e.persist(); //e.target.value will mess up when called in prevstate fnc
 
       this.setState(function (prevState) {
         return {
-          newProject: _objectSpread({}, prevState.newProject, _defineProperty({}, type, e.target.value))
+          newProject: _objectSpread({}, prevState.newProject, _defineProperty({}, type, e.target.value)),
+          newProjecterrors: _objectSpread({}, prevState.errors, _defineProperty({}, type, error.error))
         };
       });
     }
@@ -105416,6 +105445,9 @@ function (_Component) {
     value: function handleSubmitNewProject() {
       var _this2 = this;
 
+      this.setState({
+        loading: true
+      });
       var data = new FormData();
       data.append('banner', this.state.newProject.banner);
       data.append('title', this.state.newProject.title);
@@ -105428,6 +105460,7 @@ function (_Component) {
           setTimeout(function () {
             _this2.setState(function (prevState) {
               return {
+                loading: false,
                 showSuccess: false,
                 newProject: _objectSpread({}, prevState.newProject, {
                   title: "",
@@ -105446,6 +105479,12 @@ function (_Component) {
     value: function renderCreateProject() {
       var _this3 = this;
 
+      var disableButton = false;
+
+      if (this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
+        disableButton = true;
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "admin-create-project"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -105455,7 +105494,7 @@ function (_Component) {
         onChange: function onChange(e) {
           _this3.handleChangeNewProject(e, "title");
         },
-        placeholder: "Project Title"
+        placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectDesc"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
@@ -105463,7 +105502,7 @@ function (_Component) {
         onChange: function onChange(e) {
           _this3.handleChangeNewProject(e, "description");
         },
-        placeholder: "Project Title"
+        placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectGoal"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
@@ -105471,23 +105510,28 @@ function (_Component) {
         onChange: function onChange(e) {
           _this3.handleChangeNewProject(e, "goal");
         },
-        placeholder: "Goal Amount"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+        placeholder: "Goal Amount (required)"
+      }), this.state.newProjecterrors.goal != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        style: {
+          color: "red"
+        }
+      }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectBanner"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, {
         style: {
           marginRight: "10px"
         }
-      }, "Banner"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Banner (optional)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "file",
         name: "file",
         onChange: this.onChangeHandler
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        disabled: disableButton,
         onClick: this.handleSubmitNewProject,
         style: {
           width: "100%"
         }
-      }, "Submit"));
+      }, this.state.loading ? Object(_utilities_loading__WEBPACK_IMPORTED_MODULE_9__["loader"])() : "Submit"));
     }
   }, {
     key: "render",
@@ -105532,6 +105576,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _helpers_validations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/validations */ "./resources/js/helpers/validations.js");
+/* harmony import */ var _utilities_loading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utilities/loading */ "./resources/js/components/utilities/loading.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -105563,6 +105608,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -106516,6 +106562,30 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (Routes);
+
+/***/ }),
+
+/***/ "./resources/js/components/utilities/loading.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/utilities/loading.js ***!
+  \******************************************************/
+/*! exports provided: loader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loader", function() { return loader; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var loader = function loader() {
+  console.log('asshole');
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "loader-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "loader"
+  }));
+};
 
 /***/ }),
 

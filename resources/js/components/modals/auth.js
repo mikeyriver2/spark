@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import * as helpers from '../../helpers/validations';
+import {loader} from '../utilities/loading';
 
 export default class Auth extends Component{
     constructor(props){
