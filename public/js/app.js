@@ -105384,7 +105384,9 @@ function (_Component) {
         goal: 0
       },
       pledges: [],
-      previewBanner: ""
+      previewBanner: "",
+      previewBannerFormFile: "",
+      deleting: false
     };
     _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
     _this.handleChangeNewProject = _this.handleChangeNewProject.bind(_assertThisInitialized(_this));
@@ -105395,6 +105397,9 @@ function (_Component) {
     _this.previewNewBanner = _this.previewNewBanner.bind(_assertThisInitialized(_this));
     _this.manualOnChange = _this.manualOnChange.bind(_assertThisInitialized(_this));
     _this.previewNewBanner = _this.previewNewBanner.bind(_assertThisInitialized(_this));
+    _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
+    _this.deleteProject = _this.deleteProject.bind(_assertThisInitialized(_this));
+    _this.hideModal = _this.hideModal.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105469,33 +105474,81 @@ function (_Component) {
     value: function handleSubmitNewProject() {
       var _this3 = this;
 
+      var editMode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       this.setState({
         loading: true
       });
       var data = new FormData();
-      data.append('banner', this.state.newProject.banner);
+      data.append('banner', this.state.previewBanner != "" ? this.state.previewBannerFormFile : this.state.newProject.banner);
       data.append('title', this.state.newProject.title);
       data.append('description', this.state.newProject.description);
       data.append('goal', this.state.newProject.goal);
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/project', data).then(function (res) {
-        _this3.setState({
-          showSuccess: true
-        }, function () {
-          setTimeout(function () {
-            _this3.setState(function (prevState) {
-              return {
-                loading: false,
-                showSuccess: false,
-                newProject: _objectSpread({}, prevState.newProject, {
-                  title: "",
-                  description: "",
-                  banner: "",
-                  goal: 0
-                })
-              };
-            });
-          }, 500330);
+
+      if (this.props.project && this.props.project.id) {
+        data.append('project_id', this.props.project.id);
+      }
+
+      if (!editMode) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/project', data).then(function (res) {
+          _this3.setState({
+            showSuccess: true
+          }, function () {
+            setTimeout(function () {
+              _this3.setState(function (prevState) {
+                return {
+                  loading: false,
+                  showSuccess: false,
+                  newProject: _objectSpread({}, prevState.newProject, {
+                    title: "",
+                    description: "",
+                    banner: "",
+                    goal: 0
+                  })
+                };
+              });
+            }, 500330);
+          });
         });
+      } else {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/edit', data).then(function (res) {
+          _this3.setState({
+            showSuccess: true
+          }, function () {
+            setTimeout(function () {
+              _this3.setState(function (prevState) {
+                return {
+                  loading: false,
+                  showSuccess: false,
+                  newProject: _objectSpread({}, prevState.newProject, {
+                    title: "",
+                    description: "",
+                    banner: "",
+                    goal: 0
+                  })
+                };
+              });
+            }, 500330);
+          });
+        });
+      }
+    }
+  }, {
+    key: "handleDelete",
+    value: function handleDelete() {
+      this.setState({
+        deleting: true
+      });
+    }
+  }, {
+    key: "deleteProject",
+    value: function deleteProject() {
+      var _this4 = this;
+
+      var data = {
+        projectId: this.props.project.id
+      };
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/delete', data).then(function (res) {
+        _this4.hideModal();
       });
     }
   }, {
@@ -105522,15 +105575,16 @@ function (_Component) {
   }, {
     key: "previewNewBanner",
     value: function previewNewBanner(e) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.setState({
-        loading: true
+        loading: true,
+        previewBannerFormFile: e.target.files[0]
       });
       var data = new FormData();
       data.append('banner', e.target.files[0]);
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('banner_preview', data).then(function (res) {
-        _this4.setState({
+        _this5.setState({
           previewBanner: res.data.img_loc,
           loading: false
         });
@@ -105548,75 +105602,6 @@ function (_Component) {
   }, {
     key: "renderEditProject",
     value: function renderEditProject() {
-      var _this5 = this;
-
-      var disableButton = false;
-
-      if (this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
-        disableButton = true;
-      }
-
-      var banner_style = {
-        width: "400px",
-        height: "200px",
-        backgroundImage: "url(\"".concat(this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner, "\""),
-        backgroundSize: "cover"
-      };
-      var idInput = "".concat(this.props.project.id, "edit-project-banner-preview");
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "admin-create-project"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
-        controlId: "newProjectTitle"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-        value: this.state.newProject.title,
-        onChange: function onChange(e) {
-          _this5.handleChangeNewProject(e, "title");
-        },
-        placeholder: "Project Title (required)"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
-        controlId: "newProjectDesc"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-        value: this.state.newProject.description,
-        onChange: function onChange(e) {
-          _this5.handleChangeNewProject(e, "description");
-        },
-        placeholder: "Project Title (required)"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
-        controlId: "newProjectGoal"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-        value: this.state.newProject.goal,
-        onChange: function onChange(e) {
-          _this5.handleChangeNewProject(e, "goal");
-        },
-        placeholder: "Goal Amount (required)"
-      }), this.state.newProjecterrors.goal != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        style: {
-          color: "red"
-        }
-      }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Banner:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        style: {
-          display: "none"
-        },
-        onChange: this.previewNewBanner,
-        id: idInput,
-        type: "file",
-        name: "file"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          _this5.manualOnChange(idInput);
-        },
-        style: banner_style
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-        disabled: disableButton,
-        onClick: this.handleSubmitNewProject,
-        style: {
-          width: "100%"
-        }
-      }, this.state.loading ? Object(_utilities_loading__WEBPACK_IMPORTED_MODULE_9__["loader"])() : "Submit"));
-    }
-  }, {
-    key: "renderCreateProject",
-    value: function renderCreateProject() {
       var _this6 = this;
 
       var disableButton = false;
@@ -105625,6 +105610,14 @@ function (_Component) {
         disableButton = true;
       }
 
+      var banner_style = {
+        cursor: "pointer",
+        width: "400px",
+        height: "200px",
+        backgroundImage: "url(\"".concat(this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner, "\""),
+        backgroundSize: "cover"
+      };
+      var idInput = "".concat(this.props.project.id, "edit-project-banner-preview");
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "admin-create-project"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -105655,6 +105648,71 @@ function (_Component) {
         style: {
           color: "red"
         }
+      }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Banner:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        style: {
+          display: "none"
+        },
+        onChange: this.previewNewBanner,
+        id: idInput,
+        type: "file",
+        name: "file"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          _this6.manualOnChange(idInput);
+        },
+        style: banner_style
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        disabled: disableButton,
+        onClick: function onClick() {
+          _this6.handleSubmitNewProject(true);
+        },
+        style: {
+          marginTop: "20px",
+          width: "100%"
+        }
+      }, this.state.loading ? Object(_utilities_loading__WEBPACK_IMPORTED_MODULE_9__["loader"])() : "Save Changes"));
+    }
+  }, {
+    key: "renderCreateProject",
+    value: function renderCreateProject() {
+      var _this7 = this;
+
+      var disableButton = false;
+
+      if (this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
+        disableButton = true;
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "admin-create-project"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+        controlId: "newProjectTitle"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.newProject.title,
+        onChange: function onChange(e) {
+          _this7.handleChangeNewProject(e, "title");
+        },
+        placeholder: "Project Title (required)"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+        controlId: "newProjectDesc"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.newProject.description,
+        onChange: function onChange(e) {
+          _this7.handleChangeNewProject(e, "description");
+        },
+        placeholder: "Project Title (required)"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+        controlId: "newProjectGoal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.newProject.goal,
+        onChange: function onChange(e) {
+          _this7.handleChangeNewProject(e, "goal");
+        },
+        placeholder: "Goal Amount (required)"
+      }), this.state.newProjecterrors.goal != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        style: {
+          color: "red"
+        }
       }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectBanner"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, {
@@ -105674,9 +105732,14 @@ function (_Component) {
       }, this.state.loading ? Object(_utilities_loading__WEBPACK_IMPORTED_MODULE_9__["loader"])() : "Submit"));
     }
   }, {
+    key: "hideModal",
+    value: function hideModal() {
+      this.props.toggleAdminModal();
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
       var title = "";
 
@@ -105689,14 +105752,33 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         id: "pledges-modal",
         show: this.props.show,
-        onHide: function onHide() {
-          return _this7.props.toggleAdminModal();
-        }
+        onHide: this.hideModal
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, this.props.parentComponent == "Auth" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, this.state.deleting ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You are about to delete ", this.props.project.title, ".", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginTop: "10px"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: this.hideModal,
+        style: {
+          cursor: "pointer",
+          "float": "right",
+          marginRight: "10px",
+          fontWeight: "bold"
+        }
+      }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: this.deleteProject,
+        style: {
+          cursor: "pointer",
+          "float": "right",
+          marginRight: "10px",
+          fontWeight: "bold",
+          color: "red"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         onClick: function onClick() {
-          _this7.setState({
+          _this8.setState({
             editProject: true
           });
         },
@@ -105705,6 +105787,7 @@ function (_Component) {
         },
         variant: "primary"
       }, "Edit Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: this.handleDelete,
         style: {
           marginTop: "15px",
           width: "100%"
@@ -105831,7 +105914,7 @@ function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
       if (this.props.type != prevProps.type) {
-        console.log('calling');
+        //console.log('calling');
         var originalState = {
           errors: {
             pEmail: "",

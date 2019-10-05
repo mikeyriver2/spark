@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Project;
+use Carbon\Carbon;
 
 class ProjectsController extends Controller
 {
@@ -39,6 +40,32 @@ class ProjectsController extends Controller
         return $project;
     }
 
+    public function edit(Request $request){
+        $bannerIsSet = false;
+        if(isset($_FILES['banner']['name'])){
+            $bannerIsSet = true;
+            $fileName = $_FILES['banner']['name'];
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $banner_stored = Storage::disk('public')->put("uploads/banners/".$fileName."",file_get_contents($request->banner));
+        }else{
+            $fileName = "";
+        }
+
+        if($request->banner == ""){
+            $bannerIsSet = false;
+        }
+        
+        $project = Project::find($request->project_id);
+        $project->update([
+            "title" => $request->title,
+            "description" => $request->description,
+            "goal_amount" => $request->goal,
+            "banner" => $bannerIsSet ? "uploads/banners/".$fileName."" : $project->banner
+        ]);
+
+        return $project;
+    }
+
     public function previewNewBanner(Request $request){
         $bannerIsSet = false;
         if(isset($_FILES['banner']['name'])){
@@ -53,5 +80,12 @@ class ProjectsController extends Controller
         return response()->json([
             "img_loc" => "uploads/banners/".$fileName.""
         ]);
+    }
+
+    public function destroy(Request $request){ //soft_delete only
+        $project = Project::find($request->projectId);
+        $project->deleted_at = Carbon::now();
+        $project->save();
+        return "(soft) delete successful";
     }
 }

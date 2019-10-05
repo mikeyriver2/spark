@@ -22,7 +22,11 @@ Route::middleware('auth:web')->group(function(){
     Route::get('pledges','PledgesController@index');
     Route::post('banner_preview', "ProjectsController@previewNewBanner");
     Route::prefix('iLikeToMoveItMoveIt')->group(function(){
-        Route::post('project','ProjectsController@store');
+        Route::prefix('projects')->group(function(){
+            Route::post('project','ProjectsController@store');
+            Route::post('edit','ProjectsController@edit'); //find fix for PUT
+            Route::post('delete','ProjectsController@destroy');
+        });
     });
 });
 

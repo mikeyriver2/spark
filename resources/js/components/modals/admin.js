@@ -38,7 +38,9 @@ export default class AdminModal extends Component{
                 goal: 0
             },
             pledges: [],
-            previewBanner: ""
+            previewBanner: "",
+            previewBannerFormFile: "",
+            deleting: false,
         }
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.handleChangeNewProject = this.handleChangeNewProject.bind(this);
@@ -49,6 +51,9 @@ export default class AdminModal extends Component{
         this.previewNewBanner = this.previewNewBanner.bind(this);
         this.manualOnChange = this.manualOnChange.bind(this);
         this.previewNewBanner = this.previewNewBanner.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.deleteProject = this.deleteProject.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
 
     componentDidMount(){
@@ -112,34 +117,74 @@ export default class AdminModal extends Component{
           }));
     }
 
-    handleSubmitNewProject(){
+    handleSubmitNewProject(editMode = false){
         this.setState({
             loading: true
         });
         const data = new FormData() 
-        data.append('banner', this.state.newProject.banner);
+        data.append('banner', this.state.previewBanner != "" ? this.state.previewBannerFormFile : this.state.newProject.banner);
         data.append('title', this.state.newProject.title);
         data.append('description', this.state.newProject.description);
         data.append('goal', this.state.newProject.goal);
+        if(this.props.project && this.props.project.id){
+            data.append('project_id',this.props.project.id);
+        }
 
-        axios.post('iLikeToMoveItMoveIt/project',data).then(res=>{
-            this.setState({
-                showSuccess: true,
-            },()=>{
-                setTimeout(() => {
-                    this.setState(prevState => ({
-                        loading: false,
-                        showSuccess: false,
-                        newProject: {
-                            ...prevState.newProject,
-                            title: "",
-                            description: "",
-                            banner: "",
-                            goal: 0
-                        }
-                    }))
-                }, 500330);
-            })
+        if(!editMode){
+            axios.post('iLikeToMoveItMoveIt/projects/project',data).then(res=>{
+                this.setState({
+                    showSuccess: true,
+                },()=>{
+                    setTimeout(() => {
+                        this.setState(prevState => ({
+                            loading: false,
+                            showSuccess: false,
+                            newProject: {
+                                ...prevState.newProject,
+                                title: "",
+                                description: "",
+                                banner: "",
+                                goal: 0
+                            }
+                        }))
+                    }, 500330);
+                })
+            });
+        }else{
+            axios.post('iLikeToMoveItMoveIt/projects/edit',data).then(res=>{
+                this.setState({
+                    showSuccess: true,
+                },()=>{
+                    setTimeout(() => {
+                        this.setState(prevState => ({
+                            loading: false,
+                            showSuccess: false,
+                            newProject: {
+                                ...prevState.newProject,
+                                title: "",
+                                description: "",
+                                banner: "",
+                                goal: 0
+                            }
+                        }))
+                    }, 500330);
+                })
+            });
+        }
+    }
+
+    handleDelete(){
+        this.setState({
+            deleting: true
+        })
+    }
+
+    deleteProject(){
+        let data = {
+            projectId : this.props.project.id
+        }
+        axios.post('iLikeToMoveItMoveIt/projects/delete',data).then(res=>{
+            this.hideModal();
         });
     }
 
@@ -178,7 +223,8 @@ export default class AdminModal extends Component{
 
     previewNewBanner(e){
         this.setState({
-            loading: true
+            loading: true,
+            previewBannerFormFile: e.target.files[0] 
         });
         const data = new FormData() 
         data.append('banner', e.target.files[0]);
@@ -202,7 +248,7 @@ export default class AdminModal extends Component{
         if(this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
             disableButton = true;
         }
-        let banner_style={width: "400px", height: "200px", backgroundImage: `url("${this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner}"`, backgroundSize: "cover"}
+        let banner_style={cursor: "pointer", width: "400px", height: "200px", backgroundImage: `url("${this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner}"`, backgroundSize: "cover"}
         let idInput = `${this.props.project.id}edit-project-banner-preview`;
         return (
             <div className="admin-create-project">
@@ -227,11 +273,11 @@ export default class AdminModal extends Component{
                 <h4>Banner:</h4>
                 <input style={{display:"none"}} onChange={this.previewNewBanner} id={idInput} type="file" name="file"/>
                 <div onClick={()=>{this.manualOnChange(idInput)}} style={banner_style}></div>
-                <Button disabled={disableButton} onClick={this.handleSubmitNewProject} style={{width:"100%"}}>
+                <Button disabled={disableButton} onClick={()=>{this.handleSubmitNewProject(true)}} style={{marginTop: "20px", width:"100%"}}>
                     {this.state.loading ?
                         loader()
                         :
-                        "Submit"
+                        "Save Changes"
                     }
                 </Button>
             </div>
@@ -274,6 +320,10 @@ export default class AdminModal extends Component{
         )
     }
 
+    hideModal(){
+        this.props.toggleAdminModal()
+    }
+
     render(){
         let title = "";
         if(this.props.parentComponent == "Auth"){
@@ -283,12 +333,20 @@ export default class AdminModal extends Component{
         }
         return (
             <div>
-                <Modal id="pledges-modal" show={this.props.show} onHide={()=>this.props.toggleAdminModal()}>
+                <Modal id="pledges-modal" show={this.props.show} onHide={this.hideModal}>
                     <Modal.Header closeButton>
                         <h5>{title}</h5>
                     </Modal.Header>
                     <Modal.Body>
-                        {this.props.parentComponent == "Auth" ? this.state.showSuccess ?
+                        {this.state.deleting ? 
+                                <div>
+                                    You are about to delete {this.props.project.title}.
+                                    <div style={{marginTop:"10px"}}>
+                                        <a onClick={this.hideModal} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
+                                        <a onClick={this.deleteProject} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "red"}}><b>Delete</b></a>
+                                    </div>
+                                </div>
+                            : this.props.parentComponent == "Auth" ? this.state.showSuccess ?
                                 <div>
                                     Success! Your Project has been created and posted.
                                 </div>
@@ -300,7 +358,7 @@ export default class AdminModal extends Component{
                                     <hr />
                                     <h4>Project Settings</h4>
                                     <Button onClick={()=>{this.setState({editProject: true})}} style={{width: "100%"}} variant="primary">Edit Project</Button>
-                                    <Button style={{marginTop: "15px", width: "100%"}} variant="warning">Delete Project</Button>
+                                    <Button onClick={this.handleDelete} style={{marginTop: "15px", width: "100%"}} variant="warning">Delete Project</Button>
                                 </div>
                         }
                     </Modal.Body>

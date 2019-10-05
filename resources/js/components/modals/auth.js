@@ -52,7 +52,7 @@ export default class Auth extends Component{
 
     componentDidUpdate(prevProps,prevState){
         if(this.props.type != prevProps.type){
-            console.log('calling');
+            //console.log('calling');
             let originalState = {            
                 errors: {
                     pEmail: "",
