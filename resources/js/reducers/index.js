@@ -1,7 +1,6 @@
 import checkUser from './checkUser'
 import toggleSideBar from './toggleAuthModal'
-
-import { combineReducers } from 'redux'
+import { combineReducers, compose  } from 'redux'
 
 const projects = (state = {}, action) => {
     switch(action.type){

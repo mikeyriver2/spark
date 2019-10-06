@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Router from './routes.js';
-import {applyMiddleware, createStore, combineReducers} from 'redux';
+import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import reducers from '../reducers/index'; //you can just ../reducers (webpack will automatically get index)
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
