@@ -19,4 +19,21 @@ class Project extends Model
     public function pledge(){
         return $this->hasMany('App\Pledge');
     }
+
+    public function getBannerAttribute($value){
+        if($value == ""){
+            return "uploads/banners/defaultBanner.png";
+        }else{
+            return $value;
+        }
+    }
+
+    public function getGoalAmountAttribute($value){
+        return number_format($value);
+    }
+
+    public function setGoalAmountAttribute($value)
+    {
+        $this->attributes['goal_amount'] = str_replace( ',', '', $value);
+    }
 }

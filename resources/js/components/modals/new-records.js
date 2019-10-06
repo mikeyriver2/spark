@@ -70,7 +70,7 @@ class NewPledge extends Component{
         if((this.props.user && this.props.user.id) || (this.state.user && this.state.user.id)){
           isUserLoggedIn = true;
         }
-        var isnum = /^\d+$/.test(this.state.pledge);
+        var isnum = /^[0-9.,]+$/.test(this.state.pledge);
         
         return (
             <div>

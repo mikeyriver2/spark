@@ -8,7 +8,9 @@ use App\Pledge;
 class PledgesController extends Controller
 {
     public function index (Request $request){
-        $pledges = Pledge::where('user_id',$request->user()->id)->with('project')->get();
+        $pledges = Pledge::where('user_id',$request->user()->id)->whereHas('project',function($query){
+            $query->where('deleted_at',null); //query pledges whose projects have not been soft deleted
+        })->with('project')->get();
         return $pledges;
     }
 

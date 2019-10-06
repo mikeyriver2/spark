@@ -44,6 +44,11 @@ export default class Project extends Component{
   }
 
   render(){
+
+    const numberWithCommas = (x)=> {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     let isAdmin = false;
     let isMobile = this.state.width <= 768;
     if(this.props.user && this.props.user.type){
@@ -77,8 +82,8 @@ export default class Project extends Component{
           </div>
           <div className="project-amount-container">
             <div className="money-raised">
-              <h4>P{amountPledged}</h4>
-              <p>of P{this.props.project.goal_amount} raised</p>
+              <h4>₱{numberWithCommas(amountPledged)}</h4>
+              <p>of ₱{this.props.project.goal_amount} raised</p>
             </div>
             <Button disabled={percentage > 100} onClick={this.showNewPledge} variant="primary">{percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge"}</Button>
             {/*<h4>Recent Pledges:</h4>

@@ -190,7 +190,7 @@ class Layout extends Component{
                                                 <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
                                                 {
                                                     isAdmin && <ul onClick={this.toggleAdminModal}>
-                                                        <a onClick={this.togglePledgesModal} style={{color:"black"}}>
+                                                        <a style={{color:"black"}}>
                                                             Start New Project
                                                         </a>
                                                     </ul>
@@ -224,6 +224,8 @@ class Layout extends Component{
                     toggleAuthModal = {this.toggleAuthModal}
                     togglePledgesModal = {this.togglePledgesModal}
                     showPledges = {this.state.showPledges}
+                    isAdmin = {isAdmin}
+                    toggleAdminModal = {this.toggleAdminModal}
                 />
                 <Auth 
                     checkIfLoggedIn = {this.checkIfLoggedIn}
@@ -239,6 +241,7 @@ class Layout extends Component{
                 <AdminModal 
                     show = {this.state.showAdminModal}
                     toggleAdminModal = {this.toggleAdminModal}
+                    parentComponent = "Auth"
                 />
                 
                 <Route exact path={`/`} component={Dashboard}/>

@@ -81,7 +81,7 @@ export default class Auth extends Component{
     }
 
     validateCell(cell){ //only checks if string ONLY contains numbers
-        var isnum = /^\d+$/.test(cell);
+        var isnum = /^[0-9.,]+$/.test(cell);
         return isnum;
     }
 

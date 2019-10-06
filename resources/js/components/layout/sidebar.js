@@ -80,12 +80,18 @@ export default class Sidebar extends Component{
                             !isUserLoggedIn ?
                                 <Link onClick={(e)=>{this.props.toggleAuthModal(e,"register")}} to="/" >Register</Link>    
                             :
-                                <Link to="/pledges" >View Pledges</Link>
+                                <Link onClick={this.props.togglePledgesModal} >View Pledges</Link>
                         }
                         {/* <ul className="sidebar-view-records-parent">
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}
                     </li>
+                    {
+                        this.props.isAdmin &&
+                        <li className="sidebar-outter">
+                            <Link onClick={this.props.toggleAdminModal}>Start New Pledge</Link>
+                        </li>
+                    }
                     <li className="sidebar-outter">
                         {
                             !isUserLoggedIn ?

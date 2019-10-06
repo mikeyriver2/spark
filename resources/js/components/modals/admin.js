@@ -29,13 +29,13 @@ class AdminModal extends Component{
                 title: "",
                 description: "",
                 banner: "",
-                goal: 0
+                goal_amount: ""
             },
             newProject: {
                 title: "",
                 description: "",
                 banner: "",
-                goal: 0
+                goal_amount: ""
             },
             pledges: [],
             previewBanner: "",
@@ -68,7 +68,7 @@ class AdminModal extends Component{
                         title: this.props.project.title,
                         description: this.props.project.description,
                         banner: this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner,
-                        goal: this.props.project.goal_amount
+                        goal_amount: this.props.project.goal_amount
                     },
                 }));
             }
@@ -76,7 +76,7 @@ class AdminModal extends Component{
     }
 
     validateCell(cell){ //only checks if string ONLY contains numbers
-        var isnum = /^\d+$/.test(cell);
+        var isnum =  /^[0-9.,]+$/.test(cell);
         return isnum;
     }
 
@@ -87,7 +87,7 @@ class AdminModal extends Component{
             error : ""
         };
 
-        if(type == "goal"){
+        if(type == "goal_amount"){
             if(!this.validateCell(value)){
                 error.error = "Enter a valid Contact Number"
             }
@@ -100,7 +100,7 @@ class AdminModal extends Component{
                 [type]: e.target.value
             },
             newProjecterrors:{
-                ...prevState.errors,
+                ...prevState.newProjecterrors,
                 [type]: error.error
             },
           }));
@@ -124,7 +124,7 @@ class AdminModal extends Component{
         data.append('banner', this.state.previewBanner != "" ? this.state.previewBannerFormFile : this.state.newProject.banner);
         data.append('title', this.state.newProject.title);
         data.append('description', this.state.newProject.description);
-        data.append('goal', this.state.newProject.goal);
+        data.append('goal', this.state.newProject.goal_amount);
         if(this.props.project && this.props.project.id){
             data.append('project_id',this.props.project.id);
         }
@@ -187,11 +187,16 @@ class AdminModal extends Component{
             projectId : this.props.project.id
         }
         axios.post('iLikeToMoveItMoveIt/projects/delete',data).then(res=>{
+            this.props.fetchProjects();
             this.hideModal();
         },()=>{/*this.props.fetchProjects()*/});
     }
 
     renderPledges(){
+        const numberWithCommas = (x)=> {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         if(!this.state.editProject){
             let elements = [];
             if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
@@ -200,7 +205,7 @@ class AdminModal extends Component{
                         <tr>
                             <td>{pledge.pledger_name}</td>
                             <td>{pledge.company_name}</td>
-                            <td>{pledge.amount}</td>
+                            <td>{numberWithCommas(pledge.amount)}</td>
                         </tr>
                     )
                 });
@@ -248,7 +253,7 @@ class AdminModal extends Component{
     }
     renderEditProject(){
         let disableButton = false;
-        if(this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
+        if(this.state.newProjecterrors.goal_amount != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal_amount == 0 || this.state.loading){
             disableButton = true;
         }
         let banner_style={cursor: "pointer", width: "400px", height: "200px", backgroundImage: `url("${this.state.previewBanner == "" ? this.props.project.banner : this.state.previewBanner}"`, backgroundSize: "cover"}
@@ -260,14 +265,19 @@ class AdminModal extends Component{
                 </Form.Group>
                 
                 <Form.Group controlId="newProjectDesc">
-                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Title (required)" />
+                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Description (required)" />
                 </Form.Group>
 
                 <Form.Group controlId="newProjectGoal">
-                    <Form.Control value={this.state.newProject.goal} onChange={(e)=>{this.handleChangeNewProject(e,"goal")}} placeholder="Goal Amount (required)" />
-                    {this.state.newProjecterrors.goal != "" && <small style={{color:"red"}}>Please enter a valid number</small>}
-                </Form.Group>
-
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="inputPeso">₱</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control value={this.state.newProject.goal_amount} onChange={(e)=>{this.handleChangeNewProject(e,"goal_amount")}} placeholder="Goal Amount (required)" />
+                        {this.state.newProjecterrors.goal_amount != "" && <small style={{color:"red"}}>Please enter a valid number</small>}
+                    </InputGroup>
+                </Form.Group>   
+ 
                 {/* <Form.Group controlId="newProjectBanner">
                     <Form.Label style={{marginRight:"10px"}}><b>Banner (optional)</b></Form.Label>
                     <input type="file" name="file" onChange={this.onChangeHandler}/>
@@ -289,7 +299,7 @@ class AdminModal extends Component{
 
     renderCreateProject(){
         let disableButton = false;
-        if(this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
+        if(this.state.newProjecterrors.goal_amount != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading){
             disableButton = true;
         }
         return (
@@ -303,8 +313,13 @@ class AdminModal extends Component{
                 </Form.Group>
 
                 <Form.Group controlId="newProjectGoal">
-                    <Form.Control value={this.state.newProject.goal} onChange={(e)=>{this.handleChangeNewProject(e,"goal")}} placeholder="Goal Amount (required)" />
-                    {this.state.newProjecterrors.goal != "" && <small style={{color:"red"}}>Please enter a valid number</small>}
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="inputPeso">₱</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control value={this.state.newProject.goal_amount} onChange={(e)=>{this.handleChangeNewProject(e,"goal_amount")}} placeholder="Goal Amount (required)" />
+                        {this.state.newProjecterrors.goal_amount != "" && <small style={{color:"red"}}>Please enter a valid number</small>}
+                    </InputGroup>
                 </Form.Group>
 
                 <Form.Group controlId="newProjectBanner">
@@ -312,7 +327,7 @@ class AdminModal extends Component{
                     <input type="file" name="file" onChange={this.onChangeHandler}/>
                 </Form.Group>
 
-                <Button disabled={disableButton} onClick={this.handleSubmitNewProject} style={{width:"100%"}}>
+                <Button disabled={disableButton} onClick={()=>{this.handleSubmitNewProject(false)}} style={{width:"100%"}}>
                     {this.state.loading ?
                         loader()
                         :
@@ -332,13 +347,13 @@ class AdminModal extends Component{
                 title: "",
                 description: "",
                 banner: "",
-                goal: 0
+                goal_amount: ""
             },
             newProject: {
                 title: "",
                 description: "",
                 banner: "",
-                goal: 0
+                goal_amount: ""
             },
             pledges: [],
             previewBanner: "",

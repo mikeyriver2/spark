@@ -43,6 +43,9 @@ class Pledges extends Component{
     }
 
     renderPledges(){
+      const numberWithCommas = (x)=> {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
       let elements = [];
       this.state.pledges.map(pledge=>{
             elements.push(
@@ -51,7 +54,7 @@ class Pledges extends Component{
                               {pledge.project.title}
                         </td>
                         <td>
-                              {pledge.amount}
+                              {numberWithCommas(pledge.amount)}
                         </td>
                   </tr>
             )

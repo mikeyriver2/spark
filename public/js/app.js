@@ -105106,7 +105106,6 @@ function (_Component) {
       }, "View Pledged Projects")), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         onClick: this.toggleAdminModal
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        onClick: this.togglePledgesModal,
         style: {
           color: "black"
         }
@@ -105136,7 +105135,9 @@ function (_Component) {
         type: this.state.showAuth.type,
         toggleAuthModal: this.toggleAuthModal,
         togglePledgesModal: this.togglePledgesModal,
-        showPledges: this.state.showPledges
+        showPledges: this.state.showPledges,
+        isAdmin: isAdmin,
+        toggleAdminModal: this.toggleAdminModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_auth__WEBPACK_IMPORTED_MODULE_5__["default"], {
         checkIfLoggedIn: this.checkIfLoggedIn,
         changeAuthModalType: this.changeAuthModalType,
@@ -105151,7 +105152,8 @@ function (_Component) {
         showPledges: this.state.showPledges
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_admin__WEBPACK_IMPORTED_MODULE_11__["default"], {
         show: this.state.showAdminModal,
-        toggleAdminModal: this.toggleAdminModal
+        toggleAdminModal: this.toggleAdminModal,
+        parentComponent: "Auth"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
         exact: true,
         path: "/",
@@ -105324,8 +105326,12 @@ function (_Component) {
         },
         to: "/"
       }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: "/pledges"
-      }, "View Pledges")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.props.togglePledgesModal
+      }, "View Pledges")), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "sidebar-outter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        onClick: this.props.toggleAdminModal
+      }, "Start New Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
@@ -105429,13 +105435,13 @@ function (_Component) {
         title: "",
         description: "",
         banner: "",
-        goal: 0
+        goal_amount: ""
       },
       newProject: {
         title: "",
         description: "",
         banner: "",
-        goal: 0
+        goal_amount: ""
       },
       pledges: [],
       previewBanner: "",
@@ -105473,7 +105479,7 @@ function (_Component) {
                 title: _this2.props.project.title,
                 description: _this2.props.project.description,
                 banner: _this2.state.previewBanner == "" ? _this2.props.project.banner : _this2.state.previewBanner,
-                goal: _this2.props.project.goal_amount
+                goal_amount: _this2.props.project.goal_amount
               })
             };
           });
@@ -105484,7 +105490,7 @@ function (_Component) {
     key: "validateCell",
     value: function validateCell(cell) {
       //only checks if string ONLY contains numbers
-      var isnum = /^\d+$/.test(cell);
+      var isnum = /^[0-9.,]+$/.test(cell);
       return isnum;
     }
   }, {
@@ -105496,7 +105502,7 @@ function (_Component) {
         error: ""
       };
 
-      if (type == "goal") {
+      if (type == "goal_amount") {
         if (!this.validateCell(value)) {
           error.error = "Enter a valid Contact Number";
         }
@@ -105507,7 +105513,7 @@ function (_Component) {
       this.setState(function (prevState) {
         return {
           newProject: _objectSpread({}, prevState.newProject, _defineProperty({}, type, e.target.value)),
-          newProjecterrors: _objectSpread({}, prevState.errors, _defineProperty({}, type, error.error))
+          newProjecterrors: _objectSpread({}, prevState.newProjecterrors, _defineProperty({}, type, error.error))
         };
       });
     }
@@ -105536,7 +105542,7 @@ function (_Component) {
       data.append('banner', this.state.previewBanner != "" ? this.state.previewBannerFormFile : this.state.newProject.banner);
       data.append('title', this.state.newProject.title);
       data.append('description', this.state.newProject.description);
-      data.append('goal', this.state.newProject.goal);
+      data.append('goal', this.state.newProject.goal_amount);
 
       if (this.props.project && this.props.project.id) {
         data.append('project_id', this.props.project.id);
@@ -105606,6 +105612,8 @@ function (_Component) {
         projectId: this.props.project.id
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/delete', data).then(function (res) {
+        _this4.props.fetchProjects();
+
         _this4.hideModal();
       }, function () {
         /*this.props.fetchProjects()*/
@@ -105614,12 +105622,16 @@ function (_Component) {
   }, {
     key: "renderPledges",
     value: function renderPledges() {
+      var numberWithCommas = function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
       if (!this.state.editProject) {
         var elements = [];
 
         if (this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0) {
           this.props.project.pledge.map(function (pledge) {
-            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.pledger_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.company_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.amount)));
+            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.pledger_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.company_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, numberWithCommas(pledge.amount))));
           });
         }
 
@@ -105666,7 +105678,7 @@ function (_Component) {
 
       var disableButton = false;
 
-      if (this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
+      if (this.state.newProjecterrors.goal_amount != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal_amount == 0 || this.state.loading) {
         disableButton = true;
       }
 
@@ -105695,20 +105707,22 @@ function (_Component) {
         onChange: function onChange(e) {
           _this6.handleChangeNewProject(e, "description");
         },
-        placeholder: "Project Title (required)"
+        placeholder: "Project Description (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectGoal"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-        value: this.state.newProject.goal,
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Prepend, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Text, {
+        id: "inputPeso"
+      }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this6.handleChangeNewProject(e, "goal");
+          _this6.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
-      }), this.state.newProjecterrors.goal != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+      }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         style: {
           color: "red"
         }
-      }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Banner:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Please enter a valid number"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Banner:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         style: {
           display: "none"
         },
@@ -105739,7 +105753,7 @@ function (_Component) {
 
       var disableButton = false;
 
-      if (this.state.newProjecterrors.goal != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
+      if (this.state.newProjecterrors.goal_amount != "" || this.state.newProject.title == "" || this.state.newProject.description == "" || this.state.newProject.goal == 0 || this.state.loading) {
         disableButton = true;
       }
 
@@ -105763,17 +105777,19 @@ function (_Component) {
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectGoal"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-        value: this.state.newProject.goal,
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Prepend, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["InputGroup"].Text, {
+        id: "inputPeso"
+      }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+        value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "goal");
+          _this7.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
-      }), this.state.newProjecterrors.goal != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+      }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         style: {
           color: "red"
         }
-      }, "Please enter a valid number")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+      }, "Please enter a valid number"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
         controlId: "newProjectBanner"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, {
         style: {
@@ -105785,7 +105801,9 @@ function (_Component) {
         onChange: this.onChangeHandler
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         disabled: disableButton,
-        onClick: this.handleSubmitNewProject,
+        onClick: function onClick() {
+          _this7.handleSubmitNewProject(false);
+        },
         style: {
           width: "100%"
         }
@@ -105803,13 +105821,13 @@ function (_Component) {
           title: "",
           description: "",
           banner: "",
-          goal: 0
+          goal_amount: ""
         },
         newProject: {
           title: "",
           description: "",
           banner: "",
-          goal: 0
+          goal_amount: ""
         },
         pledges: [],
         previewBanner: "",
@@ -106037,7 +106055,7 @@ function (_Component) {
     key: "validateCell",
     value: function validateCell(cell) {
       //only checks if string ONLY contains numbers
-      var isnum = /^\d+$/.test(cell);
+      var isnum = /^[0-9.,]+$/.test(cell);
       return isnum;
     }
   }, {
@@ -106418,7 +106436,7 @@ function (_Component) {
         isUserLoggedIn = true;
       }
 
-      var isnum = /^\d+$/.test(this.state.pledge);
+      var isnum = /^[0-9.,]+$/.test(this.state.pledge);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         style: {
           opacity: this.state.showConfirmation ? ".3" : "1"
@@ -106658,9 +106676,13 @@ function (_Component) {
   }, {
     key: "renderPledges",
     value: function renderPledges() {
+      var numberWithCommas = function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
       var elements = [];
       this.state.pledges.map(function (pledge) {
-        elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.amount)));
+        elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, numberWithCommas(pledge.amount))));
       });
       return elements;
     }
@@ -106783,6 +106805,10 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var numberWithCommas = function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
       var isAdmin = false;
       var isMobile = this.state.width <= 768;
 
@@ -106831,7 +106857,7 @@ function (_Component) {
         className: "project-amount-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "money-raised"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "P", amountPledged), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of P", this.props.project.goal_amount, " raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u20B1", numberWithCommas(amountPledged)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "of \u20B1", this.props.project.goal_amount, " raised")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         disabled: percentage > 100,
         onClick: this.showNewPledge,
         variant: "primary"
