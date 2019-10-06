@@ -66,6 +66,10 @@ class NewPledge extends Component{
 
 
     render(){
+        const numberWithCommas = (x)=> {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         let isUserLoggedIn = false;
         if((this.props.user && this.props.user.id) || (this.state.user && this.state.user.id)){
           isUserLoggedIn = true;
@@ -76,7 +80,7 @@ class NewPledge extends Component{
             <div>
                 <Modal style={{opacity: this.state.showConfirmation ? ".3" : "1"}}id="new-pledge-modal" show={this.props.show} onHide={()=>this.props.hideModal()}>
                     <Modal.Header closeButton>
-                        <h5>{this.props.project.title}</h5>
+                        <h5><b>{this.props.project.title}</b></h5>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -98,8 +102,8 @@ class NewPledge extends Component{
                                     <InputGroup.Append>
                                     </InputGroup.Append>
                                 </InputGroup>
-                                <Form.Label className="label-pledge" style={{textAlign: "center", marginBottom: "20px", color: "rgb(99, 102, 107)"}}><b>Amount Pledged:</b></Form.Label>
-                                <Form.Label className="label-pledge-amount" style={{textAlign: "center", float:"right", marginBottom: "20px", fontSize: "1.5em", color: "rgb(99, 102, 107)"}}><b>P{this.state.pledge}.00</b></Form.Label>
+                                <Form.Label className="label-pledge" style={{textAlign: "center", marginBottom: "20px", color: "rgb(99, 102, 107)"}}><b>Amount to Pledge:</b></Form.Label>
+                                <Form.Label className="label-pledge-amount" style={{textAlign: "center", float:"right", marginBottom: "20px", fontSize: "1.5em", color: "rgb(99, 102, 107)"}}><b>P{numberWithCommas(this.state.pledge)}.00</b></Form.Label>
                             </div>
                             {/* <div className="pledge-labels">
                                 <Form.Label style={{marginBottom: "20px", fontSize: "1.5em", color: "#35373a"}}><b>Select amount to pledge:</b></Form.Label>
@@ -119,7 +123,7 @@ class NewPledge extends Component{
                 </Modal>
                 <Modal style={{marginTop: "35vh"}} id="new-pledge-modal-confirmation" show={this.state.showConfirmation} onHide={this.hideConfirmation}>
                     <Modal.Body>
-                        You are about to pledge P{this.state.pledge}.
+                        You are about to pledge P{numberWithCommas(this.state.pledge)}.
                         <div>
                             <a onClick={this.hideConfirmation} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
                             <a onClick={this.handleSumbit} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "green"}}>Proceed</a>
