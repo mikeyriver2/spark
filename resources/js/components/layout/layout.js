@@ -12,9 +12,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Pledges from '../modals/pledges';
 import AdminModal from '../modals/admin';
+
 class Layout extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             showAdminModal: false,
             showPledges: false,
@@ -37,6 +38,7 @@ class Layout extends Component{
         this.togglePledgesModal = this.togglePledgesModal.bind(this);
         this.handleClickOut = this.handleClickOut.bind(this);
         this.toggleAdminModal = this.toggleAdminModal.bind(this);
+        this.fetchProjects = this.fetchProjects.bind(this);
     }
     
     componentDidMount(){
@@ -53,10 +55,17 @@ class Layout extends Component{
             //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
         });
         document.addEventListener('mousedown', this.handleClickOut, false);
+        this.fetchProjects();
     }
 
     componentWillUnmount(){
         document.addEventListener('mousedown', this.handleClickOut, false);
+    }
+
+    fetchProjects(){
+        //axios.get('projects').then(res=>{
+        this.props.fetchProjects();
+        //});
     }
 
     handleClickOut(e){
@@ -248,7 +257,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(Object.assign({},actions),dispatch)
-
-  }
+}
 
 export default connect(mapStateToProps,mapDispatchToProps)(Layout);

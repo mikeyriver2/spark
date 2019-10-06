@@ -99659,6 +99659,38 @@ module.exports = __webpack_require__(/*! ./lib/_stream_writable.js */ "./node_mo
 
 /***/ }),
 
+/***/ "./node_modules/redux-thunk/es/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/redux-thunk/es/index.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+/* harmony default export */ __webpack_exports__["default"] = (thunk);
+
+/***/ }),
+
 /***/ "./node_modules/redux/es/redux.js":
 /*!****************************************!*\
   !*** ./node_modules/redux/es/redux.js ***!
@@ -104497,15 +104529,14 @@ module.exports = function(module) {
 /*!***************************************!*\
   !*** ./resources/js/actions/index.js ***!
   \***************************************/
-/*! exports provided: checkUser, toggleAuthModal */
+/*! exports provided: checkUser, toggleAuthModal, fetchProjects */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkUser", function() { return checkUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleAuthModal", function() { return toggleAuthModal; });
-//note for future mikey - You cannot handle an axios and return it here for reasons of it being a promise and some other shit i don't really understand until now.
-//Just handle the axios in some other non redux file and pass the return of axios to redux
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProjects", function() { return fetchProjects; });
 var checkUser = function checkUser(user) {
   return {
     type: 'SET_USER',
@@ -104513,9 +104544,21 @@ var checkUser = function checkUser(user) {
   };
 };
 var toggleAuthModal = function toggleAuthModal() {
-  console.log('toggling');
   return {
     type: 'TOGGLE_AUTH_MODAL'
+  };
+};
+var fetchProjects = function fetchProjects() {
+  return function (dispatch) {
+    dispatch({
+      type: "FETCH_PROJECTS"
+    });
+    axios.get('projects').then(function (res) {
+      dispatch({
+        type: "FETCH_PROJECTS_SUCCESS",
+        payload: res.data
+      });
+    });
   };
 };
 
@@ -104668,7 +104711,6 @@ function (_Component) {
       user: {}
     };
     _this.renderProjects = _this.renderProjects.bind(_assertThisInitialized(_this));
-    _this.fetchProjects = _this.fetchProjects.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -104682,10 +104724,22 @@ function (_Component) {
           user: res.data
         });
       }).then(function (err) {});
-      this.fetchProjects();
       setInterval(function () {
-        _this2.fetchProjects();
+        _this2.props.fetchProjects();
       }, 5000);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      //not an idea fix but it works //to address the not-seemingless transition when redux called
+      if (this.props.projects) {
+        if (this.props.projects.length != prevProps.projects.length) {
+          var propsProject = {};
+          if (this.props.projects && this.props.projects.length > 0) this.setState({
+            projects: this.props.projects
+          });
+        }
+      }
     }
   }, {
     key: "renderProjects",
@@ -104694,20 +104748,9 @@ function (_Component) {
 
       return this.state.projects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_project__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          fetchProjects: _this3.fetchProjects,
+          fetchProjects: _this3.props.fetchProjects,
           user: _this3.props.user,
           project: project
-        });
-      });
-    }
-  }, {
-    key: "fetchProjects",
-    value: function fetchProjects() {
-      var _this4 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('projects').then(function (res) {
-        _this4.setState({
-          projects: res.data
         });
       });
     }
@@ -104727,7 +104770,8 @@ function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    user: state.checkUser
+    user: state.checkUser,
+    projects: state.projects
   };
 };
 
@@ -104756,6 +104800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _reducers_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/index */ "./resources/js/reducers/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 
 
 
@@ -104763,7 +104808,9 @@ __webpack_require__.r(__webpack_exports__);
  //you can just ../reducers (webpack will automatically get index)
 
 
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_4__["default"], window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+var composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_4__["default"], composeEnhancer(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_6__["default"])));
 
 if (document.getElementById('pediatrix')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
@@ -104838,12 +104885,12 @@ var Layout =
 function (_Component) {
   _inherits(Layout, _Component);
 
-  function Layout() {
+  function Layout(props) {
     var _this;
 
     _classCallCheck(this, Layout);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Layout).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Layout).call(this, props));
     _this.state = {
       showAdminModal: false,
       showPledges: false,
@@ -104866,6 +104913,7 @@ function (_Component) {
     _this.togglePledgesModal = _this.togglePledgesModal.bind(_assertThisInitialized(_this));
     _this.handleClickOut = _this.handleClickOut.bind(_assertThisInitialized(_this));
     _this.toggleAdminModal = _this.toggleAdminModal.bind(_assertThisInitialized(_this));
+    _this.fetchProjects = _this.fetchProjects.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -104886,11 +104934,18 @@ function (_Component) {
         //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
       });
       document.addEventListener('mousedown', this.handleClickOut, false);
+      this.fetchProjects();
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       document.addEventListener('mousedown', this.handleClickOut, false);
+    }
+  }, {
+    key: "fetchProjects",
+    value: function fetchProjects() {
+      //axios.get('projects').then(res=>{
+      this.props.fetchProjects(); //});
     }
   }, {
     key: "handleClickOut",
@@ -105307,7 +105362,6 @@ function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AdminModal; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -105494,19 +105548,21 @@ function (_Component) {
             showSuccess: true
           }, function () {
             setTimeout(function () {
-              _this3.setState(function (prevState) {
-                return {
-                  loading: false,
-                  showSuccess: false,
-                  newProject: _objectSpread({}, prevState.newProject, {
-                    title: "",
-                    description: "",
-                    banner: "",
-                    goal: 0
-                  })
-                };
-              });
-            }, 500330);
+              _this3.props.fetchProjects(); // this.setState(prevState => ({
+              //     loading: false,
+              //     showSuccess: false,
+              //     newProject: {
+              //         ...prevState.newProject,
+              //         title: "",
+              //         description: "",
+              //         banner: "",
+              //         goal: 0
+              //     }
+              // }))
+
+
+              _this3.hideModal();
+            }, 10);
           });
         });
       } else {
@@ -105515,19 +105571,21 @@ function (_Component) {
             showSuccess: true
           }, function () {
             setTimeout(function () {
-              _this3.setState(function (prevState) {
-                return {
-                  loading: false,
-                  showSuccess: false,
-                  newProject: _objectSpread({}, prevState.newProject, {
-                    title: "",
-                    description: "",
-                    banner: "",
-                    goal: 0
-                  })
-                };
-              });
-            }, 500330);
+              _this3.props.fetchProjects(); // this.setState(prevState => ({
+              //     loading: false,
+              //     showSuccess: false,
+              //     newProject: {
+              //         ...prevState.newProject,
+              //         title: "",
+              //         description: "",
+              //         banner: "",
+              //         goal: 0
+              //     }
+              // }))
+
+
+              _this3.hideModal();
+            }, 10);
           });
         });
       }
@@ -105549,6 +105607,8 @@ function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/delete', data).then(function (res) {
         _this4.hideModal();
+      }, function () {
+        /*this.props.fetchProjects()*/
       });
     }
   }, {
@@ -105734,6 +105794,28 @@ function (_Component) {
   }, {
     key: "hideModal",
     value: function hideModal() {
+      //resetting state
+      this.setState({
+        editProject: false,
+        loading: false,
+        showSuccess: false,
+        newProjecterrors: {
+          title: "",
+          description: "",
+          banner: "",
+          goal: 0
+        },
+        newProject: {
+          title: "",
+          description: "",
+          banner: "",
+          goal: 0
+        },
+        pledges: [],
+        previewBanner: "",
+        previewBannerFormFile: "",
+        deleting: false
+      });
       this.props.toggleAdminModal();
     }
   }, {
@@ -105776,7 +105858,7 @@ function (_Component) {
           fontWeight: "bold",
           color: "red"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         onClick: function onClick() {
           _this8.setState({
             editProject: true
@@ -105792,7 +105874,7 @@ function (_Component) {
           marginTop: "15px",
           width: "100%"
         },
-        variant: "warning"
+        variant: "danger"
       }, "Delete Project")))));
     }
   }]);
@@ -105800,7 +105882,18 @@ function (_Component) {
   return AdminModal;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: state.checkUser,
+    showAuthModal: state.showAuthModal
+  };
+};
 
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_7__["bindActionCreators"])(Object.assign({}, _actions_index__WEBPACK_IMPORTED_MODULE_8__), dispatch);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(AdminModal));
 
 /***/ }),
 
@@ -106939,10 +107032,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var projects = function projects() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case "FETCH_PROJECTS":
+      {
+        return {};
+      }
+
+    case "FETCH_PROJECTS_SUCCESS":
+      {
+        var payload = action.payload;
+        return payload;
+      }
+
+    default:
+      return state;
+  }
+};
+
 var allReducers = Object(redux__WEBPACK_IMPORTED_MODULE_2__["combineReducers"])({
   checkUser: _checkUser__WEBPACK_IMPORTED_MODULE_0__["default"],
   //same as - checkUser : checkUser
-  showAuthModal: _toggleAuthModal__WEBPACK_IMPORTED_MODULE_1__["default"]
+  showAuthModal: _toggleAuthModal__WEBPACK_IMPORTED_MODULE_1__["default"],
+  projects: projects
 });
 /* harmony default export */ __webpack_exports__["default"] = (allReducers);
 

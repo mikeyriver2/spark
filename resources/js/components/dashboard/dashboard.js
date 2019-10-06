@@ -20,7 +20,6 @@ class Dashboard extends Component{
             user: {}
         }
         this.renderProjects = this.renderProjects.bind(this);
-        this.fetchProjects = this.fetchProjects.bind(this);
     }
 
     componentDidMount(){
@@ -31,26 +30,29 @@ class Dashboard extends Component{
         }).then(err=>{
 
         });
-        this.fetchProjects();
-        setInterval(() => { this.fetchProjects() }, 5000);
+        setInterval(() => { this.props.fetchProjects() }, 5000);
+    }
+
+    componentDidUpdate(prevProps){ //not an idea fix but it works //to address the not-seemingless transition when redux called
+        if(this.props.projects){
+            if(this.props.projects.length != prevProps.projects.length){
+                let propsProject = {};
+                if(this.props.projects && this.props.projects.length > 0)
+                this.setState({
+                    projects: this.props.projects
+                })
+            }
+        }
     }
 
     renderProjects(){
         return this.state.projects.map(project=>{
             return <Project 
-                        fetchProjects={this.fetchProjects}
+                        fetchProjects={this.props.fetchProjects}
                         user={this.props.user} 
                         project={project} 
                     />
         })
-    }
-
-    fetchProjects(){
-        axios.get('projects').then(res=>{
-            this.setState({
-                projects: res.data
-            });
-        });
     }
 
     render(){
@@ -68,7 +70,8 @@ class Dashboard extends Component{
 
 const mapStateToProps = (state) => {
     return {
-      user: state.checkUser
+      user: state.checkUser,
+      projects: state.projects
     };
 }
 

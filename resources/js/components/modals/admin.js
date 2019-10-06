@@ -18,7 +18,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../../actions/index';
 import {loader} from '../utilities/loading';
 
-export default class AdminModal extends Component{
+class AdminModal extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -57,7 +57,6 @@ export default class AdminModal extends Component{
     }
 
     componentDidMount(){
-
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -136,18 +135,20 @@ export default class AdminModal extends Component{
                     showSuccess: true,
                 },()=>{
                     setTimeout(() => {
-                        this.setState(prevState => ({
-                            loading: false,
-                            showSuccess: false,
-                            newProject: {
-                                ...prevState.newProject,
-                                title: "",
-                                description: "",
-                                banner: "",
-                                goal: 0
-                            }
-                        }))
-                    }, 500330);
+                        this.props.fetchProjects();
+                        // this.setState(prevState => ({
+                        //     loading: false,
+                        //     showSuccess: false,
+                        //     newProject: {
+                        //         ...prevState.newProject,
+                        //         title: "",
+                        //         description: "",
+                        //         banner: "",
+                        //         goal: 0
+                        //     }
+                        // }))
+                        this.hideModal();
+                    }, 10);
                 })
             });
         }else{
@@ -156,18 +157,20 @@ export default class AdminModal extends Component{
                     showSuccess: true,
                 },()=>{
                     setTimeout(() => {
-                        this.setState(prevState => ({
-                            loading: false,
-                            showSuccess: false,
-                            newProject: {
-                                ...prevState.newProject,
-                                title: "",
-                                description: "",
-                                banner: "",
-                                goal: 0
-                            }
-                        }))
-                    }, 500330);
+                        this.props.fetchProjects();
+                        // this.setState(prevState => ({
+                        //     loading: false,
+                        //     showSuccess: false,
+                        //     newProject: {
+                        //         ...prevState.newProject,
+                        //         title: "",
+                        //         description: "",
+                        //         banner: "",
+                        //         goal: 0
+                        //     }
+                        // }))
+                        this.hideModal();
+                    }, 10);
                 })
             });
         }
@@ -185,7 +188,7 @@ export default class AdminModal extends Component{
         }
         axios.post('iLikeToMoveItMoveIt/projects/delete',data).then(res=>{
             this.hideModal();
-        });
+        },()=>{/*this.props.fetchProjects()*/});
     }
 
     renderPledges(){
@@ -320,7 +323,28 @@ export default class AdminModal extends Component{
         )
     }
 
-    hideModal(){
+    hideModal(){ //resetting state
+        this.setState({
+            editProject: false,
+            loading: false,
+            showSuccess: false,
+            newProjecterrors: {
+                title: "",
+                description: "",
+                banner: "",
+                goal: 0
+            },
+            newProject: {
+                title: "",
+                description: "",
+                banner: "",
+                goal: 0
+            },
+            pledges: [],
+            previewBanner: "",
+            previewBannerFormFile: "",
+            deleting: false,
+        })
         this.props.toggleAdminModal()
     }
 
@@ -357,8 +381,10 @@ export default class AdminModal extends Component{
                                     { this.renderPledges() }
                                     <hr />
                                     <h4>Project Settings</h4>
-                                    <Button onClick={()=>{this.setState({editProject: true})}} style={{width: "100%"}} variant="primary">Edit Project</Button>
-                                    <Button onClick={this.handleDelete} style={{marginTop: "15px", width: "100%"}} variant="warning">Delete Project</Button>
+                                    {!this.state.editProject &&
+                                        <Button onClick={()=>{this.setState({editProject: true})}} style={{width: "100%"}} variant="primary">Edit Project</Button>
+                                    }
+                                    <Button onClick={this.handleDelete} style={{marginTop: "15px", width: "100%"}} variant="danger">Delete Project</Button>
                                 </div>
                         }
                     </Modal.Body>
@@ -368,3 +394,16 @@ export default class AdminModal extends Component{
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.checkUser,
+      showAuthModal: state.showAuthModal
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(Object.assign({},actions),dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AdminModal);
