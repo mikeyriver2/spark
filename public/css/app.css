@@ -10787,7 +10787,7 @@ a.text-dark:focus {
   height: 2px;
   margin-bottom: 7px;
   z-index: 2;
-  background-color: #ffffff;
+  background-color: #eaa6ca;
 }
 
 .main-layout .layout-header .layout-main-logo {
@@ -11058,6 +11058,11 @@ a.text-dark:focus {
 
 body {
   font-family: "Gotham";
+}
+
+.btn-primary {
+  background: #f36bb3;
+  border-color: #eaa6ca;
 }
 
 .error {
