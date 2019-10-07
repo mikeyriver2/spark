@@ -10817,7 +10817,6 @@ a.text-dark:focus {
   font-family: "IntroDemo";
   color: #e69ebf;
   text-shadow: -1px 1px #612c46;
-  font-size: 1.2em;
   margin-bottom: 0px;
   height: 100%;
   display: flex;
@@ -10834,7 +10833,7 @@ a.text-dark:focus {
 
 @media (min-width: 768px) {
   .main-layout .layout-header .layout-main-logo .caption-container p {
-    font-size: 1.5em;
+    font-size: 2em;
   }
 }
 
@@ -10933,7 +10932,7 @@ a.text-dark:focus {
   border-right-color: #dad6d6;
   border-right-style: solid;
   background: white;
-  height: 100vh;
+  height: 120vh;
   top: -125px;
 }
 
@@ -11058,6 +11057,11 @@ a.text-dark:focus {
 
 body {
   font-family: "Gotham";
+}
+
+.btn-primary:disabled {
+  background: #f36bb3;
+  border-color: #eaa6ca;
 }
 
 .btn-primary {

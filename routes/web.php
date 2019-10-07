@@ -21,7 +21,11 @@ Route::middleware('auth:web')->group(function(){
     Route::get('logout','AuthController@clearSession');
     Route::get('pledges','PledgesController@index');
     Route::post('banner_preview', "ProjectsController@previewNewBanner");
-    Route::prefix('iLikeToMoveItMoveIt')->group(function(){
+    Route::prefix('iLikeToMoveItMoveIt')->group(function(){ //add middleware in the future so only admins can access
+        Route::get('companies','ProjectsController@getCompanies');
+        Route::post('company','ProjectsController@storeCompany');
+        Route::post('delCompany','ProjectsController@destoryCompany');
+
         Route::prefix('projects')->group(function(){
             Route::post('project','ProjectsController@store');
             Route::post('edit','ProjectsController@edit'); //find fix for PUT

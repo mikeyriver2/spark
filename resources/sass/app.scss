@@ -40,6 +40,10 @@
 body{
     font-family: "Gotham";
 }
+.btn-primary:disabled{
+    background: #f36bb3;
+    border-color: #eaa6ca;
+}
 
 .btn-primary{
     background: #f36bb3;

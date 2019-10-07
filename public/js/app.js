@@ -22515,7 +22515,7 @@ utils.intFromLE = intFromLE;
 /*! exports provided: _args, _development, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, author, bugs, dependencies, description, devDependencies, files, homepage, keywords, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"_args\":[[\"elliptic@6.5.0\",\"/home/mikey/Documents/spark\"]],\"_development\":true,\"_from\":\"elliptic@6.5.0\",\"_id\":\"elliptic@6.5.0\",\"_inBundle\":false,\"_integrity\":\"sha512-eFOJTMyCYb7xtE/caJ6JJu+bhi67WCYNbkGSknu20pmM8Ke/bqOfdnZWxyoGN26JgfxTbXrsCkEw4KheCT/KGg==\",\"_location\":\"/elliptic\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"elliptic@6.5.0\",\"name\":\"elliptic\",\"escapedName\":\"elliptic\",\"rawSpec\":\"6.5.0\",\"saveSpec\":null,\"fetchSpec\":\"6.5.0\"},\"_requiredBy\":[\"/browserify-sign\",\"/create-ecdh\"],\"_resolved\":\"https://registry.npmjs.org/elliptic/-/elliptic-6.5.0.tgz\",\"_spec\":\"6.5.0\",\"_where\":\"/home/mikey/Documents/spark\",\"author\":{\"name\":\"Fedor Indutny\",\"email\":\"fedor@indutny.com\"},\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"dependencies\":{\"bn.js\":\"^4.4.0\",\"brorand\":\"^1.0.1\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.0\",\"inherits\":\"^2.0.1\",\"minimalistic-assert\":\"^1.0.0\",\"minimalistic-crypto-utils\":\"^1.0.0\"},\"description\":\"EC cryptography\",\"devDependencies\":{\"brfs\":\"^1.4.3\",\"coveralls\":\"^2.11.3\",\"grunt\":\"^0.4.5\",\"grunt-browserify\":\"^5.0.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-connect\":\"^1.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^1.0.1\",\"grunt-mocha-istanbul\":\"^3.0.1\",\"grunt-saucelabs\":\"^8.6.2\",\"istanbul\":\"^0.4.2\",\"jscs\":\"^2.9.0\",\"jshint\":\"^2.6.0\",\"mocha\":\"^2.1.0\"},\"files\":[\"lib\"],\"homepage\":\"https://github.com/indutny/elliptic\",\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"license\":\"MIT\",\"main\":\"lib/elliptic.js\",\"name\":\"elliptic\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/indutny/elliptic.git\"},\"scripts\":{\"jscs\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"jshint\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"lint\":\"npm run jscs && npm run jshint\",\"test\":\"npm run lint && npm run unit\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"version\":\"grunt dist && git add dist/\"},\"version\":\"6.5.0\"}");
+module.exports = JSON.parse("{\"_args\":[[\"elliptic@6.5.0\",\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\pediatrix\"]],\"_development\":true,\"_from\":\"elliptic@6.5.0\",\"_id\":\"elliptic@6.5.0\",\"_inBundle\":false,\"_integrity\":\"sha512-eFOJTMyCYb7xtE/caJ6JJu+bhi67WCYNbkGSknu20pmM8Ke/bqOfdnZWxyoGN26JgfxTbXrsCkEw4KheCT/KGg==\",\"_location\":\"/elliptic\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"elliptic@6.5.0\",\"name\":\"elliptic\",\"escapedName\":\"elliptic\",\"rawSpec\":\"6.5.0\",\"saveSpec\":null,\"fetchSpec\":\"6.5.0\"},\"_requiredBy\":[\"/browserify-sign\",\"/create-ecdh\"],\"_resolved\":\"https://registry.npmjs.org/elliptic/-/elliptic-6.5.0.tgz\",\"_spec\":\"6.5.0\",\"_where\":\"C:\\\\Users\\\\mikey\\\\Documents\\\\GitHub\\\\pediatrix\",\"author\":{\"name\":\"Fedor Indutny\",\"email\":\"fedor@indutny.com\"},\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"dependencies\":{\"bn.js\":\"^4.4.0\",\"brorand\":\"^1.0.1\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.0\",\"inherits\":\"^2.0.1\",\"minimalistic-assert\":\"^1.0.0\",\"minimalistic-crypto-utils\":\"^1.0.0\"},\"description\":\"EC cryptography\",\"devDependencies\":{\"brfs\":\"^1.4.3\",\"coveralls\":\"^2.11.3\",\"grunt\":\"^0.4.5\",\"grunt-browserify\":\"^5.0.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-connect\":\"^1.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^1.0.1\",\"grunt-mocha-istanbul\":\"^3.0.1\",\"grunt-saucelabs\":\"^8.6.2\",\"istanbul\":\"^0.4.2\",\"jscs\":\"^2.9.0\",\"jshint\":\"^2.6.0\",\"mocha\":\"^2.1.0\"},\"files\":[\"lib\"],\"homepage\":\"https://github.com/indutny/elliptic\",\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"license\":\"MIT\",\"main\":\"lib/elliptic.js\",\"name\":\"elliptic\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/indutny/elliptic.git\"},\"scripts\":{\"jscs\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"jshint\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"lint\":\"npm run jscs && npm run jshint\",\"test\":\"npm run lint && npm run unit\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"version\":\"grunt dist && git add dist/\"},\"version\":\"6.5.0\"}");
 
 /***/ }),
 
@@ -93398,7 +93398,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -105167,7 +105167,8 @@ function (_Component) {
         type: ""
       },
       showMenu: false,
-      user: {}
+      user: {},
+      adminModalType: ""
     };
     _this.header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.toggleAuthModal = _this.toggleAuthModal.bind(_assertThisInitialized(_this));
@@ -105222,9 +105223,11 @@ function (_Component) {
   }, {
     key: "toggleAdminModal",
     value: function toggleAdminModal() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
       var bool = this.state.showAdminModal;
       this.setState({
-        showAdminModal: !bool
+        showAdminModal: !bool,
+        adminModalType: type
       });
     }
   }, {
@@ -105368,13 +105371,23 @@ function (_Component) {
         style: {
           color: "black"
         }
-      }, "View Pledged Projects")), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        onClick: this.toggleAdminModal
+      }, "View Pledged Projects")), isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        onClick: function onClick() {
+          _this4.toggleAdminModal("nProject");
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         style: {
           color: "black"
         }
-      }, "Start New Project")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, "Start New Project")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        onClick: function onClick() {
+          _this4.toggleAdminModal("companies");
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          color: "black"
+        }
+      }, "Manage Companies"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         style: {
           color: "black"
         },
@@ -105418,7 +105431,8 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_admin__WEBPACK_IMPORTED_MODULE_11__["default"], {
         show: this.state.showAdminModal,
         toggleAdminModal: this.toggleAdminModal,
-        parentComponent: "Auth"
+        parentComponent: "Auth",
+        type: this.state.adminModalType
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
         exact: true,
         path: "/",
@@ -105592,11 +105606,19 @@ function (_Component) {
         to: "/"
       }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: this.props.togglePledgesModal
-      }, "View Pledges")), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "View Pledges")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        onClick: this.props.toggleAdminModal
-      }, "Start New Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: function onClick() {
+          _this2.props.toggleAdminModal("nProject");
+        }
+      }, "Start New Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "sidebar-outter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        onClick: function onClick() {
+          _this2.props.toggleAdminModal("companies");
+        }
+      }, "Manage Companies")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
@@ -105711,7 +105733,9 @@ function (_Component) {
       pledges: [],
       previewBanner: "",
       previewBannerFormFile: "",
-      deleting: false
+      deleting: false,
+      companies: [],
+      newCompanyName: ""
     };
     _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
     _this.handleChangeNewProject = _this.handleChangeNewProject.bind(_assertThisInitialized(_this));
@@ -105725,6 +105749,10 @@ function (_Component) {
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.deleteProject = _this.deleteProject.bind(_assertThisInitialized(_this));
     _this.hideModal = _this.hideModal.bind(_assertThisInitialized(_this));
+    _this.renderCompanies = _this.renderCompanies.bind(_assertThisInitialized(_this));
+    _this.addNewCompany = _this.addNewCompany.bind(_assertThisInitialized(_this));
+    _this.fetchCompanies = _this.fetchCompanies.bind(_assertThisInitialized(_this));
+    _this.handleDeleteCompany = _this.handleDeleteCompany.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105735,6 +105763,12 @@ function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
       var _this2 = this;
+
+      if (this.props.show != prevProps.show) {
+        if (this.props.show) {
+          this.fetchCompanies();
+        }
+      }
 
       if (this.state.editProject != prevState.editProject) {
         if (this.state.editProject) {
@@ -105750,6 +105784,17 @@ function (_Component) {
           });
         }
       }
+    }
+  }, {
+    key: "fetchCompanies",
+    value: function fetchCompanies() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('iLikeToMoveItMoveIt/companies').then(function (res) {
+        _this3.setState({
+          companies: res.data
+        });
+      });
     }
   }, {
     key: "validateCell",
@@ -105797,7 +105842,7 @@ function (_Component) {
   }, {
     key: "handleSubmitNewProject",
     value: function handleSubmitNewProject() {
-      var _this3 = this;
+      var _this4 = this;
 
       var editMode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       this.setState({
@@ -105815,11 +105860,11 @@ function (_Component) {
 
       if (!editMode) {
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/project', data).then(function (res) {
-          _this3.setState({
+          _this4.setState({
             showSuccess: true
           }, function () {
             setTimeout(function () {
-              _this3.props.fetchProjects(); // this.setState(prevState => ({
+              _this4.props.fetchProjects(); // this.setState(prevState => ({
               //     loading: false,
               //     showSuccess: false,
               //     newProject: {
@@ -105832,17 +105877,17 @@ function (_Component) {
               // }))
 
 
-              _this3.hideModal();
+              _this4.hideModal();
             }, 10);
           });
         });
       } else {
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/edit', data).then(function (res) {
-          _this3.setState({
+          _this4.setState({
             showSuccess: true
           }, function () {
             setTimeout(function () {
-              _this3.props.fetchProjects(); // this.setState(prevState => ({
+              _this4.props.fetchProjects(); // this.setState(prevState => ({
               //     loading: false,
               //     showSuccess: false,
               //     newProject: {
@@ -105855,7 +105900,7 @@ function (_Component) {
               // }))
 
 
-              _this3.hideModal();
+              _this4.hideModal();
             }, 10);
           });
         });
@@ -105871,15 +105916,15 @@ function (_Component) {
   }, {
     key: "deleteProject",
     value: function deleteProject() {
-      var _this4 = this;
+      var _this5 = this;
 
       var data = {
         projectId: this.props.project.id
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/projects/delete', data).then(function (res) {
-        _this4.props.fetchProjects();
+        _this5.props.fetchProjects();
 
-        _this4.hideModal();
+        _this5.hideModal();
       }, function () {
         /*this.props.fetchProjects()*/
       });
@@ -105912,7 +105957,7 @@ function (_Component) {
   }, {
     key: "previewNewBanner",
     value: function previewNewBanner(e) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.setState({
         loading: true,
@@ -105921,7 +105966,7 @@ function (_Component) {
       var data = new FormData();
       data.append('banner', e.target.files[0]);
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('banner_preview', data).then(function (res) {
-        _this5.setState({
+        _this6.setState({
           previewBanner: res.data.img_loc,
           loading: false
         });
@@ -105930,8 +105975,6 @@ function (_Component) {
   }, {
     key: "manualOnChange",
     value: function manualOnChange(idInput) {
-      console.log('calliiiiing');
-
       if (document.getElementById(idInput)) {
         $("#".concat(idInput)).click();
       }
@@ -105939,7 +105982,7 @@ function (_Component) {
   }, {
     key: "renderEditProject",
     value: function renderEditProject() {
-      var _this6 = this;
+      var _this7 = this;
 
       var disableButton = false;
 
@@ -105962,7 +106005,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.title,
         onChange: function onChange(e) {
-          _this6.handleChangeNewProject(e, "title");
+          _this7.handleChangeNewProject(e, "title");
         },
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -105970,7 +106013,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.description,
         onChange: function onChange(e) {
-          _this6.handleChangeNewProject(e, "description");
+          _this7.handleChangeNewProject(e, "description");
         },
         placeholder: "Project Description (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -105980,7 +106023,7 @@ function (_Component) {
       }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this6.handleChangeNewProject(e, "goal_amount");
+          _this7.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
       }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -105997,13 +106040,13 @@ function (_Component) {
         name: "file"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          _this6.manualOnChange(idInput);
+          _this7.manualOnChange(idInput);
         },
         style: banner_style
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         disabled: disableButton,
         onClick: function onClick() {
-          _this6.handleSubmitNewProject(true);
+          _this7.handleSubmitNewProject(true);
         },
         style: {
           marginTop: "20px",
@@ -106014,7 +106057,7 @@ function (_Component) {
   }, {
     key: "renderCreateProject",
     value: function renderCreateProject() {
-      var _this7 = this;
+      var _this8 = this;
 
       var disableButton = false;
 
@@ -106029,7 +106072,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.title,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "title");
+          _this8.handleChangeNewProject(e, "title");
         },
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106037,7 +106080,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.description,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "description");
+          _this8.handleChangeNewProject(e, "description");
         },
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106047,7 +106090,7 @@ function (_Component) {
       }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "goal_amount");
+          _this8.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
       }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -106067,7 +106110,7 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         disabled: disableButton,
         onClick: function onClick() {
-          _this7.handleSubmitNewProject(false);
+          _this8.handleSubmitNewProject(false);
         },
         style: {
           width: "100%"
@@ -106102,14 +106145,82 @@ function (_Component) {
       this.props.toggleAdminModal();
     }
   }, {
+    key: "addNewCompany",
+    value: function addNewCompany() {
+      var _this9 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/company', {
+        name: this.state.newCompanyName
+      }).then(function (res) {
+        _this9.setState({
+          newCompanyName: ""
+        }, function () {
+          _this9.fetchCompanies();
+        });
+      });
+    }
+  }, {
+    key: "handleDeleteCompany",
+    value: function handleDeleteCompany(company_id) {
+      var _this10 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/delCompany', {
+        company_id: company_id
+      }).then(function (res) {
+        _this10.fetchCompanies();
+      });
+    }
+  }, {
+    key: "renderCompanies",
+    value: function renderCompanies() {
+      var _this11 = this;
+
+      var elements = [];
+      var companies = this.state.companies;
+
+      if (companies && companies.length > 0) {
+        companies.map(function (company) {
+          elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+            variant: "danger",
+            onClick: function onClick(e) {
+              _this11.handleDeleteCompany(company.id);
+            },
+            disabled: !company.deletable
+          }, "Delete"))));
+        });
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+          controlId: "newProjectDesc"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+          value: this.state.newCompanyName,
+          onChange: function onChange(e) {
+            _this11.setState({
+              newCompanyName: e.target.value
+            });
+          },
+          placeholder: "Company Name"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+          disabled: this.state.newCompanyName == "",
+          onClick: this.addNewCompany
+        }, "Add New Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Note: Cannot Delete Companies who have registered users"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
+          striped: true,
+          bordered: true,
+          hover: true
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Created At"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Company Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, elements)));
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this8 = this;
+      var _this12 = this;
 
       var title = "";
 
       if (this.props.parentComponent == "Auth") {
-        title = "Create New Project";
+        if (this.props.type == "nProject") {
+          title = "Create New Project";
+        } else {
+          title = "Manage Companies";
+        }
       } else if (this.props.parentComponent == "Project") {
         title = "Pledges to ".concat(this.props.project.title);
       }
@@ -106141,9 +106252,9 @@ function (_Component) {
           fontWeight: "bold",
           color: "red"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.props.type == "nProject" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : this.renderCompanies() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         onClick: function onClick() {
-          _this8.setState({
+          _this12.setState({
             editProject: true
           });
         },
@@ -107411,8 +107522,8 @@ var toggleSideBar = function toggleSideBar() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/mikey/Documents/spark/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/mikey/Documents/spark/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\mikey\Documents\GitHub\spark\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\mikey\Documents\GitHub\spark\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

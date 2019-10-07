@@ -41,6 +41,8 @@ class AdminModal extends Component{
             previewBanner: "",
             previewBannerFormFile: "",
             deleting: false,
+            companies: [],
+            newCompanyName: ""
         }
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.handleChangeNewProject = this.handleChangeNewProject.bind(this);
@@ -54,12 +56,21 @@ class AdminModal extends Component{
         this.handleDelete = this.handleDelete.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.renderCompanies = this.renderCompanies.bind(this);
+        this.addNewCompany = this.addNewCompany.bind(this);
+        this.fetchCompanies = this.fetchCompanies.bind(this);
+        this.handleDeleteCompany = this.handleDeleteCompany.bind(this);
     }
 
     componentDidMount(){
     }
 
     componentDidUpdate(prevProps, prevState){
+        if(this.props.show != prevProps.show){
+            if(this.props.show){
+                this.fetchCompanies();
+            }
+        }
         if(this.state.editProject != prevState.editProject){
             if(this.state.editProject){
                 this.setState(prevState => ({
@@ -73,6 +84,14 @@ class AdminModal extends Component{
                 }));
             }
         }
+    }
+
+    fetchCompanies(){
+        axios.get('iLikeToMoveItMoveIt/companies').then(res=>{
+            this.setState({
+                companies: res.data
+            })
+        });
     }
 
     validateCell(cell){ //only checks if string ONLY contains numbers
@@ -245,7 +264,6 @@ class AdminModal extends Component{
     }
 
     manualOnChange(idInput){
-        console.log('calliiiiing')
         if(document.getElementById(idInput)){
             $(`#${idInput}`).click();
         }
@@ -363,10 +381,69 @@ class AdminModal extends Component{
         this.props.toggleAdminModal()
     }
 
+    addNewCompany(){
+        axios.post('iLikeToMoveItMoveIt/company',{name: this.state.newCompanyName}).then(res=>{
+            this.setState({
+                newCompanyName: ""
+            },()=>{
+                this.fetchCompanies();
+            })
+        })
+    }
+
+    handleDeleteCompany(company_id){
+        axios.post('iLikeToMoveItMoveIt/delCompany',{company_id}).then(res=>{
+            this.fetchCompanies();
+        })
+    }
+
+    renderCompanies(){
+        let elements = [];
+        let companies = this.state.companies;
+        if(companies && companies.length > 0){
+            companies.map(company=>{
+                elements.push(
+                    <tr>
+                        <td>{company.created_at}</td>
+                        <td>{company.name}</td>
+                        <td><Button variant="danger" onClick={(e)=>{this.handleDeleteCompany(company.id)}} disabled={!company.deletable}>Delete</Button></td>
+                    </tr>
+                )
+            })
+            return (
+                <div>
+                    <Form.Group controlId="newProjectDesc">
+                        <Form.Control value={this.state.newCompanyName} onChange={(e)=>{this.setState({newCompanyName: e.target.value})}} placeholder="Company Name" />
+                    </Form.Group>
+                    <Button disabled={this.state.newCompanyName == ""} onClick={this.addNewCompany}>Add New Company</Button>
+                    <br />
+                    <hr />
+                    <p>Note: Cannot Delete Companies who have registered users</p>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Created At</th>
+                                <th>Company Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {elements}
+                        </tbody>
+                    </Table>
+                </div> 
+            )
+        }
+    }
+
     render(){
         let title = "";
         if(this.props.parentComponent == "Auth"){
-            title = "Create New Project"
+            if(this.props.type == "nProject"){
+                title = "Create New Project"
+            }else{
+                title = "Manage Companies"
+            }
         }else if(this.props.parentComponent == "Project"){
             title = `Pledges to ${this.props.project.title}`;
         }
@@ -385,12 +462,15 @@ class AdminModal extends Component{
                                         <a onClick={this.deleteProject} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "red"}}><b>Delete</b></a>
                                     </div>
                                 </div>
-                            : this.props.parentComponent == "Auth" ? this.state.showSuccess ?
+                            : this.props.parentComponent == "Auth" ? 
+                            this.props.type == "nProject" ? this.state.showSuccess ?
                                 <div>
                                     Success! Your Project has been created and posted.
                                 </div>
                             :
                                 this.renderCreateProject()
+                            :
+                                this.renderCompanies()
                             :
                                 <div>
                                     { this.renderPledges() }

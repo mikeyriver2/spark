@@ -27,7 +27,8 @@ class Layout extends Component{
                 type: ""
             },
             showMenu: false,
-            user: {}
+            user: {},
+            adminModalType: ""
         }
         this.header = React.createRef();
         this.toggleAuthModal = this.toggleAuthModal.bind(this);
@@ -74,10 +75,11 @@ class Layout extends Component{
         }
     }
 
-    toggleAdminModal(){
+    toggleAdminModal(type = ""){
         let bool = this.state.showAdminModal;
         this.setState({
-            showAdminModal: !bool
+            showAdminModal: !bool,
+            adminModalType: type
         });
     }
 
@@ -189,11 +191,19 @@ class Layout extends Component{
                                             <li ref={(node)=>{this.li = node}}>
                                                 <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
                                                 {
-                                                    isAdmin && <ul onClick={this.toggleAdminModal}>
-                                                        <a style={{color:"black"}}>
-                                                            Start New Project
-                                                        </a>
-                                                    </ul>
+                                                    isAdmin && 
+                                                    <div>
+                                                        <ul onClick={()=>{this.toggleAdminModal("nProject")}}>
+                                                            <a style={{color:"black"}}>
+                                                                Start New Project
+                                                            </a>
+                                                        </ul>
+                                                        <ul onClick={()=>{this.toggleAdminModal("companies")}}>
+                                                            <a style={{color:"black"}}>
+                                                                Manage Companies
+                                                            </a>
+                                                        </ul>
+                                                    </div>
                                                 }
                                                 <ul><a style={{color:"black"}} href="/logout">Logout</a></ul>
                                             </li>
@@ -242,6 +252,7 @@ class Layout extends Component{
                     show = {this.state.showAdminModal}
                     toggleAdminModal = {this.toggleAdminModal}
                     parentComponent = "Auth"
+                    type = {this.state.adminModalType}
                 />
                 
                 <Route exact path={`/`} component={Dashboard}/>

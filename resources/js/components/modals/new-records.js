@@ -93,8 +93,7 @@ class NewPledge extends Component{
                                 <InputGroup className="mb-3">
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>P</InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
+                                    </InputGroup.Prepend>                        
                                     <FormControl 
                                         onChange={(e)=>{this.setState({pledge: e.target.value})}}
                                         placeholder="Enter amount"

@@ -88,4 +88,29 @@ class ProjectsController extends Controller
         $project->save();
         return "(soft) delete successful";
     }
+
+    public function getCompanies(Request $request){
+        $companies = \App\Company::select(
+                                'companies.*',
+                                \DB::raw('(CASE WHEN users.id IS NULL THEN 1 ELSE 0 END) as deletable')
+                            )
+                            ->leftjoin('users','users.company_id','=','companies.id')
+                            ->groupBy('id')
+                            ->get();
+        return $companies;
+    }
+
+    public function storeCompany(Request $request){
+        $company = \App\Company::create([
+            "name" => $request->name
+        ]);
+
+        return $company;
+    }
+
+    public function destoryCompany(Request $request){
+        $company = \App\Company::find($request->company_id);
+        $company->delete();
+        return "Deleted ".$company->name."";
+    }
 }
