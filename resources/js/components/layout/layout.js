@@ -170,7 +170,7 @@ class Layout extends Component{
             <div ref={this.header} className="main-layout">
                 <div className="layout-header">
                     <Row className="layout-main-logo">
-                        <img src="/images/cropped-SPARK_LOGO-1.png"/>
+                        <img src="/images/IDG_FB.png"/>
                         <div className="caption-container">
                             <p className="caption">INVEST IN HER: PARTNERSHIPS FOR GIRLS INITIATIVE</p>
                         </div>

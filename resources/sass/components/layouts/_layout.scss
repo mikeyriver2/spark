@@ -21,11 +21,11 @@
             }
         }
         .layout-main-logo{
-            box-shadow: 1px -1px 11px -1px rgba(0,0,0,0.48);
+            box-shadow: 1px -1px 11px -1px #a09c4a;
             display: flex;
             font-size: 16px;
             color: #fff;
-            background: #990099;
+            background: rgb(255,241,1);//#990099;
             .caption-container{
                 @media(max-width: 768px){
                     margin-bottom: 10px;
@@ -38,7 +38,10 @@
                 p{
                     transition: all 0.4s ease;
                     //letter-spacing: 2px;
-                    font-family: "Calibri";
+                    font-family: "IntroDemo";
+                    color: rgb(230,158,191);
+                    text-shadow: -1px 1px rgb(97,44,70);
+                    font-size: 1.2em;
                     margin-bottom: 0px;
                     height: 100%;
                     display: flex;
@@ -61,6 +64,10 @@
                 max-height: 10vh;
             }
             .reg-login{
+                a{
+                    color: rgb(76,168,133) !important;
+                    font-family: "IntroDemo" !important;
+                }
                 flex-grow: 1;
                 nav{
                     li{

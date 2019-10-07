@@ -12,7 +12,22 @@
 @font-face {
     font-family: Calibri;
     src: url('/fonts/Calibri_Regular.ttf');
-  }
+}
+
+@font-face {
+    font-family: Gotham;
+    src: url('/fonts/Gotham-Medium.otf');
+}
+
+@font-face {
+    font-family: IntroDemo;
+    src: url('/fonts/IntroDemo-BlackCAPS.ttf');
+}
+
+@font-face {
+    font-family: WildSmith;
+    src: url('/fonts/Wild Smith TTF.ttf');
+}
 
 @import './components/project/project';
 @import './components/layouts/layout';
@@ -22,7 +37,9 @@
 // @import './components/modals/new-appointments';
 // @import './components/modals/new-patient';
 // @import './components/modals/new-record';
-
+body{
+    font-family: "Gotham";
+}
 //general styles non-component specific
 .error{
     color: red;
