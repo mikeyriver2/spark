@@ -10670,6 +10670,11 @@ a.text-dark:focus {
   justify-content: center;
 }
 
+.project-details {
+  padding-top: 10px;
+  height: calc(100% - 200px);
+}
+
 .project-container {
   width: 400px;
   box-shadow: 1px 10px 16px -5px rgba(0, 0, 0, 0.48);
@@ -10691,7 +10696,6 @@ a.text-dark:focus {
 
 .project-container .project-title {
   padding: 0px 3vw;
-  margin-top: 10px;
 }
 
 .project-container .project-description {
