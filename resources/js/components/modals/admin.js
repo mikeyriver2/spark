@@ -327,7 +327,7 @@ class AdminModal extends Component{
                 </Form.Group>
                 
                 <Form.Group controlId="newProjectDesc">
-                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Title (required)" />
+                    <Form.Control value={this.state.newProject.description} onChange={(e)=>{this.handleChangeNewProject(e,"description")}} placeholder="Project Description (required)" />
                 </Form.Group>
 
                 <Form.Group controlId="newProjectGoal">
