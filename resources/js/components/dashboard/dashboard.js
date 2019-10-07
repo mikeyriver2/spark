@@ -56,8 +56,16 @@ class Dashboard extends Component{
     }
 
     render(){
+        let layoutWidth = 0;
+        let minHeightStyle = {};
+        minHeightStyle.minHeight = ""
+        if(document.getElementById("app-layout")){
+            layoutWidth = document.getElementById("app-layout").offsetHeight;
+            minHeightStyle.minHeight = `calc(100vh - ${layoutWidth}px`;
+        }
+        
         return (
-            <div className="dashboard-container">
+            <div style={minHeightStyle} className="dashboard-container">
                 <div className="projects-container">
                     {(this.state.projects && this.state.projects.length > 0) &&
                         this.renderProjects()

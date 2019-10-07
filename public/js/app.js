@@ -105022,7 +105022,17 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var layoutWidth = 0;
+      var minHeightStyle = {};
+      minHeightStyle.minHeight = "";
+
+      if (document.getElementById("app-layout")) {
+        layoutWidth = document.getElementById("app-layout").offsetHeight;
+        minHeightStyle.minHeight = "calc(100vh - ".concat(layoutWidth, "px");
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: minHeightStyle,
         className: "dashboard-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "projects-container"
@@ -105077,10 +105087,10 @@ __webpack_require__.r(__webpack_exports__);
 var composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_3__["compose"];
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_4__["default"], composeEnhancer(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_6__["default"])));
 
-if (document.getElementById('pediatrix')) {
+if (document.getElementById('spark')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
     store: store
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routes_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('pediatrix'));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routes_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('spark'));
 }
 
 /***/ }),
@@ -105195,7 +105205,7 @@ function (_Component) {
         });
       });
       this.setState({
-        appHeight: document.getElementById('pediatrix').clientHeight
+        appHeight: document.getElementById('spark').clientHeight
       }, function () {//console.log(this.state.appHeight);
         //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
       });
@@ -105273,9 +105283,9 @@ function (_Component) {
         }, function () {
           element.classList.remove("sidebar-hidden");
           element.classList.add("sidebar-show");
-          document.getElementById('pediatrix').style.height = "100vh"; //temporarily disable scroll
+          document.getElementById('spark').style.height = "100vh"; //temporarily disable scroll
 
-          document.getElementById('pediatrix').style.overflow = "hidden";
+          document.getElementById('spark').style.overflow = "hidden";
         });
       } else {
         this.setState({
@@ -105283,7 +105293,7 @@ function (_Component) {
         }, function () {
           element.classList.remove("sidebar-show");
           element.classList.add("sidebar-hidden");
-          document.getElementById('pediatrix').removeAttribute("style"); //re-enable scroll
+          document.getElementById('spark').removeAttribute("style"); //re-enable scroll
         });
       }
     }
@@ -105293,7 +105303,7 @@ function (_Component) {
       var element = document.getElementById('sidebar-container');
       element.classList.remove("sidebar-show");
       element.classList.add("sidebar-hidden");
-      document.getElementById('pediatrix').removeAttribute("style");
+      document.getElementById('spark').removeAttribute("style");
     }
   }, {
     key: "toggleAuthModal",
@@ -105338,6 +105348,7 @@ function (_Component) {
         ref: this.header,
         className: "main-layout"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "app-layout",
         className: "layout-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Row"], {
         className: "layout-main-logo"
@@ -105400,7 +105411,7 @@ function (_Component) {
         onClick: function onClick(e) {
           _this4.toggleAuthModal(e, "login");
         }
-      }, "LOGIN"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, "LOGIN"))))), isMobile && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         user: this.state.user,
         layoutRef: this.header,
         showSideBar: this.state.showSideBar,
@@ -105606,19 +105617,19 @@ function (_Component) {
         to: "/"
       }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: this.props.togglePledgesModal
-      }, "View Pledges")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "View Pledges")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick() {
           _this2.props.toggleAdminModal("nProject");
         }
-      }, "Start New Pledge")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Start New Pledge")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick() {
           _this2.props.toggleAdminModal("companies");
         }
-      }, "Manage Companies")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Manage Companies")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
@@ -107222,7 +107233,9 @@ function (_Component) {
           backgroundImage: "url(\"".concat(this.props.project.banner, "\")")
         },
         className: "project-banner"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "project-details"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
         className: "project-title"
       }, this.props.project.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "project-description"
@@ -107243,7 +107256,7 @@ function (_Component) {
         disabled: percentage > 100,
         onClick: this.showNewPledge,
         variant: "primary"
-      }, percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge")), this.state.showNewPledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge"))), this.state.showNewPledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_records__WEBPACK_IMPORTED_MODULE_3__["default"], {
         fetchProjects: this.props.fetchProjects,
         user: this.props.user,
         project: this.props.project,

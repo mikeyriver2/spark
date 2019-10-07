@@ -54,13 +54,17 @@
                     }
                     @media(min-width: 768px){
                         font-size: 2em;
-                        
                     }
                 }
             }
             
             img{
-                margin: 0 auto;
+                @media(max-width: 768px){
+                    margin: 0 auto;
+                }
+                @media(min-width: 768px){
+                    margin: 0 25px;
+                }
                 max-height: 10vh;
             }
             .reg-login{

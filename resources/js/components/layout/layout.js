@@ -50,7 +50,7 @@ class Layout extends Component{
             });
         });
         this.setState({
-            appHeight: document.getElementById('pediatrix').clientHeight
+            appHeight: document.getElementById('spark').clientHeight
         },()=>{
             //console.log(this.state.appHeight);
             //document.getElementById('sidebar-container').style.height = `${this.state.appHeight}px`;
@@ -118,8 +118,8 @@ class Layout extends Component{
             },()=>{
                 element.classList.remove("sidebar-hidden");
                 element.classList.add("sidebar-show");
-                document.getElementById('pediatrix').style.height = "100vh"; //temporarily disable scroll
-                document.getElementById('pediatrix').style.overflow = "hidden";
+                document.getElementById('spark').style.height = "100vh"; //temporarily disable scroll
+                document.getElementById('spark').style.overflow = "hidden";
             })
         }else{
             this.setState({
@@ -127,7 +127,7 @@ class Layout extends Component{
             },()=>{
                 element.classList.remove("sidebar-show");
                 element.classList.add("sidebar-hidden");
-                document.getElementById('pediatrix').removeAttribute("style"); //re-enable scroll
+                document.getElementById('spark').removeAttribute("style"); //re-enable scroll
             })
         }
     }
@@ -136,7 +136,7 @@ class Layout extends Component{
         let element = document.getElementById('sidebar-container')
         element.classList.remove("sidebar-show");
         element.classList.add("sidebar-hidden");     
-        document.getElementById('pediatrix').removeAttribute("style"); 
+        document.getElementById('spark').removeAttribute("style"); 
     }
 
     toggleAuthModal(e, type){
@@ -170,7 +170,7 @@ class Layout extends Component{
         }
         return (
             <div ref={this.header} className="main-layout">
-                <div className="layout-header">
+                <div id="app-layout" className="layout-header">
                     <Row className="layout-main-logo">
                         <img src="/images/IDG_FB.png"/>
                         <div className="caption-container">
@@ -222,21 +222,23 @@ class Layout extends Component{
                         <h5 className="layout-main-nav">HOME</h5>
                     </Row> */}
                 </div>
-                <Sidebar
-                    user = {this.state.user}
-                    layoutRef = {this.header}
-                    showSideBar = {this.state.showSideBar}
-                    hideSideBar = {this.hideSideBar}
-                    ///////////////////////////////////
-                    changeAuthModalType = {this.changeAuthModalType}
-                    show = {this.props.showAuthModal /*this.state.showAuth.show*/}
-                    type = {this.state.showAuth.type}
-                    toggleAuthModal = {this.toggleAuthModal}
-                    togglePledgesModal = {this.togglePledgesModal}
-                    showPledges = {this.state.showPledges}
-                    isAdmin = {isAdmin}
-                    toggleAdminModal = {this.toggleAdminModal}
-                />
+                {isMobile &&
+                    <Sidebar
+                        user = {this.state.user}
+                        layoutRef = {this.header}
+                        showSideBar = {this.state.showSideBar}
+                        hideSideBar = {this.hideSideBar}
+                        ///////////////////////////////////
+                        changeAuthModalType = {this.changeAuthModalType}
+                        show = {this.props.showAuthModal /*this.state.showAuth.show*/}
+                        type = {this.state.showAuth.type}
+                        toggleAuthModal = {this.toggleAuthModal}
+                        togglePledgesModal = {this.togglePledgesModal}
+                        showPledges = {this.state.showPledges}
+                        isAdmin = {isAdmin}
+                        toggleAdminModal = {this.toggleAdminModal}
+                    />
+                }
                 <Auth 
                     checkIfLoggedIn = {this.checkIfLoggedIn}
                     changeAuthModalType = {this.changeAuthModalType}

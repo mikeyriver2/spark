@@ -73,29 +73,31 @@ export default class Project extends Component{
     return (
       <div className="project-container">
         <div onClick={isAdmin && this.toggleAdminModal} style={{cursor: isAdmin ? "pointer" : "", backgroundImage:`url("${this.props.project.banner}")`}}className="project-banner"></div>
-          <h5 className="project-title">
-            {this.props.project.title}
-          </h5>
-          <p className="project-description">
-            {this.props.project.description}
-          </p>
-          <div className="project-bar">
-            <div style={{width:`${percentage}%`}} className="project-bar-progress"></div>
-            <div className="project-bar-remaining"></div>
-          </div>
-          <div className="project-amount-container">
-            <div className="money-raised">
-              <h4>₱{numberWithCommas(amountPledged)}</h4>
-              <p>of ₱{this.props.project.goal_amount} raised</p>
+          <div className="project-details">  
+            <h5 className="project-title">
+              {this.props.project.title}
+            </h5>
+            <p className="project-description">
+              {this.props.project.description}
+            </p>
+            <div className="project-bar">
+              <div style={{width:`${percentage}%`}} className="project-bar-progress"></div>
+              <div className="project-bar-remaining"></div>
             </div>
-            <Button disabled={percentage > 100} onClick={this.showNewPledge} variant="primary">{percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge"}</Button>
-            {/*<h4>Recent Pledges:</h4>
-            <div className="recent-pledges">
-              <div className="recent-pledge-item">
-                <div style={{backgroundImage: `url(${"https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_of_Petron.svg"})`}} className="pledger-image"></div>
-                <span>Petron</span>
+            <div className="project-amount-container">
+              <div className="money-raised">
+                <h4>₱{numberWithCommas(amountPledged)}</h4>
+                <p>of ₱{this.props.project.goal_amount} raised</p>
               </div>
-            </div> */}
+              <Button disabled={percentage > 100} onClick={this.showNewPledge} variant="primary">{percentage > 100 ? "Goal Has Been Reached!" : "Make Pledge"}</Button>
+              {/*<h4>Recent Pledges:</h4>
+              <div className="recent-pledges">
+                <div className="recent-pledge-item">
+                  <div style={{backgroundImage: `url(${"https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_of_Petron.svg"})`}} className="pledger-image"></div>
+                  <span>Petron</span>
+                </div>
+              </div> */}
+            </div>
         </div>
         {this.state.showNewPledge &&
           <NewPledge

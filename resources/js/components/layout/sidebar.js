@@ -86,21 +86,21 @@ export default class Sidebar extends Component{
                             <li onClick={e => this.triggerModal('new-record')} className="sidebar-inner">New Record</li>
                         </ul> */}
                     </li>
-                    <hr />
+                    {isUserLoggedIn && <hr /> } 
                     {
                         this.props.isAdmin &&
                         <li className="sidebar-outter">
                             <Link onClick={()=>{this.props.toggleAdminModal("nProject")}}>Start New Pledge</Link>
                         </li>
                     }
-                    <hr />
+                    {isUserLoggedIn && <hr /> } 
                     {
                         this.props.isAdmin &&
                         <li className="sidebar-outter">
                             <Link onClick={()=>{this.props.toggleAdminModal("companies")}}>Manage Companies</Link>
                         </li>
                     }
-                    <hr />
+                    {isUserLoggedIn && <hr /> } 
                     <li className="sidebar-outter">
                         {
                             !isUserLoggedIn ?

@@ -13,10 +13,10 @@ const store = createStore(
     composeEnhancer(applyMiddleware(thunk)),
 );
 
-if (document.getElementById('pediatrix')) {
+if (document.getElementById('spark')) {
     ReactDOM.render(
         <Provider store={store}>
             <Router /> 
         </Provider>,
-        document.getElementById('pediatrix'));
+        document.getElementById('spark'));
 }

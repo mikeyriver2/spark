@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="/css/app.css" rel="stylesheet" type="text/cs">
-        <title>SparkPledge</title>
+        <title>Spark Pledge</title>
     </head>
     <body>
-        <div id="pediatrix">
+        <div id="spark">
         </div>
         <script src="/js/app.js"></script>
         <link href="/css/app.css" rel="stylesheet">

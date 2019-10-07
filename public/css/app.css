@@ -10838,8 +10838,19 @@ a.text-dark:focus {
 }
 
 .main-layout .layout-header .layout-main-logo img {
-  margin: 0 auto;
   max-height: 10vh;
+}
+
+@media (max-width: 768px) {
+  .main-layout .layout-header .layout-main-logo img {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .main-layout .layout-header .layout-main-logo img {
+    margin: 0 25px;
+  }
 }
 
 .main-layout .layout-header .layout-main-logo .reg-login {
@@ -10971,6 +10982,10 @@ a.text-dark:focus {
 .main-layout .layout-sidebar ul li {
   padding: 10px;
   list-style: none;
+}
+
+.dashboard-container {
+  background: #fff1010d !important;
 }
 
 #new-pledge-modal {
