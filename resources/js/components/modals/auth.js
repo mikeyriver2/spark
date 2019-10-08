@@ -93,9 +93,17 @@ export default class Auth extends Component{
         };
         if(type == "company"){
             
-        }else if(type == "pEmail" || type == "sEmail"){
+        }else if(type == "pEmail"){
             if(!this.validateEmail(value)){
                 error.error = "Enter a valid Email"
+            }
+        }else if(type == "sEmail"){
+            if(value == ""){
+                error.error = "" //iz okie to have empty email
+            }else{
+                if(!this.validateEmail(value)){
+                    error.error = "Enter a valid Email"
+                }
             }
         }else if(type == "password"){
 

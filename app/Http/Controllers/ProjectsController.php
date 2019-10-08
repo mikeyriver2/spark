@@ -90,6 +90,7 @@ class ProjectsController extends Controller
     }
 
     public function getCompanies(Request $request){
+        $users = \App\User::orderBy('id','desc')->get()->load('company');
         $companies = \App\Company::select(
                                 'companies.*',
                                 \DB::raw('(CASE WHEN users.id IS NULL THEN 1 ELSE 0 END) as deletable')
@@ -97,7 +98,11 @@ class ProjectsController extends Controller
                             ->leftjoin('users','users.company_id','=','companies.id')
                             ->groupBy('id')
                             ->get();
-        return $companies;
+        
+        return response()->json([
+            "users" => $users,
+            "companies" => $companies
+        ]);
     }
 
     public function storeCompany(Request $request){

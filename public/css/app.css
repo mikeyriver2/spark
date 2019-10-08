@@ -10953,6 +10953,7 @@ a.text-dark:focus {
 
 @media (max-width: 768px) {
   .main-layout .layout-sidebar .sidebar-container {
+    overflow: hidden;
     width: 80%;
   }
 }
@@ -11044,6 +11045,22 @@ a.text-dark:focus {
 
 #new-pledge-modal .input-group {
   margin-bottom: 0px !important;
+}
+
+.userList .userInfos {
+  margin: 10px;
+}
+
+.userList .userInfos p {
+  margin: 1px 0 0 0;
+}
+
+#admin-modal .modal-header {
+  align-items: center;
+}
+
+#admin-modal button {
+  margin-left: 10px;
 }
 
 #auth-modal .form-group select {

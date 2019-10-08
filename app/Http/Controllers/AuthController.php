@@ -23,6 +23,7 @@ class AuthController extends Controller
             'password' => Hash::make($data['password']),
             'company_id' => $company->id,
             'name'  => $data["name"],
+            'contact' => $data["contact"],
             'secondary_email' => $data["secondaryEmail"]
         ]);
     }

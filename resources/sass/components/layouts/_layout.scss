@@ -150,6 +150,7 @@
             height: 120vh;
             top: -125px;
             @media(max-width: 768px){
+                overflow: hidden;
                 width: 80%;
             }
             @media(min-width: 768px){

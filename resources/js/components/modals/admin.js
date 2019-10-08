@@ -41,7 +41,9 @@ class AdminModal extends Component{
             previewBanner: "",
             previewBannerFormFile: "",
             deleting: false,
+            viewing: "users",
             companies: [],
+            users: [],
             newCompanyName: ""
         }
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -60,6 +62,7 @@ class AdminModal extends Component{
         this.addNewCompany = this.addNewCompany.bind(this);
         this.fetchCompanies = this.fetchCompanies.bind(this);
         this.handleDeleteCompany = this.handleDeleteCompany.bind(this);
+        this.toggleViewing = this.toggleViewing.bind(this);
     }
 
     componentDidMount(){
@@ -89,7 +92,8 @@ class AdminModal extends Component{
     fetchCompanies(){
         axios.get('iLikeToMoveItMoveIt/companies').then(res=>{
             this.setState({
-                companies: res.data
+                companies: res.data.companies,
+                users: res.data.users
             })
         });
     }
@@ -399,41 +403,73 @@ class AdminModal extends Component{
 
     renderCompanies(){
         let elements = [];
-        let companies = this.state.companies;
-        if(companies && companies.length > 0){
-            companies.map(company=>{
-                elements.push(
-                    <tr>
-                        <td>{company.created_at}</td>
-                        <td>{company.name}</td>
-                        <td><Button variant="danger" onClick={(e)=>{this.handleDeleteCompany(company.id)}} disabled={!company.deletable}>Delete</Button></td>
-                    </tr>
+        let {companies, users} = this.state;
+        if(this.state.viewing == "companies"){
+            if(companies && companies.length > 0){
+                companies.map(company=>{
+                    elements.push(
+                        <tr>
+                            <td>{company.created_at}</td>
+                            <td>{company.name}</td>
+                            <td><Button variant="danger" onClick={(e)=>{this.handleDeleteCompany(company.id)}} disabled={!company.deletable}>Delete</Button></td>
+                        </tr>
+                    )
+                })
+                return (
+                    <div>
+                        <Form.Group controlId="newProjectDesc">
+                            <Form.Control value={this.state.newCompanyName} onChange={(e)=>{this.setState({newCompanyName: e.target.value})}} placeholder="Company Name" />
+                        </Form.Group>
+                        <Button disabled={this.state.newCompanyName == ""} onClick={this.addNewCompany}>Add New Company</Button>
+                        <br />
+                        <hr />
+                        <p>Note: Cannot Delete Companies who have registered users</p>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Created At</th>
+                                    <th>Company Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {elements}
+                            </tbody>
+                        </Table>
+                    </div> 
                 )
-            })
-            return (
-                <div>
-                    <Form.Group controlId="newProjectDesc">
-                        <Form.Control value={this.state.newCompanyName} onChange={(e)=>{this.setState({newCompanyName: e.target.value})}} placeholder="Company Name" />
-                    </Form.Group>
-                    <Button disabled={this.state.newCompanyName == ""} onClick={this.addNewCompany}>Add New Company</Button>
-                    <br />
-                    <hr />
-                    <p>Note: Cannot Delete Companies who have registered users</p>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Created At</th>
-                                <th>Company Name</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {elements}
-                        </tbody>
-                    </Table>
-                </div> 
-            )
+            }
+        }else if(this.state.viewing == "users"){
+            if(users && users.length > 0){
+                users.map(user=>{
+                    elements.push(
+                        <div className="userInfos">
+                            <p><b>Name: </b>{user.name}</p>
+                            <p><b>Email: </b>{user.email}</p>
+                            <p><b>Secondary Email: </b>{user.secondary_email ? user.secondary_email : "-"}</p>
+                            <p><b>Comapny: </b>{user.company.name}</p>
+                            <p><b>Contact #: </b>{user.contact ? user.contact : "-"}</p>
+                            <p><b>Registered At: </b>{user.created_at}</p>
+                            <hr />
+                        </div>
+                    )
+                })
+                return (
+                    <div className="userList">
+                        {elements}
+                    </div> 
+                )
+            }
+
         }
+    }
+
+    toggleViewing(){
+        let { viewing } = this.state;
+        viewing = viewing == "companies" ? "users" : "companies";
+        this.setState({
+            viewing: viewing
+        });
     }
 
     render(){
@@ -442,16 +478,21 @@ class AdminModal extends Component{
             if(this.props.type == "nProject"){
                 title = "Create New Project"
             }else{
-                title = "Manage Companies"
+                if(this.state.viewing == "companies"){
+                    title = "Manage Companies"
+                }else{
+                    title = "Users List"
+                }
             }
         }else if(this.props.parentComponent == "Project"){
             title = `Pledges to ${this.props.project.title}`;
         }
         return (
             <div>
-                <Modal id="pledges-modal" show={this.props.show} onHide={this.hideModal}>
+                <Modal id="admin-modal" show={this.props.show} onHide={this.hideModal}>
                     <Modal.Header closeButton>
                         <h5>{title}</h5>
+                        {(this.props.type && this.props.type == "companies") && <Button onClick={this.toggleViewing}>{this.state.viewing == "users" ? "Manage Companies" : "View Users List"}</Button>}
                     </Modal.Header>
                     <Modal.Body>
                         {this.state.deleting ? 

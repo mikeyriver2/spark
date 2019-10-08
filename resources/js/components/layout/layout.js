@@ -200,7 +200,7 @@ class Layout extends Component{
                                                         </ul>
                                                         <ul onClick={()=>{this.toggleAdminModal("companies")}}>
                                                             <a style={{color:"black"}}>
-                                                                Manage Companies
+                                                                Manage Users and Companies
                                                             </a>
                                                         </ul>
                                                     </div>
@@ -248,7 +248,7 @@ class Layout extends Component{
                 />
                 <Pledges 
                     togglePledgesModal = {this.togglePledgesModal}
-                    showPledges = {this.state.showPledges}
+                    show = {this.state.showPledges}
                 />
                 <AdminModal 
                     show = {this.state.showAdminModal}

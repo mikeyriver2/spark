@@ -105377,8 +105377,9 @@ function (_Component) {
         ref: function ref(node) {
           _this4.li = node;
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        onClick: this.togglePledgesModal,
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        onClick: this.togglePledgesModal
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         style: {
           color: "black"
         }
@@ -105398,7 +105399,7 @@ function (_Component) {
         style: {
           color: "black"
         }
-      }, "Manage Companies"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, "Manage Users and Companies"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         style: {
           color: "black"
         },
@@ -105438,7 +105439,7 @@ function (_Component) {
         toggleAuthModal: this.toggleAuthModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_pledges__WEBPACK_IMPORTED_MODULE_10__["default"], {
         togglePledgesModal: this.togglePledgesModal,
-        showPledges: this.state.showPledges
+        show: this.state.showPledges
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_admin__WEBPACK_IMPORTED_MODULE_11__["default"], {
         show: this.state.showAdminModal,
         toggleAdminModal: this.toggleAdminModal,
@@ -105617,19 +105618,19 @@ function (_Component) {
         to: "/"
       }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: this.props.togglePledgesModal
-      }, "View Pledges")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "View Pledges")), isUserLoggedIn && this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick() {
           _this2.props.toggleAdminModal("nProject");
         }
-      }, "Start New Pledge")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Start New Pledge")), isUserLoggedIn && this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), this.props.isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick() {
           _this2.props.toggleAdminModal("companies");
         }
-      }, "Manage Companies")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Manage Users and Companies")), isUserLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "sidebar-outter"
       }, !isUserLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         onClick: function onClick(e) {
@@ -105745,7 +105746,9 @@ function (_Component) {
       previewBanner: "",
       previewBannerFormFile: "",
       deleting: false,
+      viewing: "users",
       companies: [],
+      users: [],
       newCompanyName: ""
     };
     _this.onChangeHandler = _this.onChangeHandler.bind(_assertThisInitialized(_this));
@@ -105764,6 +105767,7 @@ function (_Component) {
     _this.addNewCompany = _this.addNewCompany.bind(_assertThisInitialized(_this));
     _this.fetchCompanies = _this.fetchCompanies.bind(_assertThisInitialized(_this));
     _this.handleDeleteCompany = _this.handleDeleteCompany.bind(_assertThisInitialized(_this));
+    _this.toggleViewing = _this.toggleViewing.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105803,7 +105807,8 @@ function (_Component) {
 
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('iLikeToMoveItMoveIt/companies').then(function (res) {
         _this3.setState({
-          companies: res.data
+          companies: res.data.companies,
+          users: res.data.users
         });
       });
     }
@@ -106187,37 +106192,61 @@ function (_Component) {
       var _this11 = this;
 
       var elements = [];
-      var companies = this.state.companies;
+      var _this$state = this.state,
+          companies = _this$state.companies,
+          users = _this$state.users;
 
-      if (companies && companies.length > 0) {
-        companies.map(function (company) {
-          elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-            variant: "danger",
-            onClick: function onClick(e) {
-              _this11.handleDeleteCompany(company.id);
+      if (this.state.viewing == "companies") {
+        if (companies && companies.length > 0) {
+          companies.map(function (company) {
+            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+              variant: "danger",
+              onClick: function onClick(e) {
+                _this11.handleDeleteCompany(company.id);
+              },
+              disabled: !company.deletable
+            }, "Delete"))));
+          });
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+            controlId: "newProjectDesc"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+            value: this.state.newCompanyName,
+            onChange: function onChange(e) {
+              _this11.setState({
+                newCompanyName: e.target.value
+              });
             },
-            disabled: !company.deletable
-          }, "Delete"))));
-        });
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
-          controlId: "newProjectDesc"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
-          value: this.state.newCompanyName,
-          onChange: function onChange(e) {
-            _this11.setState({
-              newCompanyName: e.target.value
-            });
-          },
-          placeholder: "Company Name"
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-          disabled: this.state.newCompanyName == "",
-          onClick: this.addNewCompany
-        }, "Add New Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Note: Cannot Delete Companies who have registered users"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
-          striped: true,
-          bordered: true,
-          hover: true
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Created At"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Company Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, elements)));
+            placeholder: "Company Name"
+          })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+            disabled: this.state.newCompanyName == "",
+            onClick: this.addNewCompany
+          }, "Add New Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Note: Cannot Delete Companies who have registered users"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
+            striped: true,
+            bordered: true,
+            hover: true
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Created At"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Company Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, elements)));
+        }
+      } else if (this.state.viewing == "users") {
+        if (users && users.length > 0) {
+          users.map(function (user) {
+            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "userInfos"
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Name: "), user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Email: "), user.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Secondary Email: "), user.secondary_email ? user.secondary_email : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Comapny: "), user.company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Contact #: "), user.contact ? user.contact : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Registered At: "), user.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null)));
+          });
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "userList"
+          }, elements);
+        }
       }
+    }
+  }, {
+    key: "toggleViewing",
+    value: function toggleViewing() {
+      var viewing = this.state.viewing;
+      viewing = viewing == "companies" ? "users" : "companies";
+      this.setState({
+        viewing: viewing
+      });
     }
   }, {
     key: "render",
@@ -106230,19 +106259,25 @@ function (_Component) {
         if (this.props.type == "nProject") {
           title = "Create New Project";
         } else {
-          title = "Manage Companies";
+          if (this.state.viewing == "companies") {
+            title = "Manage Companies";
+          } else {
+            title = "Users List";
+          }
         }
       } else if (this.props.parentComponent == "Project") {
         title = "Pledges to ".concat(this.props.project.title);
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
-        id: "pledges-modal",
+        id: "admin-modal",
         show: this.props.show,
         onHide: this.hideModal
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, this.state.deleting ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You are about to delete ", this.props.project.title, ".", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, title), this.props.type && this.props.type == "companies" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+        onClick: this.toggleViewing
+      }, this.state.viewing == "users" ? "Manage Companies" : "View Users List")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, this.state.deleting ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You are about to delete ", this.props.project.title, ".", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginTop: "10px"
         }
@@ -106454,9 +106489,17 @@ function (_Component) {
         error: ""
       };
 
-      if (type == "company") {} else if (type == "pEmail" || type == "sEmail") {
+      if (type == "company") {} else if (type == "pEmail") {
         if (!this.validateEmail(value)) {
           error.error = "Enter a valid Email";
+        }
+      } else if (type == "sEmail") {
+        if (value == "") {
+          error.error = ""; //iz okie to have empty email
+        } else {
+          if (!this.validateEmail(value)) {
+            error.error = "Enter a valid Email";
+          }
         }
       } else if (type == "password") {} else if (type == "contact") {
         if (!this.validateCell(value)) {
