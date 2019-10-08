@@ -64,8 +64,8 @@ export default class Project extends Component{
         })
       }
     }
-    console.log("pledged " + amountPledged);
-    console.log("goal " + this.props.project.goal_amount);
+    //console.log("pledged " + amountPledged);
+    //console.log("goal " + this.props.project.goal_amount);
 
     //console.log(amountPledged);
     let percentage = (amountPledged/parseFloat(this.props.project.goal_amount.replace(/,/g, '')))*100;

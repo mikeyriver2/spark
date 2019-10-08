@@ -106031,7 +106031,7 @@ function (_Component) {
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
               value: this.state.editPledge.amount,
               onChange: function onChange(e) {
-                console.log('asssssssssssssssssssssss');
+                //console.log('asssssssssssssssssssssss')
                 e.persist();
 
                 _this6.setState(function (prevState) {
@@ -106108,7 +106108,7 @@ function (_Component) {
           });
         });
       } else if (action == "back") {
-        console.log('callingfwqweqwewqe');
+        //console.log('callingfwqweqwewqe');
         this.setState(function (prevState) {
           return {
             editPledge: _objectSpread({}, resetValue),
@@ -106445,7 +106445,7 @@ function (_Component) {
           fontWeight: "bold",
           color: "red"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.props.type == "nProject" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : this.renderCompanies() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), !this.state.showConfirmDeletePledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.props.type == "nProject" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : this.renderCompanies() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), !this.state.showConfirmDeletePledge && !this.state.editPledge.editMode && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         onClick: function onClick() {
           _this14.setState({
             editProject: true
@@ -107407,10 +107407,10 @@ function (_Component) {
             amountPledged += parseFloat(pledge.amount);
           });
         }
-      }
+      } //console.log("pledged " + amountPledged);
+      //console.log("goal " + this.props.project.goal_amount);
+      //console.log(amountPledged);
 
-      console.log("pledged " + amountPledged);
-      console.log("goal " + this.props.project.goal_amount); //console.log(amountPledged);
 
       var percentage = amountPledged / parseFloat(this.props.project.goal_amount.replace(/,/g, '')) * 100; //console.log(`percent ${percentage}`)
 

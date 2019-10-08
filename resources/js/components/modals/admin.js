@@ -285,7 +285,7 @@ class AdminModal extends Component{
                             <Form.Label>Editing {this.state.editPledge.pledger}'s pledged amount</Form.Label>
                             <Form.Group controlId="newProjectTitle">
                                 <Form.Control value={this.state.editPledge.amount} onChange={(e)=>{
-                                    console.log('asssssssssssssssssssssss')
+                                    //console.log('asssssssssssssssssssssss')
                                     e.persist();
                                     this.setState(prevState =>({
                                         editPledge: {
@@ -347,7 +347,7 @@ class AdminModal extends Component{
                 });       
             });
         }else if(action == "back"){
-            console.log('callingfwqweqwewqe');
+            //console.log('callingfwqweqwewqe');
             this.setState(prevState=>({
                 editPledge : {
                     //...prevState.editPledge,
@@ -621,7 +621,7 @@ class AdminModal extends Component{
                             :
                                 <div>
                                     { this.renderPledges() }
-                                    {!this.state.showConfirmDeletePledge &&
+                                    {(!this.state.showConfirmDeletePledge && !this.state.editPledge.editMode) &&
                                         <div>
                                             <hr />
                                             <h4>Project Settings</h4>
