@@ -105727,6 +105727,12 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminModal).call(this, props));
     _this.state = {
+      showConfirmDeletePledge: false,
+      editPledge: {
+        editMode: false,
+        amount: "",
+        id: 0
+      },
       editProject: false,
       loading: false,
       showSuccess: false,
@@ -105768,6 +105774,8 @@ function (_Component) {
     _this.fetchCompanies = _this.fetchCompanies.bind(_assertThisInitialized(_this));
     _this.handleDeleteCompany = _this.handleDeleteCompany.bind(_assertThisInitialized(_this));
     _this.toggleViewing = _this.toggleViewing.bind(_assertThisInitialized(_this));
+    _this.editPledge = _this.editPledge.bind(_assertThisInitialized(_this));
+    _this.handleEditPledge = _this.handleEditPledge.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105946,34 +105954,173 @@ function (_Component) {
       });
     }
   }, {
+    key: "editPledge",
+    value: function editPledge(pledge) {
+      this.setState(function (prevState) {
+        return {
+          editPledge: _objectSpread({}, prevState.editPledge, {
+            editMode: true,
+            amount: pledge.amount,
+            id: pledge.id,
+            pledger: pledge.pledger_name
+          })
+        };
+      });
+    }
+  }, {
     key: "renderPledges",
     value: function renderPledges() {
+      var _this6 = this;
+
       var numberWithCommas = function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       };
 
       if (!this.state.editProject) {
-        var elements = [];
+        if (!this.state.editPledge.editMode) {
+          var elements = [];
 
-        if (this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0) {
-          this.props.project.pledge.map(function (pledge) {
-            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.pledger_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.company_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, numberWithCommas(pledge.amount))));
-          });
+          if (this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0) {
+            this.props.project.pledge.map(function (pledge) {
+              elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+                onClick: function onClick() {
+                  _this6.editPledge(pledge);
+                }
+              }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.pledger_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, pledge.company_name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, numberWithCommas(pledge.amount))));
+            });
+          }
+
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
+            striped: true,
+            bordered: true,
+            hover: true
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name of Pledgers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount Pledged"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, elements));
+        } else {
+          if (this.state.showConfirmDeletePledge) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You are about to delete ", this.state.editPledge.pledger, "'s pledge.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              style: {
+                marginTop: "10px"
+              }
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              onClick: function onClick() {
+                _this6.handleEditPledge("back");
+              },
+              style: {
+                cursor: "pointer",
+                "float": "right",
+                marginRight: "10px",
+                fontWeight: "bold"
+              }
+            }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", _defineProperty({
+              onClick: function onClick() {
+                _this6.handleEditPledge('confirm_delete');
+              },
+              style: {
+                width: "100%"
+              }
+            }, "style", {
+              cursor: "pointer",
+              "float": "right",
+              marginRight: "10px",
+              fontWeight: "bold",
+              color: "red"
+            }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete"))));
+          } else {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, "Editing ", this.state.editPledge.pledger, "'s pledged amount"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
+              controlId: "newProjectTitle"
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+              value: this.state.editPledge.amount,
+              onChange: function onChange(e) {
+                console.log('asssssssssssssssssssssss');
+                e.persist();
+
+                _this6.setState(function (prevState) {
+                  return {
+                    editPledge: _objectSpread({}, prevState.editPledge, {
+                      amount: e.target.value
+                    })
+                  };
+                });
+              },
+              placeholder: "enter amount"
+            })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "edit-pledge-buttons"
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+              onClick: function onClick() {
+                _this6.handleEditPledge('save');
+              },
+              variant: "success"
+            }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+              onClick: function onClick() {
+                _this6.handleEditPledge('delete');
+              },
+              variant: "danger"
+            }, "Delete")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+              onClick: function onClick() {
+                _this6.handleEditPledge('back');
+              },
+              style: {
+                width: "100%"
+              }
+            }, "Back"));
+          }
         }
-
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Table"], {
-          striped: true,
-          bordered: true,
-          hover: true
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name of Pledgers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount Pledged"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, elements));
       } else {
         return this.renderEditProject();
       }
     }
   }, {
+    key: "handleEditPledge",
+    value: function handleEditPledge() {
+      var _this7 = this;
+
+      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "back";
+      var resetValue = {
+        editMode: false,
+        amount: "",
+        id: 0
+      };
+      var values = this.state.editPledge;
+
+      if (action == "save") {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/pledge', values).then(function (res) {
+          _this7.setState(function (prevState) {
+            return {
+              editPledge: _objectSpread({}, resetValue)
+            };
+          }, function () {
+            _this7.props.fetchProjects();
+          });
+        });
+      } else if (action == "delete") {
+        this.setState({
+          showConfirmDeletePledge: true
+        });
+      } else if (action == "confirm_delete") {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/pledge-destory', values).then(function (res) {
+          _this7.setState(function (prevState) {
+            return {
+              showConfirmDeletePledge: false,
+              editPledge: _objectSpread({}, resetValue)
+            };
+          }, function () {
+            _this7.props.fetchProjects();
+          });
+        });
+      } else if (action == "back") {
+        console.log('callingfwqweqwewqe');
+        this.setState(function (prevState) {
+          return {
+            editPledge: _objectSpread({}, resetValue),
+            showConfirmDeletePledge: false
+          };
+        });
+      }
+    }
+  }, {
     key: "previewNewBanner",
     value: function previewNewBanner(e) {
-      var _this6 = this;
+      var _this8 = this;
 
       this.setState({
         loading: true,
@@ -105982,7 +106129,7 @@ function (_Component) {
       var data = new FormData();
       data.append('banner', e.target.files[0]);
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('banner_preview', data).then(function (res) {
-        _this6.setState({
+        _this8.setState({
           previewBanner: res.data.img_loc,
           loading: false
         });
@@ -105998,7 +106145,7 @@ function (_Component) {
   }, {
     key: "renderEditProject",
     value: function renderEditProject() {
-      var _this7 = this;
+      var _this9 = this;
 
       var disableButton = false;
 
@@ -106021,7 +106168,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.title,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "title");
+          _this9.handleChangeNewProject(e, "title");
         },
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106029,7 +106176,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.description,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "description");
+          _this9.handleChangeNewProject(e, "description");
         },
         placeholder: "Project Description (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106039,7 +106186,7 @@ function (_Component) {
       }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this7.handleChangeNewProject(e, "goal_amount");
+          _this9.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
       }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -106056,13 +106203,13 @@ function (_Component) {
         name: "file"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          _this7.manualOnChange(idInput);
+          _this9.manualOnChange(idInput);
         },
         style: banner_style
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         disabled: disableButton,
         onClick: function onClick() {
-          _this7.handleSubmitNewProject(true);
+          _this9.handleSubmitNewProject(true);
         },
         style: {
           marginTop: "20px",
@@ -106073,7 +106220,7 @@ function (_Component) {
   }, {
     key: "renderCreateProject",
     value: function renderCreateProject() {
-      var _this8 = this;
+      var _this10 = this;
 
       var disableButton = false;
 
@@ -106088,7 +106235,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.title,
         onChange: function onChange(e) {
-          _this8.handleChangeNewProject(e, "title");
+          _this10.handleChangeNewProject(e, "title");
         },
         placeholder: "Project Title (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106096,7 +106243,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.description,
         onChange: function onChange(e) {
-          _this8.handleChangeNewProject(e, "description");
+          _this10.handleChangeNewProject(e, "description");
         },
         placeholder: "Project Description (required)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, {
@@ -106106,7 +106253,7 @@ function (_Component) {
       }, "\u20B1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
         value: this.state.newProject.goal_amount,
         onChange: function onChange(e) {
-          _this8.handleChangeNewProject(e, "goal_amount");
+          _this10.handleChangeNewProject(e, "goal_amount");
         },
         placeholder: "Goal Amount (required)"
       }), this.state.newProjecterrors.goal_amount != "" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -106126,7 +106273,7 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         disabled: disableButton,
         onClick: function onClick() {
-          _this8.handleSubmitNewProject(false);
+          _this10.handleSubmitNewProject(false);
         },
         style: {
           width: "100%"
@@ -106163,33 +106310,33 @@ function (_Component) {
   }, {
     key: "addNewCompany",
     value: function addNewCompany() {
-      var _this9 = this;
+      var _this11 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/company', {
         name: this.state.newCompanyName
       }).then(function (res) {
-        _this9.setState({
+        _this11.setState({
           newCompanyName: ""
         }, function () {
-          _this9.fetchCompanies();
+          _this11.fetchCompanies();
         });
       });
     }
   }, {
     key: "handleDeleteCompany",
     value: function handleDeleteCompany(company_id) {
-      var _this10 = this;
+      var _this12 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/delCompany', {
         company_id: company_id
       }).then(function (res) {
-        _this10.fetchCompanies();
+        _this12.fetchCompanies();
       });
     }
   }, {
     key: "renderCompanies",
     value: function renderCompanies() {
-      var _this11 = this;
+      var _this13 = this;
 
       var elements = [];
       var _this$state = this.state,
@@ -106202,7 +106349,7 @@ function (_Component) {
             elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
               variant: "danger",
               onClick: function onClick(e) {
-                _this11.handleDeleteCompany(company.id);
+                _this13.handleDeleteCompany(company.id);
               },
               disabled: !company.deletable
             }, "Delete"))));
@@ -106212,7 +106359,7 @@ function (_Component) {
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
             value: this.state.newCompanyName,
             onChange: function onChange(e) {
-              _this11.setState({
+              _this13.setState({
                 newCompanyName: e.target.value
               });
             },
@@ -106251,7 +106398,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this12 = this;
+      var _this14 = this;
 
       var title = "";
 
@@ -106298,9 +106445,9 @@ function (_Component) {
           fontWeight: "bold",
           color: "red"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.props.type == "nProject" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : this.renderCompanies() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete")))) : this.props.parentComponent == "Auth" ? this.props.type == "nProject" ? this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Success! Your Project has been created and posted.") : this.renderCreateProject() : this.renderCompanies() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPledges(), !this.state.showConfirmDeletePledge && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project Settings"), !this.state.editProject && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         onClick: function onClick() {
-          _this12.setState({
+          _this14.setState({
             editProject: true
           });
         },
@@ -106315,7 +106462,7 @@ function (_Component) {
           width: "100%"
         },
         variant: "danger"
-      }, "Delete Project")))));
+      }, "Delete Project"))))));
     }
   }]);
 

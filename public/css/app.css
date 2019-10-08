@@ -11059,8 +11059,19 @@ a.text-dark:focus {
   align-items: center;
 }
 
-#admin-modal button {
+#admin-modal .modal-header button {
   margin-left: 10px;
+}
+
+#admin-modal .edit-pledge-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+#admin-modal .edit-pledge-buttons button {
+  width: 50%;
+  margin: 5px;
 }
 
 #auth-modal .form-group select {

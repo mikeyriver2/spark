@@ -22,6 +22,12 @@ class AdminModal extends Component{
     constructor(props){
         super(props);
         this.state = {
+            showConfirmDeletePledge: false,
+            editPledge: {
+                editMode: false,
+                amount: "",
+                id: 0
+            },
             editProject: false,
             loading: false,
             showSuccess: false,
@@ -63,6 +69,8 @@ class AdminModal extends Component{
         this.fetchCompanies = this.fetchCompanies.bind(this);
         this.handleDeleteCompany = this.handleDeleteCompany.bind(this);
         this.toggleViewing = this.toggleViewing.bind(this);
+        this.editPledge = this.editPledge.bind(this);
+        this.handleEditPledge = this.handleEditPledge.bind(this);
     }
 
     componentDidMount(){
@@ -215,40 +223,138 @@ class AdminModal extends Component{
         },()=>{/*this.props.fetchProjects()*/});
     }
 
+    editPledge(pledge){
+        this.setState(prevState =>({
+            editPledge: {
+                ...prevState.editPledge,
+                editMode : true,
+                amount: pledge.amount,
+                id: pledge.id,
+                pledger: pledge.pledger_name
+            }
+        }))
+    }
+
     renderPledges(){
         const numberWithCommas = (x)=> {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         if(!this.state.editProject){
-            let elements = [];
-            if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
-                this.props.project.pledge.map(pledge=>{
-                    elements.push(
-                        <tr>
-                            <td>{pledge.pledger_name}</td>
-                            <td>{pledge.company_name}</td>
-                            <td>{numberWithCommas(pledge.amount)}</td>
-                        </tr>
+            if(!this.state.editPledge.editMode){
+                let elements = [];
+                if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
+                    this.props.project.pledge.map(pledge=>{
+                        elements.push(
+                            <tr onClick={()=>{this.editPledge(pledge)}}>
+                                <td>{pledge.pledger_name}</td>
+                                <td>{pledge.company_name}</td>
+                                <td>{numberWithCommas(pledge.amount)}</td>
+                            </tr>
+                        )
+                    });
+                }
+                return (
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Name of Pledgers</th>
+                                <th>Company</th>
+                                <th>Amount Pledged</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {elements}
+                        </tbody>
+                    </Table> 
+                );
+            }else{
+                if(this.state.showConfirmDeletePledge){
+                    return (
+                        <div>
+                            You are about to delete {this.state.editPledge.pledger}'s pledge.
+                            <div style={{marginTop:"10px"}}>
+                                <a onClick={()=>{this.handleEditPledge("back")}} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
+                                <a onClick={()=>{this.handleEditPledge('confirm_delete')}} style={{width:"100%"}} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "red"}}><b>Delete</b></a>
+                            </div>
+                        </div>
                     )
-                });
+                }else{
+                    return (
+                        <div>
+                            <Form.Label>Editing {this.state.editPledge.pledger}'s pledged amount</Form.Label>
+                            <Form.Group controlId="newProjectTitle">
+                                <Form.Control value={this.state.editPledge.amount} onChange={(e)=>{
+                                    console.log('asssssssssssssssssssssss')
+                                    e.persist();
+                                    this.setState(prevState =>({
+                                        editPledge: {
+                                            ...prevState.editPledge,
+                                            amount: e.target.value,
+                                        }
+                                    }))                            
+                                }} placeholder="enter amount" />
+                            </Form.Group>
+                            <div className="edit-pledge-buttons">
+                                <Button onClick={()=>{this.handleEditPledge('save')}} variant="success">Save</Button>
+                                <Button onClick={()=>{this.handleEditPledge('delete')}} variant="danger">Delete</Button>
+                            </div>
+                            <Button onClick={()=>{this.handleEditPledge('back')}} style={{width:"100%"}}>Back</Button>
+                        </div>
+                    )
+                }
             }
-            return (
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Name of Pledgers</th>
-                            <th>Company</th>
-                            <th>Amount Pledged</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {elements}
-                    </tbody>
-                </Table> 
-            );
         }else{
             return this.renderEditProject()
+        }
+    }
+
+    handleEditPledge(action = "back"){
+        let resetValue = {
+            editMode: false,
+            amount: "",
+            id: 0
+        };
+
+        let values = this.state.editPledge;
+
+        if(action == "save"){
+            axios.post('iLikeToMoveItMoveIt/pledge',values).then(res=>{
+                this.setState(prevState =>({
+                    editPledge: {
+                        //...prevState.editPledge,
+                        ...resetValue
+                    }
+                }),()=>{
+                    this.props.fetchProjects();
+                });       
+            });     
+        }else if(action == "delete"){
+            this.setState({
+                showConfirmDeletePledge: true
+            })
+        }else if(action == "confirm_delete"){
+            axios.post('iLikeToMoveItMoveIt/pledge-destory',values).then(res=>{
+                this.setState(prevState =>({
+                    showConfirmDeletePledge: false,
+                    editPledge: {
+                        //...prevState.editPledge,
+                        ...resetValue
+                    }
+                }),()=>{
+                    
+                    this.props.fetchProjects();
+                });       
+            });
+        }else if(action == "back"){
+            console.log('callingfwqweqwewqe');
+            this.setState(prevState=>({
+                editPledge : {
+                    //...prevState.editPledge,
+                    ...resetValue
+                },
+                showConfirmDeletePledge: false
+            }));
         }
     }
 
@@ -515,12 +621,16 @@ class AdminModal extends Component{
                             :
                                 <div>
                                     { this.renderPledges() }
-                                    <hr />
-                                    <h4>Project Settings</h4>
-                                    {!this.state.editProject &&
-                                        <Button onClick={()=>{this.setState({editProject: true})}} style={{width: "100%"}} variant="primary">Edit Project</Button>
+                                    {!this.state.showConfirmDeletePledge &&
+                                        <div>
+                                            <hr />
+                                            <h4>Project Settings</h4>
+                                            {!this.state.editProject &&
+                                                <Button onClick={()=>{this.setState({editProject: true})}} style={{width: "100%"}} variant="primary">Edit Project</Button>
+                                            }
+                                            <Button onClick={this.handleDelete} style={{marginTop: "15px", width: "100%"}} variant="danger">Delete Project</Button>
+                                        </div>
                                     }
-                                    <Button onClick={this.handleDelete} style={{marginTop: "15px", width: "100%"}} variant="danger">Delete Project</Button>
                                 </div>
                         }
                     </Modal.Body>

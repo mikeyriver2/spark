@@ -23,4 +23,17 @@ class PledgesController extends Controller
         
         return $pledge;
     }
+
+    public function edit(Request $request){
+        $pledge = Pledge::find($request->id);
+        $pledge->amount = $request->amount;
+        $pledge->save();
+        return $pledge;
+    }
+
+    public function destory(Request $request){
+        $pledge = Pledge::find($request->id);
+        $pledge->delete();
+        return $pledge;
+    }
 }

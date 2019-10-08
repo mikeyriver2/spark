@@ -25,6 +25,8 @@ Route::middleware('auth:web')->group(function(){
         Route::get('companies','ProjectsController@getCompanies');
         Route::post('company','ProjectsController@storeCompany');
         Route::post('delCompany','ProjectsController@destoryCompany');
+        Route::post('pledge','PledgesController@edit');
+        Route::post('pledge-destory','PledgesController@destory');
 
         Route::prefix('projects')->group(function(){
             Route::post('project','ProjectsController@store');
