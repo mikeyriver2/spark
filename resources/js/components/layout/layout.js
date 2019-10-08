@@ -189,7 +189,7 @@ class Layout extends Component{
                                         <a onClick={this.toggleMenu} href="#">Welcome, {this.state.user.name}</a>
                                         {this.state.showMenu &&
                                             <li ref={(node)=>{this.li = node}}>
-                                                <ul><a onClick={this.togglePledgesModal} style={{color:"black"}}>View Pledged Projects</a></ul>
+                                                <ul onClick={this.togglePledgesModal}><a style={{color:"black"}}>View Pledged Projects</a></ul>
                                                 {
                                                     isAdmin && 
                                                     <div>
