@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     
-    public function pldeges(){
+    public function pledges(){
         return $this->hasMany('App\Pledge');
     }
 

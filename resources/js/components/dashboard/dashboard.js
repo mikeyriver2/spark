@@ -30,17 +30,43 @@ class Dashboard extends Component{
         }).then(err=>{
 
         });
-        setInterval(() => { this.props.fetchProjects() }, 5000);
+        setInterval(() => { this.props.fetchProjects() }, 2000);
     }
 
     componentDidUpdate(prevProps){ //not an idea fix but it works //to address the not-seemingless transition when redux called
         if(this.props.projects){
             if(this.props.projects.length != prevProps.projects.length){
                 let propsProject = {};
-                if(this.props.projects && this.props.projects.length > 0)
-                this.setState({
-                    projects: this.props.projects
-                })
+                if(this.props.projects && this.props.projects.length > 0){
+                    let propsProjects = this.props.projects;
+                    let sortedProjects = propsProjects.sort((a,b)=>{
+                        let AtotalPledges = 0;
+                        if(a.pledge.length > 0){
+                            a.pledge.map(apledge=>{
+                                AtotalPledges += apledge.amount;
+                            });
+                        }
+                        let BtotalPledges = 0;
+                        if(b.pledge.length > 0){
+                            b.pledge.map(bpledge=>{
+                                BtotalPledges += bpledge.amount;
+                            });
+                        }
+
+                        if(AtotalPledges < BtotalPledges){
+                            return -1
+                        }
+                        if(AtotalPledges > BtotalPledges){
+                            return 1
+                        }
+                        return 0; //when equal
+
+                    });
+                    console.log(sortedProjects);
+                    this.setState({
+                        projects: sortedProjects
+                    })
+                }
             }
         }
     }

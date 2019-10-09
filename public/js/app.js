@@ -104991,7 +104991,7 @@ function (_Component) {
       }).then(function (err) {});
       setInterval(function () {
         _this2.props.fetchProjects();
-      }, 5000);
+      }, 2000);
     }
   }, {
     key: "componentDidUpdate",
@@ -105000,9 +105000,41 @@ function (_Component) {
       if (this.props.projects) {
         if (this.props.projects.length != prevProps.projects.length) {
           var propsProject = {};
-          if (this.props.projects && this.props.projects.length > 0) this.setState({
-            projects: this.props.projects
-          });
+
+          if (this.props.projects && this.props.projects.length > 0) {
+            var propsProjects = this.props.projects;
+            var sortedProjects = propsProjects.sort(function (a, b) {
+              var AtotalPledges = 0;
+
+              if (a.pledge.length > 0) {
+                a.pledge.map(function (apledge) {
+                  AtotalPledges += apledge.amount;
+                });
+              }
+
+              var BtotalPledges = 0;
+
+              if (b.pledge.length > 0) {
+                b.pledge.map(function (bpledge) {
+                  BtotalPledges += bpledge.amount;
+                });
+              }
+
+              if (AtotalPledges < BtotalPledges) {
+                return -1;
+              }
+
+              if (AtotalPledges > BtotalPledges) {
+                return 1;
+              }
+
+              return 0; //when equal
+            });
+            console.log(sortedProjects);
+            this.setState({
+              projects: sortedProjects
+            });
+          }
         }
       }
     }
@@ -105727,6 +105759,10 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminModal).call(this, props));
     _this.state = {
+      deleteUser: {
+        showConfirmDelete: false,
+        user: {}
+      },
       showConfirmDeletePledge: false,
       editPledge: {
         editMode: false,
@@ -105776,6 +105812,7 @@ function (_Component) {
     _this.toggleViewing = _this.toggleViewing.bind(_assertThisInitialized(_this));
     _this.editPledge = _this.editPledge.bind(_assertThisInitialized(_this));
     _this.handleEditPledge = _this.handleEditPledge.bind(_assertThisInitialized(_this));
+    _this.handleDeleteUser = _this.handleDeleteUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -106378,13 +106415,80 @@ function (_Component) {
           users.map(function (user) {
             elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "userInfos"
-            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Name: "), user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Email: "), user.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Secondary Email: "), user.secondary_email ? user.secondary_email : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Comapny: "), user.company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Contact #: "), user.contact ? user.contact : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Registered At: "), user.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null)));
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Name: "), user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Email: "), user.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Secondary Email: "), user.secondary_email ? user.secondary_email : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Comapny: "), user.company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Contact #: "), user.contact ? user.contact : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Registered At: "), user.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+              onClick: function onClick() {
+                _this13.handleDeleteUser(user);
+              },
+              variant: "danger"
+            }, "Delete User"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null)));
           });
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "userList"
-          }, elements);
+
+          if (this.state.deleteUser.showConfirmDelete) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You are about to delete ", this.state.deleteUser.user.name, ".", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              style: {
+                marginTop: "10px"
+              }
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              onClick: function onClick() {
+                _this13.setState(function (prevState) {
+                  return {
+                    deleteUser: _objectSpread({}, prevState.deleteUser, {
+                      user: {},
+                      showConfirmDelete: false
+                    })
+                  };
+                });
+              },
+              style: {
+                cursor: "pointer",
+                "float": "right",
+                marginRight: "10px",
+                fontWeight: "bold"
+              }
+            }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              onClick: function onClick() {
+                axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('iLikeToMoveItMoveIt/user-destory', {
+                  user: _this13.state.deleteUser.user
+                }).then(function (res) {
+                  _this13.fetchCompanies();
+
+                  _this13.setState(function (prevState) {
+                    return {
+                      deleteUser: _objectSpread({}, prevState.deleteUser, {
+                        user: {},
+                        showConfirmDelete: false
+                      })
+                    };
+                  });
+                });
+              },
+              style: {
+                cursor: "pointer",
+                "float": "right",
+                marginRight: "10px",
+                fontWeight: "bold",
+                color: "red"
+              }
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Delete"))));
+          } else {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "userList"
+            }, elements);
+          }
         }
       }
+    }
+  }, {
+    key: "handleDeleteUser",
+    value: function handleDeleteUser(user) {
+      this.setState(function (prevState) {
+        return {
+          deleteUser: _objectSpread({}, prevState.deleteUser, {
+            user: user,
+            showConfirmDelete: true
+          })
+        };
+      });
     }
   }, {
     key: "toggleViewing",

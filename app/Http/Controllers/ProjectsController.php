@@ -14,7 +14,6 @@ class ProjectsController extends Controller
             $pledge ->select('companies.name as company_name','users.name as pledger_name','pledges.*')
                     ->join('users','users.id','=','pledges.user_id')
                     ->join('companies','users.company_id','=','companies.id');
-           
         }]);
         return $projects;
     }
@@ -90,7 +89,7 @@ class ProjectsController extends Controller
     }
 
     public function getCompanies(Request $request){
-        $users = \App\User::orderBy('id','desc')->get()->load('company');
+        $users = \App\User::orderBy('id','desc')->where('type','!=','admin')->get()->load('company');
         $companies = \App\Company::select(
                                 'companies.*',
                                 \DB::raw('(CASE WHEN users.id IS NULL THEN 1 ELSE 0 END) as deletable')

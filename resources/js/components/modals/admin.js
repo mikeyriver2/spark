@@ -22,6 +22,10 @@ class AdminModal extends Component{
     constructor(props){
         super(props);
         this.state = {
+            deleteUser: {
+                showConfirmDelete: false,
+                user: {}
+            },
             showConfirmDeletePledge: false,
             editPledge: {
                 editMode: false,
@@ -71,6 +75,7 @@ class AdminModal extends Component{
         this.toggleViewing = this.toggleViewing.bind(this);
         this.editPledge = this.editPledge.bind(this);
         this.handleEditPledge = this.handleEditPledge.bind(this);
+        this.handleDeleteUser = this.handleDeleteUser.bind(this);
     }
 
     componentDidMount(){
@@ -556,18 +561,60 @@ class AdminModal extends Component{
                             <p><b>Comapny: </b>{user.company.name}</p>
                             <p><b>Contact #: </b>{user.contact ? user.contact : "-"}</p>
                             <p><b>Registered At: </b>{user.created_at}</p>
+                            <Button onClick={()=>{this.handleDeleteUser(user)}} variant="danger">Delete User</Button>
                             <hr />
                         </div>
                     )
                 })
-                return (
-                    <div className="userList">
-                        {elements}
-                    </div> 
-                )
+                if(this.state.deleteUser.showConfirmDelete){
+                    return (
+                        <div>
+                            You are about to delete {this.state.deleteUser.user.name}.
+                            <div style={{marginTop:"10px"}}>
+                                <a onClick={()=>{
+                                    this.setState(prevState=>({
+                                        deleteUser: {
+                                            ...prevState.deleteUser,
+                                                user: {},
+                                                showConfirmDelete: false
+                                        }
+                                    }))
+                                }} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold"}}>Cancel</a>
+                                <a onClick={()=>{
+                                    axios.post('iLikeToMoveItMoveIt/user-destory',{user: this.state.deleteUser.user}).then(res=>{
+                                        this.fetchCompanies();
+                                        this.setState(prevState=>({
+                                            deleteUser: {
+                                                ...prevState.deleteUser,
+                                                    user: {},
+                                                    showConfirmDelete: false
+                                            }
+                                        }))
+                                    })
+                                }} style={{cursor: "pointer", float:"right", marginRight:"10px", fontWeight: "bold", color: "red"}}><b>Delete</b></a>
+                            </div>
+                        </div>
+                    )
+                }else{
+                    return (
+                        <div className="userList">
+                            {elements}
+                        </div> 
+                    )
+                }
             }
 
         }
+    }
+
+    handleDeleteUser(user){
+        this.setState(prevState=>({
+            deleteUser: {
+                ...prevState.deleteUser,
+                user: user,
+                showConfirmDelete: true
+            }
+        }))
     }
 
     toggleViewing(){

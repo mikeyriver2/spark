@@ -69,6 +69,7 @@ class CompanySeeder extends Seeder
             "Sanitary Care Products Asia, Inc. (SCPA)",
             "Seaoil Foundation, Inc.",
             "SGV & Co",
+            "Spark",
             "SSI",
             "Teledirect Teleperformance",
             "UCPB-CIIF Foundation",

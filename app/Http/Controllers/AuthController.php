@@ -48,4 +48,16 @@ class AuthController extends Controller
         \Session::flush();
         return redirect()->away('/');
     }
+
+    public function destoryUser(Request $request){
+        $user = User::find($request->user["id"]);
+        $pledges = $user->pledges;
+        if(count($pledges) > 0){
+            foreach($user->pledges as $pledge){
+                $pledge->delete();
+            }
+        }
+        $user->delete();
+        return $user;
+    }
 }

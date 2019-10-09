@@ -27,6 +27,7 @@ Route::middleware('auth:web')->group(function(){
         Route::post('delCompany','ProjectsController@destoryCompany');
         Route::post('pledge','PledgesController@edit');
         Route::post('pledge-destory','PledgesController@destory');
+        Route::post('user-destory','AuthController@destoryUser');
 
         Route::prefix('projects')->group(function(){
             Route::post('project','ProjectsController@store');
