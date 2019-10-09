@@ -30,7 +30,7 @@ class Dashboard extends Component{
         }).then(err=>{
 
         });
-        setInterval(() => { this.props.fetchProjects() }, 2000);
+        setInterval(() => { this.props.fetchProjects() }, 5000);
     }
 
     componentDidUpdate(prevProps){ //not an idea fix but it works //to address the not-seemingless transition when redux called

@@ -104991,7 +104991,7 @@ function (_Component) {
       }).then(function (err) {});
       setInterval(function () {
         _this2.props.fetchProjects();
-      }, 2000);
+      }, 5000);
     }
   }, {
     key: "componentDidUpdate",
