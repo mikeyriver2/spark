@@ -105012,8 +105012,8 @@ function (_Component) {
                 });
               }
 
-              var Apercent = Number(a.goal_amount.replace(/,/g, '')) / AtotalPledges * 100;
-              console.log(a.goal_amount);
+              var Apercent = Number(a.goal_amount.replace(/,/g, '')) / AtotalPledges * 100; //console.log(a.goal_amount)
+
               var BtotalPledges = 0;
 
               if (b.pledge.length > 0) {
@@ -105033,8 +105033,8 @@ function (_Component) {
               }
 
               return 0; //when equal
-            });
-            console.log(sortedProjects);
+            }); //console.log(sortedProjects);
+
             this.setState({
               projects: sortedProjects
             });

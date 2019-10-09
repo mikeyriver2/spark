@@ -47,7 +47,7 @@ class Dashboard extends Component{
                             });
                         }
                         let Apercent = (Number(a.goal_amount.replace(/,/g, ''))/AtotalPledges)*100;
-                        console.log(a.goal_amount)
+                        //console.log(a.goal_amount)
 
                         let BtotalPledges = 0;
                         if(b.pledge.length > 0){
@@ -66,7 +66,7 @@ class Dashboard extends Component{
                         return 0; //when equal
 
                     });
-                    console.log(sortedProjects);
+                    //console.log(sortedProjects);
                     this.setState({
                         projects: sortedProjects
                     })
