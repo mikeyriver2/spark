@@ -46,18 +46,22 @@ class Dashboard extends Component{
                                 AtotalPledges += apledge.amount;
                             });
                         }
+                        let Apercent = (Number(a.goal_amount.replace(/,/g, ''))/AtotalPledges)*100;
+                        console.log(a.goal_amount)
+
                         let BtotalPledges = 0;
                         if(b.pledge.length > 0){
                             b.pledge.map(bpledge=>{
                                 BtotalPledges += bpledge.amount;
                             });
                         }
+                        let Bpercent = (Number(b.goal_amount.replace(/,/g, ''))/BtotalPledges)*100;
 
-                        if(AtotalPledges < BtotalPledges){
-                            return -1
-                        }
-                        if(AtotalPledges > BtotalPledges){
+                        if(Apercent < Bpercent){
                             return 1
+                        }
+                        if(Apercent > Bpercent){
+                            return -1
                         }
                         return 0; //when equal
 
