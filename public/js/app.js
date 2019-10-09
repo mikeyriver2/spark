@@ -106020,6 +106020,9 @@ function (_Component) {
           if (this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0) {
             this.props.project.pledge.map(function (pledge) {
               elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+                style: {
+                  cursor: "pointer"
+                },
                 onClick: function onClick() {
                   _this6.editPledge(pledge);
                 }

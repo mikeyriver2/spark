@@ -251,7 +251,7 @@ class AdminModal extends Component{
                 if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
                     this.props.project.pledge.map(pledge=>{
                         elements.push(
-                            <tr onClick={()=>{this.editPledge(pledge)}}>
+                            <tr style={{cursor:"pointer"}} onClick={()=>{this.editPledge(pledge)}}>
                                 <td>{pledge.pledger_name}</td>
                                 <td>{pledge.company_name}</td>
                                 <td>{numberWithCommas(pledge.amount)}</td>
