@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('snapshot:create')->hourly();
+        $schedule->command('snapshot:create')->daily();	
     }
 
     /**
