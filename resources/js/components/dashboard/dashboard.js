@@ -78,6 +78,7 @@ class Dashboard extends Component{
     renderProjects(){
         return this.state.projects.map(project=>{
             return <Project 
+                        key={project.id}
                         fetchProjects={this.props.fetchProjects}
                         user={this.props.user} 
                         project={project} 

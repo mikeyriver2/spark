@@ -251,7 +251,7 @@ class AdminModal extends Component{
                 if(this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0){
                     this.props.project.pledge.map(pledge=>{
                         elements.push(
-                            <tr style={{cursor:"pointer"}} onClick={()=>{this.editPledge(pledge)}}>
+                            <tr key={pledge.id} style={{cursor:"pointer"}} onClick={()=>{this.editPledge(pledge)}}>
                                 <td>{pledge.pledger_name}</td>
                                 <td>{pledge.company_name}</td>
                                 <td>{numberWithCommas(pledge.amount)}</td>
@@ -519,7 +519,7 @@ class AdminModal extends Component{
             if(companies && companies.length > 0){
                 companies.map(company=>{
                     elements.push(
-                        <tr>
+                        <tr key={company.id}>
                             <td>{company.created_at}</td>
                             <td>{company.name}</td>
                             <td><Button variant="danger" onClick={(e)=>{this.handleDeleteCompany(company.id)}} disabled={!company.deletable}>Delete</Button></td>
@@ -554,7 +554,7 @@ class AdminModal extends Component{
             if(users && users.length > 0){
                 users.map(user=>{
                     elements.push(
-                        <div className="userInfos">
+                        <div key={user.id} className="userInfos">
                             <p><b>Name: </b>{user.name}</p>
                             <p><b>Email: </b>{user.email}</p>
                             <p><b>Secondary Email: </b>{user.secondary_email ? user.secondary_email : "-"}</p>

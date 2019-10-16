@@ -70,7 +70,7 @@ class Layout extends Component{
     }
 
     handleClickOut(e){
-        if (!this.li.contains(e.target)) {
+        if (this.li && !this.li.contains(e.target)) {
             this.toggleMenu()
         }
     }

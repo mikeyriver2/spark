@@ -105049,6 +105049,7 @@ function (_Component) {
 
       return this.state.projects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modules_project__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          key: project.id,
           fetchProjects: _this3.props.fetchProjects,
           user: _this3.props.user,
           project: project
@@ -105262,7 +105263,7 @@ function (_Component) {
   }, {
     key: "handleClickOut",
     value: function handleClickOut(e) {
-      if (!this.li.contains(e.target)) {
+      if (this.li && !this.li.contains(e.target)) {
         this.toggleMenu();
       }
     }
@@ -106024,6 +106025,7 @@ function (_Component) {
           if (this.props.project && this.props.project.pledge && this.props.project.pledge.length > 0) {
             this.props.project.pledge.map(function (pledge) {
               elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+                key: pledge.id,
                 style: {
                   cursor: "pointer"
                 },
@@ -106390,7 +106392,9 @@ function (_Component) {
       if (this.state.viewing == "companies") {
         if (companies && companies.length > 0) {
           companies.map(function (company) {
-            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+            elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+              key: company.id
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
               variant: "danger",
               onClick: function onClick(e) {
                 _this13.handleDeleteCompany(company.id);
@@ -106421,6 +106425,7 @@ function (_Component) {
         if (users && users.length > 0) {
           users.map(function (user) {
             elements.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              key: user.id,
               className: "userInfos"
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Name: "), user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Email: "), user.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Secondary Email: "), user.secondary_email ? user.secondary_email : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Comapny: "), user.company.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Contact #: "), user.contact ? user.contact : "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Registered At: "), user.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
               onClick: function onClick() {
@@ -107063,7 +107068,9 @@ function (_Component) {
     _this.state = {
       pledge: 0,
       showConfirmation: false,
-      user: {}
+      user: {},
+      showThankYou: false,
+      project: {}
     };
     _this.handleSumbit = _this.handleSumbit.bind(_assertThisInitialized(_this));
     _this.hideConfirmation = _this.hideConfirmation.bind(_assertThisInitialized(_this));
@@ -107098,11 +107105,20 @@ function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('pledge', value).then(function (res) {
         _this3.setState({
-          showConfirmation: false
+          showConfirmation: false,
+          showThankYou: true
         }, function () {
-          _this3.props.fetchProjects();
+          setTimeout(function () {
+            console.log('ass');
 
-          _this3.props.hideModal();
+            _this3.setState({
+              showThankYou: false
+            }, function () {
+              _this3.props.fetchProjects();
+
+              _this3.props.hideModal();
+            });
+          }, 5000);
         });
       });
     }
@@ -107140,7 +107156,7 @@ function (_Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Header, {
         closeButton: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, this.props.project.title))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, this.props.project.title))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"].Body, null, !this.state.showThankYou ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "pledge-amounts"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         style: {
@@ -107241,7 +107257,9 @@ function (_Component) {
           cursor: "pointer",
           color: "red"
         }
-      }, "Must be logged In to Pledge")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
+      }, "Must be logged In to Pledge")))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "thank-you"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Thank you for pledging. Lab U bebe")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
         style: {
           marginTop: "35vh"
         },
@@ -107526,6 +107544,7 @@ function (_Component) {
       var percentage = amountPledged / parseFloat(this.props.project.goal_amount.replace(/,/g, '')) * 100; //console.log(`percent ${percentage}`)
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: this.props.key,
         className: "project-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: isAdmin && this.toggleAdminModal,
